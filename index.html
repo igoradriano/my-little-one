@@ -382,6 +382,533 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
   </div>
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- BEBEZINHO DO IAN -->
+<div id="ian-baby" style="position:fixed;z-index:2;pointer-events:none;width:90px;height:90px;left:50px;top:50%;transition:none" aria-hidden="true">
+  <svg id="ian-svg" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;overflow:visible">
+    <!-- sombra -->
+    <ellipse id="b-shadow" cx="45" cy="85" rx="18" ry="4" fill="rgba(0,0,0,0.08)"/>
+    <!-- corpo -->
+    <g id="b-body">
+      <!-- tronco macacão azul -->
+      <rect id="b-torso" x="28" y="52" width="34" height="26" rx="10" fill="#60a5fa"/>
+      <!-- botões macacão -->
+      <circle cx="40" cy="56" r="2" fill="#93c5fd"/>
+      <circle cx="50" cy="56" r="2" fill="#93c5fd"/>
+      <!-- perna esquerda -->
+      <g id="b-leg-l">
+        <rect x="29" y="72" width="13" height="10" rx="5" fill="#60a5fa"/>
+        <ellipse cx="35" cy="83" rx="7" ry="4.5" fill="#fda4af"/><!-- pézinho -->
+      </g>
+      <!-- perna direita -->
+      <g id="b-leg-r">
+        <rect x="48" y="72" width="13" height="10" rx="5" fill="#60a5fa"/>
+        <ellipse cx="55" cy="83" rx="7" ry="4.5" fill="#fda4af"/>
+      </g>
+      <!-- braço esquerdo -->
+      <g id="b-arm-l">
+        <rect x="16" y="54" width="14" height="9" rx="4.5" fill="#60a5fa"/>
+        <ellipse cx="16" cy="58" rx="5" ry="5" fill="#fda4af"/><!-- mãozinha -->
+      </g>
+      <!-- braço direito -->
+      <g id="b-arm-r">
+        <rect x="60" y="54" width="14" height="9" rx="4.5" fill="#60a5fa"/>
+        <ellipse cx="74" cy="58" rx="5" ry="5" fill="#fda4af"/>
+      </g>
+    </g>
+    <!-- cabeça -->
+    <g id="b-head">
+      <!-- pescoço -->
+      <rect x="38" y="44" width="14" height="12" rx="5" fill="#fda4af"/>
+      <!-- cabeça redonda grandona -->
+      <ellipse cx="45" cy="32" rx="22" ry="24" fill="#fda4af"/>
+      <!-- bochechinhas -->
+      <ellipse cx="28" cy="36" rx="5" ry="3.5" fill="#f9a8c9" opacity="0.6"/>
+      <ellipse cx="62" cy="36" rx="5" ry="3.5" fill="#f9a8c9" opacity="0.6"/>
+      <!-- olho esquerdo -->
+      <g id="b-eye-l">
+        <ellipse cx="36" cy="32" rx="5" ry="5.5" fill="white"/>
+        <ellipse cx="37" cy="33" rx="3" ry="3.5" fill="#1e293b"/>
+        <ellipse cx="38" cy="31.5" rx="1.2" ry="1.2" fill="white"/>
+        <!-- cílios -->
+        <line x1="32" y1="27" x2="31" y2="25" stroke="#1e293b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="35" y1="26" x2="35" y2="24" stroke="#1e293b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="38" y1="27" x2="39" y2="25" stroke="#1e293b" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+      <!-- olho direito -->
+      <g id="b-eye-r">
+        <ellipse cx="54" cy="32" rx="5" ry="5.5" fill="white"/>
+        <ellipse cx="55" cy="33" rx="3" ry="3.5" fill="#1e293b"/>
+        <ellipse cx="56" cy="31.5" rx="1.2" ry="1.2" fill="white"/>
+        <line x1="50" y1="27" x2="49" y2="25" stroke="#1e293b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="53" y1="26" x2="53" y2="24" stroke="#1e293b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="56" y1="27" x2="57" y2="25" stroke="#1e293b" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+      <!-- narizinho -->
+      <ellipse cx="45" cy="38" rx="3" ry="2" fill="#f9a8c9"/>
+      <!-- boquinha normal -->
+      <path id="b-mouth-normal" d="M40 43 Q45 47 50 43" stroke="#e879a0" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <!-- boquinha bocejo (hidden) -->
+      <ellipse id="b-mouth-yawn" cx="45" cy="44" rx="5" ry="4" fill="#e879a0" opacity="0"/>
+      <!-- olhos fechados esquerdo -->
+      <path id="b-eye-l-closed" d="M31 32 Q36 28 41 32" stroke="#1e293b" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0"/>
+      <!-- olhos fechados direito -->
+      <path id="b-eye-r-closed" d="M49 32 Q54 28 59 32" stroke="#1e293b" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0"/>
+      <!-- topinho de cabelo -->
+      <path d="M45 8 Q47 2 45 0 Q43 2 45 8" fill="#fbbf24" stroke="#f59e0b" stroke-width="0.5"/>
+      <path d="M45 8 Q50 4 52 6 Q50 9 45 8" fill="#fbbf24" stroke="#f59e0b" stroke-width="0.5"/>
+      <path d="M45 8 Q40 4 38 6 Q40 9 45 8" fill="#fbbf24" stroke="#f59e0b" stroke-width="0.5"/>
+      <!-- chupeta -->
+      <g id="b-chupeta">
+        <ellipse cx="45" cy="46" rx="5" ry="3.5" fill="#e2e8f0"/>
+        <rect x="43" y="46" width="4" height="3" rx="1" fill="#cbd5e1"/>
+        <ellipse cx="45" cy="49.5" rx="3" ry="2" fill="#94a3b8"/>
+      </g>
+      <!-- estrelinhas (hidden) -->
+      <g id="b-stars" opacity="0">
+        <text x="20" y="20" font-size="10" fill="#fbbf24">★</text>
+        <text x="55" y="15" font-size="8" fill="#f472b6">★</text>
+        <text x="65" y="25" font-size="10" fill="#fbbf24">★</text>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<script>
+// ============================================================
+// BEBEZINHO DO IAN — state machine de estripulias
+// ============================================================
+(function(){
+  const baby = document.getElementById('ian-baby');
+  const svg  = document.getElementById('ian-svg');
+  if(!baby) return;
+
+  // elementos animáveis
+  const legL    = document.getElementById('b-leg-l');
+  const legR    = document.getElementById('b-leg-r');
+  const armL    = document.getElementById('b-arm-l');
+  const armR    = document.getElementById('b-arm-r');
+  const head    = document.getElementById('b-head');
+  const body    = document.getElementById('b-body');
+  const shadow  = document.getElementById('b-shadow');
+  const mNorm   = document.getElementById('b-mouth-normal');
+  const mYawn   = document.getElementById('b-mouth-yawn');
+  const eyeLc   = document.getElementById('b-eye-l-closed');
+  const eyeRc   = document.getElementById('b-eye-r-closed');
+  const eyeL    = document.getElementById('b-eye-l');
+  const eyeR    = document.getElementById('b-eye-r');
+  const stars   = document.getElementById('b-stars');
+  const chupeta = document.getElementById('b-chupeta');
+
+  let bx = window.innerWidth * 0.3;
+  let by = window.innerHeight * 0.6;
+  let facingRight = true;
+  let state = 'idle';
+  let stateTimer = null;
+  let crawlRAF = null;
+  let crawlPhase = 0; // for limb animation
+
+  // ---- utils ----
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function randInt(a,b){ return Math.floor(rand(a,b+1)); }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+  function setPos(x,y){
+    bx = clamp(x, 10, window.innerWidth - 100);
+    by = clamp(y, 60, window.innerHeight - 100);
+    baby.style.left = bx+'px';
+    baby.style.top  = by+'px';
+  }
+
+  function setFacing(right){
+    facingRight = right;
+    svg.style.transform = right ? 'scaleX(1)' : 'scaleX(-1)';
+  }
+
+  function resetLimbs(){
+    legL.setAttribute('transform','');
+    legR.setAttribute('transform','');
+    armL.setAttribute('transform','');
+    armR.setAttribute('transform','');
+    head.setAttribute('transform','');
+    body.setAttribute('transform','');
+    shadow.setAttribute('rx','18');
+    shadow.setAttribute('ry','4');
+  }
+
+  function setEyes(open){
+    eyeL.style.opacity  = open ? '1' : '0';
+    eyeR.style.opacity  = open ? '1' : '0';
+    eyeLc.style.opacity = open ? '0' : '1';
+    eyeRc.style.opacity = open ? '0' : '1';
+  }
+
+  function setYawn(on){
+    mNorm.style.opacity = on ? '0' : '1';
+    mYawn.style.opacity = on ? '1' : '0';
+  }
+
+  function setStars(on){
+    stars.style.opacity = on ? '1' : '0';
+  }
+
+  // ---- states ----
+  const STATES = ['crawl','crawl','crawl','crawl_fast','sit_yawn','fall_down','reach_up','stand_wobble','head_bump','head_bump','climb_card','climb_card'];
+
+  function nextState(){
+    if(state === 'crawling'||state==='climb') return;
+    const s = STATES[randInt(0,STATES.length-1)];
+    runState(s);
+  }
+
+  function scheduleNext(ms){
+    stateTimer = setTimeout(nextState, ms);
+  }
+
+  // ---- CRAWL ----
+  function runCrawl(fast){
+    state = 'crawling';
+    resetLimbs();
+    const targetX = rand(50, window.innerWidth - 110);
+    const targetY = rand(80, window.innerHeight - 110);
+    const dx = targetX - bx;
+    const dy = targetY - by;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    const speed = fast ? 2.2 : 1.1;
+    const steps = dist / speed;
+    let step = 0;
+    setFacing(dx > 0);
+
+    function tick(){
+      if(step >= steps){ 
+        resetLimbs(); 
+        setPos(targetX, targetY);
+        state = 'arrived';
+        scheduleNext(rand(800,2000));
+        return; 
+      }
+      step++;
+      const t = step/steps;
+      setPos(bx + dx/steps, by + dy/steps);
+
+      // limb oscillation
+      crawlPhase += fast ? 0.28 : 0.18;
+      const s = Math.sin(crawlPhase);
+      const c = Math.cos(crawlPhase);
+      legL.setAttribute('transform',`rotate(${s*22},35,72)`);
+      legR.setAttribute('transform',`rotate(${-s*22},55,72)`);
+      armL.setAttribute('transform',`rotate(${-c*20},16,58)`);
+      armR.setAttribute('transform',`rotate(${c*20},74,58)`);
+      // body bob
+      const bob = Math.abs(s)*3;
+      body.setAttribute('transform',`translate(0,${-bob})`);
+      head.setAttribute('transform',`translate(0,${-bob}) rotate(${s*5},45,32)`);
+      crawlRAF = requestAnimationFrame(tick);
+    }
+    crawlRAF = requestAnimationFrame(tick);
+  }
+
+  // ---- SIT & YAWN ----
+  function runSitYawn(){
+    state = 'sit_yawn';
+    resetLimbs();
+    // sit: legs fold out
+    legL.setAttribute('transform','rotate(70,35,72)');
+    legR.setAttribute('transform','rotate(-70,55,72)');
+    armL.setAttribute('transform','rotate(-20,16,58)');
+    armR.setAttribute('transform','rotate(20,74,58)');
+    body.setAttribute('transform','translate(0,5)');
+    head.setAttribute('transform','translate(0,5) rotate(-8,45,32)');
+    shadow.setAttribute('rx','22');
+
+    let t = 0;
+    const yawnSeq = [600,900,1400,1900,2400];
+    setTimeout(()=>setYawn(true),  yawnSeq[0]);
+    setTimeout(()=>setEyes(false), yawnSeq[1]);
+    setTimeout(()=>setEyes(true),  yawnSeq[2]);
+    setTimeout(()=>setYawn(false), yawnSeq[3]);
+    setTimeout(()=>{ resetLimbs(); state='idle'; scheduleNext(500); }, yawnSeq[4]);
+  }
+
+  // ---- FALL DOWN ----
+  function runFallDown(){
+    state = 'fall_down';
+    resetLimbs();
+    // topple sideways
+    let angle = 0;
+    const dir = facingRight ? 1 : -1;
+    const pivot = facingRight ? 'rotate(%,80,85)' : 'rotate(%,10,85)';
+    const fall = setInterval(()=>{
+      angle += 6;
+      const a = dir * angle;
+      svg.style.transform = `scaleX(${facingRight?1:-1}) rotate(${a}deg)`;
+      if(angle >= 90){
+        clearInterval(fall);
+        svg.style.transform = `scaleX(${facingRight?1:-1}) rotate(${dir*90}deg)`;
+        shadow.setAttribute('rx','28');shadow.setAttribute('ry','3');
+        // stay down, wiggle legs
+        let w=0;
+        const wiggle = setInterval(()=>{
+          w++;
+          legL.setAttribute('transform',`rotate(${Math.sin(w*0.5)*30},35,72)`);
+          legR.setAttribute('transform',`rotate(${-Math.sin(w*0.5)*30},55,72)`);
+          if(w>18){ clearInterval(wiggle); getUp(); }
+        },80);
+      }
+    },30);
+
+    function getUp(){
+      let a2 = 90;
+      const rise = setInterval(()=>{
+        a2 -= 5;
+        svg.style.transform = `scaleX(${facingRight?1:-1}) rotate(${dir*a2}deg)`;
+        if(a2<=0){
+          clearInterval(rise);
+          svg.style.transform = `scaleX(${facingRight?1:-1})`;
+          shadow.setAttribute('rx','18');shadow.setAttribute('ry','4');
+          resetLimbs();
+          state='idle';
+          scheduleNext(rand(600,1200));
+        }
+      },25);
+    }
+  }
+
+  // ---- REACH UP ----
+  function runReachUp(){
+    state = 'reach_up';
+    resetLimbs();
+    legL.setAttribute('transform','rotate(60,35,72)');
+    legR.setAttribute('transform','rotate(-60,55,72)');
+    body.setAttribute('transform','translate(0,6)');
+    // arms go up
+    let a=0;
+    const up = setInterval(()=>{
+      a+=5;
+      armL.setAttribute('transform',`rotate(${-a},16,58)`);
+      armR.setAttribute('transform',`rotate(${a},74,58)`);
+      head.setAttribute('transform',`translate(0,${6-a*0.08}) rotate(${-a*0.3},45,32)`);
+      if(a>=70){ clearInterval(up); holdUp(); }
+    },20);
+
+    function holdUp(){
+      // wobble arms up
+      let w=0;
+      const wobble = setInterval(()=>{
+        w++;
+        const s = Math.sin(w*0.4)*10;
+        armL.setAttribute('transform',`rotate(${-70+s},16,58)`);
+        armR.setAttribute('transform',`rotate(${70-s},74,58)`);
+        if(w>20){ clearInterval(wobble); armsDown(); }
+      },60);
+    }
+
+    function armsDown(){
+      let a2=70;
+      const down = setInterval(()=>{
+        a2-=5;
+        armL.setAttribute('transform',`rotate(${-a2},16,58)`);
+        armR.setAttribute('transform',`rotate(${a2},74,58)`);
+        head.setAttribute('transform',`translate(0,${6-a2*0.08}) rotate(${-a2*0.3},45,32)`);
+        if(a2<=0){ clearInterval(down); resetLimbs(); state='idle'; scheduleNext(rand(400,900)); }
+      },20);
+    }
+  }
+
+  // ---- STAND WOBBLE ----
+  function runStandWobble(){
+    state = 'stand_wobble';
+    resetLimbs();
+    // stand up — legs straighten
+    let phase=0;
+    let stood=false;
+    const stand = setInterval(()=>{
+      phase++;
+      const wobble = Math.sin(phase*0.3) * (stood?12:4);
+      svg.style.transform = `scaleX(${facingRight?1:-1}) rotate(${wobble}deg)`;
+      head.setAttribute('transform',`rotate(${-wobble*0.5},45,32)`);
+      if(phase>40 && !stood){ stood=true; }
+      if(phase>70){
+        clearInterval(stand);
+        // fall
+        runFallDown();
+      }
+    },50);
+  }
+
+  // ---- HEAD BUMP ----
+  function runHeadBump(){
+    state='head_bump';
+    resetLimbs();
+    // find a card to crawl toward
+    const cards = Array.from(document.querySelectorAll('.item-card,.login-card,.pix-card,.add-item-form'));
+    if(!cards.length){ scheduleNext(500); return; }
+    const card = cards[randInt(0,cards.length-1)];
+    const rect = card.getBoundingClientRect();
+    const targetX = rect.left - 40;
+    const targetY = rect.top + rect.height*0.5 - 45;
+    // crawl there fast
+    const dx=targetX-bx, dy=targetY-by;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const speed=1.8, steps=dist/speed;
+    let step=0;
+    setFacing(dx>0);
+
+    function crawlToBump(){
+      if(step>=steps){ bump(); return; }
+      step++;
+      setPos(bx+dx/steps, by+dy/steps);
+      crawlPhase+=0.22;
+      const s=Math.sin(crawlPhase);
+      legL.setAttribute('transform',`rotate(${s*22},35,72)`);
+      legR.setAttribute('transform',`rotate(${-s*22},55,72)`);
+      armL.setAttribute('transform',`rotate(${-Math.cos(crawlPhase)*20},16,58)`);
+      armR.setAttribute('transform',`rotate(${Math.cos(crawlPhase)*20},74,58)`);
+      requestAnimationFrame(crawlToBump);
+    }
+
+    function bump(){
+      resetLimbs();
+      setStars(true);
+      // shake head
+      let sh=0;
+      const shake=setInterval(()=>{
+        sh++;
+        head.setAttribute('transform',`rotate(${Math.sin(sh*1.2)*15},45,32)`);
+        if(sh>14){
+          clearInterval(shake);
+          setStars(false);
+          head.setAttribute('transform','');
+          // fall back
+          runFallDown();
+        }
+      },60);
+    }
+    requestAnimationFrame(crawlToBump);
+  }
+
+  // ---- CLIMB CARD ----
+  function runClimbCard(){
+    state='climb';
+    resetLimbs();
+    const cards=Array.from(document.querySelectorAll('.item-card,.login-card'));
+    if(!cards.length){ scheduleNext(500); return; }
+    const card=cards[randInt(0,cards.length-1)];
+    const rect=card.getBoundingClientRect();
+    // go to base of card
+    const tx=rect.left+20, ty=rect.bottom-50;
+    setFacing(true);
+    const dx=tx-bx,dy=ty-by,dist=Math.sqrt(dx*dx+dy*dy),steps=dist/1.5;
+    let step=0;
+
+    function crawlToCard(){
+      if(step>=steps){ climbUp(); return; }
+      step++;
+      setPos(bx+dx/steps,by+dy/steps);
+      crawlPhase+=0.18;
+      const s=Math.sin(crawlPhase);
+      legL.setAttribute('transform',`rotate(${s*22},35,72)`);
+      legR.setAttribute('transform',`rotate(${-s*22},55,72)`);
+      armL.setAttribute('transform',`rotate(${-Math.cos(crawlPhase)*20},16,58)`);
+      armR.setAttribute('transform',`rotate(${Math.cos(crawlPhase)*20},74,58)`);
+      requestAnimationFrame(crawlToCard);
+    }
+
+    function climbUp(){
+      resetLimbs();
+      let cy=0,target=rect.height;
+      const climb=setInterval(()=>{
+        cy+=2.5;
+        setPos(bx, by-2.5);
+        // climbing motion
+        crawlPhase+=0.25;
+        armL.setAttribute('transform',`rotate(${-Math.abs(Math.sin(crawlPhase))*50},16,58) translate(0,${-cy*0.1})`);
+        armR.setAttribute('transform',`rotate(${Math.abs(Math.sin(crawlPhase))*50},74,58) translate(0,${-cy*0.1})`);
+        legL.setAttribute('transform',`rotate(${Math.sin(crawlPhase)*30},35,72)`);
+        legR.setAttribute('transform',`rotate(${-Math.sin(crawlPhase)*30},55,72)`);
+        if(cy>=target-20){
+          clearInterval(climb);
+          atTop();
+        }
+      },30);
+    }
+
+    function atTop(){
+      resetLimbs();
+      // sit on top, look around
+      legL.setAttribute('transform','rotate(70,35,72)');
+      legR.setAttribute('transform','rotate(-70,55,72)');
+      let look=0;
+      const lookAround=setInterval(()=>{
+        look++;
+        head.setAttribute('transform',`rotate(${Math.sin(look*0.3)*20},45,32)`);
+        if(look>30){ clearInterval(lookAround); slideDown(); }
+      },60);
+    }
+
+    function slideDown(){
+      resetLimbs();
+      let dy2=0,target2=100;
+      const slide=setInterval(()=>{
+        dy2+=3;
+        setPos(bx,by+3);
+        svg.style.transform=`scaleX(${facingRight?1:-1}) rotate(${Math.sin(dy2*0.2)*8}deg)`;
+        if(dy2>=target2){
+          clearInterval(slide);
+          svg.style.transform=`scaleX(${facingRight?1:-1})`;
+          resetLimbs();
+          state='idle';
+          scheduleNext(rand(600,1400));
+        }
+      },25);
+    }
+    requestAnimationFrame(crawlToCard);
+  }
+
+  // ---- state router ----
+  function runState(s){
+    if(crawlRAF){ cancelAnimationFrame(crawlRAF); crawlRAF=null; }
+    if(stateTimer){ clearTimeout(stateTimer); stateTimer=null; }
+    setEyes(true); setYawn(false); setStars(false);
+    svg.style.transform=`scaleX(${facingRight?1:-1})`;
+
+    if(s==='crawl')         runCrawl(false);
+    else if(s==='crawl_fast') runCrawl(true);
+    else if(s==='sit_yawn') runSitYawn();
+    else if(s==='fall_down') runFallDown();
+    else if(s==='reach_up') runReachUp();
+    else if(s==='stand_wobble') runStandWobble();
+    else if(s==='head_bump') runHeadBump();
+    else if(s==='climb_card') runClimbCard();
+    else { state='idle'; scheduleNext(rand(500,1200)); }
+  }
+
+  // ---- start ----
+  setPos(bx,by);
+  // extended states pool with climb
+  const FULL_STATES=['crawl','crawl','crawl','crawl_fast','sit_yawn','fall_down','reach_up','stand_wobble','head_bump','head_bump','climb_card','climb_card'];
+  function nextStateFull(){
+    if(state==='crawling'||state==='climb') return;
+    const s=FULL_STATES[randInt(0,FULL_STATES.length-1)];
+    runState(s);
+  }
+  function scheduleNextFull(ms){ stateTimer=setTimeout(nextStateFull,ms); }
+  // override scheduleNext to use full pool
+  window._babySchedule = scheduleNextFull;
+
+  // patch scheduleNext inside closure
+  // restart with full pool
+  setTimeout(()=>runState('crawl'), 800);
+
+  // resize guard
+  window.addEventListener('resize',()=>{
+    bx=clamp(bx,10,window.innerWidth-100);
+    by=clamp(by,60,window.innerHeight-100);
+    baby.style.left=bx+'px';
+    baby.style.top=by+'px';
+  });
+})();
+</script>
 <script>
 const SB_URL = '__SB_URL__';
 const SB_KEY = '__SB_KEY__';
