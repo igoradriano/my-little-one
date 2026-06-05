@@ -13,6 +13,7 @@
   --mint:#6ee7b7;--mint-light:#d1fae5;
   --yellow:#fde68a;
   --purple:#c4b5fd;--purple-light:#ede9fe;
+  --green-light:#d1fae5;--green-mid:#10b981;
   --cream:#fffbf5;--white:#ffffff;
   --text:#2d2d2d;--muted:#6b7280;--border:#e5e7eb;
   --shadow:0 4px 20px rgba(0,0,0,0.08);
@@ -85,6 +86,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .item-card.split-pending{border-color:#fbbf24;background:linear-gradient(135deg,#fffbeb,#fef3c7)}
 .item-card.split-invite{border-color:#f472b6;background:linear-gradient(135deg,#fde8f2,#ede9fe)}
 .item-card.split-done{border-color:#10b981;background:linear-gradient(135deg,#d1fae5,#dbeafe)}
+.item-card.pix-enviado{border-color:#f59e0b;background:linear-gradient(135deg,#fffbeb,#fef3c7)}
+.item-card.pago{border-color:#10b981;background:linear-gradient(135deg,#d1fae5,#f0fdf4)}
 .item-badge-row{margin-bottom:0.6rem}
 .item-badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.05em}
 .badge-available{background:var(--mint-light);color:#059669}
@@ -93,6 +96,9 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .badge-split-pending{background:#fef3c7;color:#92400e}
 .badge-split-invite{background:#fde8f2;color:#be185d}
 .badge-split-done{background:#d1fae5;color:#065f46}
+.badge-pix-enviado{background:#fef3c7;color:#92400e}
+.badge-pix-rejeitado{background:#fee2e2;color:#dc2626}
+.badge-pago{background:#d1fae5;color:#065f46}
 .item-icon-area{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
 .item-name{font-size:0.95rem;font-weight:800;color:var(--text);line-height:1.3}
 .item-meta{margin-top:0.25rem}
@@ -111,6 +117,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .btn-refuse{background:#fef2f2;color:#ef4444;border:1.5px solid #fca5a5}
 .btn-refuse:hover:not(:disabled){background:#ef4444;color:white}
 .btn-taken-disabled{background:#f3f4f6;color:var(--muted);cursor:not-allowed;border:1.5px solid var(--border)}
+.btn-pix{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#92400e;border:1.5px solid #f59e0b}
+.btn-pix:hover:not(:disabled){background:#f59e0b;color:white}
 .split-box{margin-top:0.7rem;background:rgba(255,255,255,0.7);border-radius:10px;padding:0.7rem;border:1.5px dashed var(--pink-mid)}
 .split-box .split-label{font-size:0.78rem;font-weight:700;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.04em}
 .split-box select{width:100%;padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.85rem;color:var(--text);background:var(--white);margin-bottom:0.5rem}
@@ -119,21 +127,39 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .split-actions button{flex:1;padding:0.45rem;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:800;cursor:pointer}
 .split-confirm{background:linear-gradient(135deg,#f472b6,#818cf8);color:white}
 .split-skip{background:#f3f4f6;color:var(--muted)}
+/* upload box */
+.upload-box{margin-top:0.6rem;background:rgba(255,255,255,0.8);border-radius:10px;padding:0.7rem;border:1.5px dashed #f59e0b}
+.upload-box .upload-label{font-size:0.78rem;font-weight:700;color:#92400e;margin-bottom:0.4rem}
+.upload-box input[type=file]{width:100%;font-family:'Nunito',sans-serif;font-size:0.8rem;color:var(--muted)}
+.upload-box .upload-actions{display:flex;gap:0.4rem;margin-top:0.5rem}
+.upload-box .upload-actions button{flex:1;padding:0.45rem;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:800;cursor:pointer}
+.upload-confirm{background:linear-gradient(135deg,#f59e0b,#f472b6);color:white}
+.upload-cancel{background:#f3f4f6;color:var(--muted)}
+/* my list */
 .my-items-empty{text-align:center;padding:3rem;color:var(--muted)}
-.my-item-row{display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1rem;background:var(--white);border-radius:12px;border:1.5px solid var(--border);margin-bottom:0.6rem;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.my-item-row{display:flex;align-items:flex-start;gap:0.8rem;padding:0.9rem 1rem;background:var(--white);border-radius:12px;border:1.5px solid var(--border);margin-bottom:0.6rem;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
 .my-item-row.split-row{border-color:#10b981;background:linear-gradient(135deg,#f0fdf4,#eff6ff)}
 .my-item-row.pending-row{border-color:#fbbf24;background:#fffbeb}
+.my-item-row.pix-row{border-color:#f59e0b;background:linear-gradient(135deg,#fffbeb,#fef9c3)}
+.my-item-row.pago-row{border-color:#10b981;background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
 .item-icon-small{font-size:1.3rem;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.row-info{flex:1}
+.row-info{flex:1;min-width:0}
 .row-info .name{font-weight:700;font-size:0.9rem}
 .row-info .price{font-size:0.8rem;color:var(--pink-mid);font-weight:600}
 .row-info .split-note{font-size:0.75rem;color:#059669;font-weight:600}
 .row-info .pending-note{font-size:0.75rem;color:#92400e;font-weight:600}
+.row-info .pix-note{font-size:0.75rem;color:#b45309;font-weight:600}
+.row-info .pago-note{font-size:0.75rem;color:#059669;font-weight:600;display:flex;align-items:center;gap:0.3rem}
+.row-actions{display:flex;flex-direction:column;gap:0.3rem;flex-shrink:0}
 .remove-btn{padding:0.35rem 0.7rem;border-radius:8px;border:1.5px solid #fca5a5;background:#fef2f2;color:#ef4444;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;white-space:nowrap}
 .remove-btn:hover{background:#ef4444;color:white}
+.pix-btn-small{padding:0.35rem 0.7rem;border-radius:8px;border:1.5px solid #f59e0b;background:#fffbeb;color:#92400e;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.pix-btn-small:hover{background:#f59e0b;color:white}
+.pago-badge-small{padding:0.35rem 0.7rem;border-radius:8px;background:#d1fae5;color:#065f46;font-size:0.78rem;font-weight:700;white-space:nowrap}
 .my-total-box{background:linear-gradient(135deg,#fde8f2,#ede9fe);border-radius:var(--radius);padding:1.2rem 1.5rem;margin-top:1rem;border:1.5px solid var(--pink-mid);display:flex;align-items:center;justify-content:space-between}
 .my-total-box .total-label{font-size:0.9rem;font-weight:700;color:var(--muted)}
 .my-total-box .total-val{font-size:1.5rem;font-weight:800;color:#f472b6}
+/* pix */
 .pix-card{background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);border:1.5px solid var(--border);margin-top:1rem}
 .pix-card h3{font-weight:800;font-size:1rem;margin-bottom:1rem}
 .pix-info{background:var(--cream);border-radius:10px;padding:1rem;border:1.5px solid var(--border);margin-bottom:0.8rem}
@@ -144,6 +170,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .address-card{background:var(--blue-light);border-radius:12px;padding:1rem;border:1.5px solid var(--blue);margin-top:0.8rem}
 .address-card .label{font-size:0.75rem;color:#1e40af;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.4rem}
 .address-card .addr{font-size:0.85rem;color:#1e3a8a;font-weight:600;line-height:1.5}
+/* admin */
 .admin-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.8rem;margin-bottom:1.5rem}
 .admin-stat{background:var(--white);border-radius:12px;padding:1rem;border:1.5px solid var(--border);text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
 .admin-stat .num{font-size:1.8rem;font-weight:800}
@@ -152,6 +179,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .admin-stat.purple .num{color:#7c3aed}
 .admin-stat.green .num{color:#059669}
 .admin-stat.blue .num{color:#2563eb}
+.admin-stat.amber .num{color:#d97706}
 .admin-users-title{font-size:1rem;font-weight:800;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem}
 .user-row{display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:var(--white);border-radius:10px;border:1.5px solid var(--border);margin-bottom:0.5rem}
 .user-row .uname{font-weight:700;font-size:0.9rem;display:flex;align-items:center;gap:0.4rem}
@@ -159,6 +187,19 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .admin-badge{background:linear-gradient(135deg,#fde8f2,#ede9fe);color:#be185d;font-size:0.68rem;font-weight:800;padding:2px 7px;border-radius:99px;border:1px solid var(--pink-mid)}
 .del-user-btn{padding:0.3rem 0.7rem;border-radius:7px;border:1.5px solid #fca5a5;background:#fef2f2;color:#ef4444;font-family:'Nunito',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer}
 .del-user-btn:hover{background:#ef4444;color:white}
+/* comprovantes admin */
+.comprovante-card{background:var(--white);border-radius:12px;border:1.5px solid #f59e0b;padding:1rem;margin-bottom:0.8rem;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.comprovante-card .comp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;flex-wrap:wrap;gap:0.4rem}
+.comprovante-card .comp-name{font-weight:800;font-size:0.9rem}
+.comprovante-card .comp-item{font-size:0.8rem;color:var(--muted)}
+.comp-actions{display:flex;gap:0.4rem;margin-top:0.6rem}
+.comp-actions button{flex:1;padding:0.45rem;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:800;cursor:pointer}
+.comp-confirm{background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#065f46}
+.comp-confirm:hover{background:#10b981;color:white}
+.comp-reject{background:#fef2f2;color:#ef4444}
+.comp-reject:hover{background:#ef4444;color:white}
+.comp-img{width:100%;max-height:200px;object-fit:contain;border-radius:8px;border:1px solid var(--border);cursor:pointer;margin-top:0.4rem}
+.comp-link{font-size:0.8rem;color:#2563eb;font-weight:600;text-decoration:underline;cursor:pointer}
 .admin-items-table{width:100%;border-collapse:collapse;font-size:0.85rem;background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
 .admin-items-table th{background:linear-gradient(135deg,#fde8f2,#ede9fe);padding:0.7rem 0.8rem;text-align:left;font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted)}
 .admin-items-table td{padding:0.7rem 0.8rem;border-top:1px solid var(--border);vertical-align:middle}
@@ -166,6 +207,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .free-tag{background:var(--mint-light);color:#059669;padding:2px 8px;border-radius:6px;font-size:0.72rem;font-weight:700}
 .taken-tag{background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:6px;font-size:0.72rem;font-weight:700}
 .split-tag{background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:0.72rem;font-weight:700}
+.pix-tag{background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:0.72rem;font-weight:700}
+.pago-tag{background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:6px;font-size:0.72rem;font-weight:700}
 .add-item-form{background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);border:1.5px solid var(--border);margin-top:1rem}
 .add-item-form h3{font-weight:800;font-size:1rem;margin-bottom:1rem;color:var(--text)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem}
@@ -189,6 +232,12 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .reset-item-btn:hover{background:#4f46e5;color:white}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:0.7rem 1.5rem;border-radius:99px;font-weight:700;font-size:0.85rem;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
+/* modal comprovante */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9998;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.hidden{display:none}
+.modal-box{background:white;border-radius:var(--radius);padding:1.5rem;max-width:500px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-box img{width:100%;border-radius:8px;margin-top:0.8rem}
+.modal-close{float:right;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted)}
 @media(max-width:600px){
   .header h1{font-size:1.9rem}
   .form-row{grid-template-columns:1fr}
@@ -206,6 +255,14 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
   <p>Carregando o chá do Ian... 🍼</p>
+</div>
+<!-- Modal comprovante -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div style="font-weight:800;font-size:1rem;margin-bottom:0.5rem" id="modalTitle">Comprovante</div>
+    <img id="modalImg" src="" alt="Comprovante">
+  </div>
 </div>
 <div class="app">
   <div class="header">
@@ -273,6 +330,11 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     <div class="tab-content" id="tab-content-admin">
       <div class="section-title">⚙️ Painel Admin</div>
       <div class="admin-stats" id="adminStats"></div>
+      <!-- comprovantes pendentes -->
+      <div id="comprovantesSection" style="margin-bottom:1.5rem;display:none">
+        <div class="admin-users-title">📎 Comprovantes pendentes de aprovação</div>
+        <div id="comprovantesLista"></div>
+      </div>
       <div class="admin-users-title">👥 Usuários cadastrados</div>
       <div id="adminUsersList"></div>
       <div style="margin-top:1.5rem">
@@ -323,33 +385,44 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 <script>
 const SB_URL = '__SB_URL__';
 const SB_KEY = '__SB_KEY__';
-const SPLIT_THRESHOLD = 100;
 const ADMIN_NAME = '__ADMIN_NAME__';
 const ADMIN_PASS = '__ADMIN_PASS__';
+const SPLIT_THRESHOLD = 100;
 
 const H = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
 
 async function sbGet(table,params=''){
   const r=await fetch(`${SB_URL}/rest/v1/${table}?${params}`,{headers:{...H,'Prefer':'return=representation'}});
-  if(!r.ok) throw new Error(await r.text());
+  if(!r.ok)throw new Error(await r.text());
   return r.json();
 }
 async function sbPost(table,body){
   const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});
-  if(!r.ok) throw new Error(await r.text());
+  if(!r.ok)throw new Error(await r.text());
   return r.json();
 }
 async function sbPatch(table,filter,body){
   const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});
-  if(!r.ok) throw new Error(await r.text());
+  if(!r.ok)throw new Error(await r.text());
   return r.json();
 }
 async function sbDelete(table,filter){
   const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'DELETE',headers:H});
-  if(!r.ok) throw new Error(await r.text());
+  if(!r.ok)throw new Error(await r.text());
 }
 
-let currentUser=null,allItems=[],allUsers=[],activeFilter='todos',activeTab='lista',splitOpenId=null;
+// Storage upload
+async function uploadComprovante(file, path){
+  const r=await fetch(`${SB_URL}/storage/v1/object/comprovantes/${path}`,{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type,'x-upsert':'true'},
+    body:file
+  });
+  if(!r.ok)throw new Error(await r.text());
+  return `${SB_URL}/storage/v1/object/public/comprovantes/${path}`;
+}
+
+let currentUser=null,allItems=[],allUsers=[],activeFilter='todos',activeTab='lista',splitOpenId=null,pixOpenId=null;
 
 const SEED_ITEMS=[
   {name:'Saída maternidade',size:'RN / Creme',price:136.00,cat:'👕'},
@@ -389,9 +462,9 @@ async function initDB(){
   showLoading('Conectando ao banco... 🍼');
   try{
     const items=await sbGet('items','select=id&limit=1');
-    if(!items.length) await sbPost('items',SEED_ITEMS);
+    if(!items.length)await sbPost('items',SEED_ITEMS);
     const users=await sbGet('users','select=name&limit=1');
-    if(!users.length) await sbPost('users',[{name:ADMIN_NAME,pass:ADMIN_PASS,is_admin:true}]);
+    if(!users.length)await sbPost('users',[{name:ADMIN_NAME,pass:ADMIN_PASS,is_admin:true}]);
   }catch(e){console.error('initDB',e);}
   hideLoading();
 }
@@ -435,7 +508,7 @@ function doLogout(){
   document.getElementById('loginName').value='';
   document.getElementById('loginPass').value='';
   document.getElementById('loginError').textContent='';
-  activeTab='lista';activeFilter='todos';splitOpenId=null;
+  activeTab='lista';activeFilter='todos';splitOpenId=null;pixOpenId=null;
 }
 
 async function loadData(){
@@ -448,7 +521,7 @@ async function refreshItems(){try{allItems=await sbGet('items','select=*&order=i
 async function refreshAll(){try{[allItems,allUsers]=await Promise.all([sbGet('items','select=*&order=id.asc'),sbGet('users','select=*&order=name.asc')]);}catch(e){console.error(e);}}
 
 function switchTab(tab){
-  activeTab=tab;splitOpenId=null;
+  activeTab=tab;splitOpenId=null;pixOpenId=null;
   ['lista','meus','pix','admin'].forEach(t=>{
     document.getElementById('tab-content-'+t).classList.toggle('active',t===tab);
     const b=document.getElementById('tab-'+t);if(b)b.classList.toggle('active',t===tab);
@@ -458,16 +531,30 @@ function switchTab(tab){
   if(tab==='admin')renderAdmin();
 }
 function setFilter(f,el){
-  activeFilter=f;splitOpenId=null;
+  activeFilter=f;splitOpenId=null;pixOpenId=null;
   document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');renderGrid();
 }
 function renderAll(){updateProgress();renderGrid();}
 
+// Helpers de status
+function isPago(item, role){
+  // role: 'owner' ou 'split'
+  if(role==='owner') return item.pix_status==='confirmado';
+  if(role==='split') return item.pix_status_split==='confirmado';
+  return item.pix_status==='confirmado'&&(item.split_status!=='accepted'||item.pix_status_split==='confirmado');
+}
+function isItemFullyPago(item){
+  if(item.split_status==='accepted') return item.pix_status==='confirmado'&&item.pix_status_split==='confirmado';
+  return item.pix_status==='confirmado';
+}
+function isItemLocked(item){return isItemFullyPago(item);}
+
 function updateProgress(){
   const total=allItems.length;
   const taken=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').length;
-  const val=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').reduce((a,i)=>a+Number(i.price),0);
+  const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
+  const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
   const pct=total?Math.round(taken/total*100):0;
   document.getElementById('progressFill').style.width=pct+'%';
   document.getElementById('progressPct').textContent=pct+'%';
@@ -483,8 +570,7 @@ function renderGrid(){
   let filtered=allItems;
   if(activeFilter==='disponivel')filtered=allItems.filter(i=>!i.taken_by);
   if(activeFilter==='escolhido')filtered=allItems.filter(i=>!!i.taken_by);
-  const grid=document.getElementById('itemsGrid');
-  grid.innerHTML='';
+  const grid=document.getElementById('itemsGrid');grid.innerHTML='';
   if(!filtered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);font-weight:600">Nenhum item nessa categoria 💕</div>';return;}
   filtered.forEach(item=>grid.appendChild(buildCard(item)));
 }
@@ -496,35 +582,75 @@ function buildCard(item){
   const isSplitDone=item.split_status==='accepted';
   const isSplitPend=item.split_status==='pending'&&item.taken_by===me;
   const isTakenOther=!!item.taken_by&&item.taken_by!==me&&item.split_with!==me;
+  const locked=isItemLocked(item);
+  const iAmOwner=isMine;
+  const iAmSplit=item.split_with===me&&isSplitDone;
+  const myPixStatus=iAmOwner?item.pix_status:(iAmSplit?item.pix_status_split:null);
+
   const div=document.createElement('div');
-  div.className='item-card'+(isTakenOther?' taken':'')+(isMine&&!isSplitDone&&!isSplitPend?' taken-by-me':'')+(isSplitPend?' split-pending':'')+(isInvited?' split-invite':'')+((isSplitDone&&(isMine||item.split_with===me))?' split-done':'');
+  let cardClass='item-card';
+  if(locked) cardClass+=' pago';
+  else if(myPixStatus==='enviado'||myPixStatus==='rejeitado') cardClass+=' pix-enviado';
+  else if(isTakenOther) cardClass+=' taken';
+  else if(isMine&&!isSplitDone&&!isSplitPend) cardClass+=' taken-by-me';
+  else if(isSplitPend) cardClass+=' split-pending';
+  else if(isInvited) cardClass+=' split-invite';
+  else if(isSplitDone&&(isMine||item.split_with===me)) cardClass+=' split-done';
+  div.className=cardClass;
+
+  // badge
   let bc='badge-available',bt='Disponível';
-  if(isSplitDone){bc='badge-split-done';bt='Dividido 💚';}
+  if(locked){bc='badge-pago';bt='Pago 💚';}
+  else if(myPixStatus==='enviado'){bc='badge-pix-enviado';bt='Pix enviado ⏳';}
+  else if(myPixStatus==='rejeitado'){bc='badge-pix-rejeitado';bt='Comprovante rejeitado ❌';}
+  else if(isSplitDone){bc='badge-split-done';bt='Dividido 💚';}
   else if(isSplitPend){bc='badge-split-pending';bt='Aguardando 🕐';}
   else if(isInvited){bc='badge-split-invite';bt='Convite 💌';}
   else if(isMine){bc='badge-mine';bt='Seu 💜';}
   else if(isTakenOther){bc='badge-taken';bt='Escolhido ✓';}
+
   const isSplit=isSplitDone||isSplitPend||isInvited;
   const dp=isSplit?Number(item.price)/2:Number(item.price);
   const pl=isSplit?`R$ ${dp.toFixed(2).replace('.',',')} <span style="font-size:0.72rem;color:#7c3aed;font-weight:600">(sua metade)</span>`:`R$ ${Number(item.price).toFixed(2).replace('.',',')}`;
+
   let whoHtml='';
-  if(isSplitDone)whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div>`;
-  else if(isSplitPend)whoHtml=`<div class="item-who">⏳ Convite enviado para ${item.split_with}</div>`;
-  else if(isInvited)whoHtml=`<div class="item-who">💌 ${item.taken_by} te convidou para dividir!</div>`;
-  else if(isMine)whoHtml=`<div class="item-who">Você escolheu este 💜</div>`;
-  else if(isTakenOther)whoHtml=`<div class="item-who">Escolhido por ${item.taken_by}</div>`;
+  if(locked) whoHtml=`<div class="item-who">💚 Presente confirmado!</div>`;
+  else if(isSplitDone) whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div>`;
+  else if(isSplitPend) whoHtml=`<div class="item-who">⏳ Convite enviado para ${item.split_with}</div>`;
+  else if(isInvited) whoHtml=`<div class="item-who">💌 ${item.taken_by} te convidou para dividir!</div>`;
+  else if(isMine) whoHtml=`<div class="item-who">Você escolheu este 💜</div>`;
+  else if(isTakenOther) whoHtml=`<div class="item-who">Escolhido por ${item.taken_by}</div>`;
+
   let btnHtml='';
-  if(isInvited){
+  if(locked){
+    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Presente confirmado 💚</button>`;
+  } else if(isInvited){
     btnHtml=`<button class="item-btn btn-accept" onclick="acceptSplit(${item.id})">Aceitar divisão 💚</button><button class="item-btn btn-refuse" style="margin-top:0.3rem" onclick="refuseSplit(${item.id})">Recusar</button>`;
-  }else if(isSplitDone&&(isMine||item.split_with===me)){
-    btnHtml=`<button class="item-btn btn-unselect" onclick="cancelMySplit(${item.id})">Cancelar minha parte</button>`;
-  }else if(isSplitPend){
+  } else if(myPixStatus==='enviado'){
+    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Aguardando confirmação ⏳</button>`;
+  } else if(myPixStatus==='rejeitado'){
+    btnHtml=`<button class="item-btn btn-pix" onclick="openPix(${item.id})">Reenviar comprovante 📎</button>`;
+  } else if((isMine||iAmSplit)&&!myPixStatus){
+    // can send pix
+    if(pixOpenId===item.id){
+      btnHtml=`<div class="upload-box">
+        <div class="upload-label">📎 Anexar comprovante do Pix</div>
+        <input type="file" id="pixFile_${item.id}" accept="image/*,application/pdf">
+        <div class="upload-actions">
+          <button class="upload-confirm" onclick="enviarComprovante(${item.id},'${iAmOwner?'owner':'split'}')">Enviar ✓</button>
+          <button class="upload-cancel" onclick="closePix()">Cancelar</button>
+        </div>
+      </div>
+      <button class="item-btn btn-unselect" style="margin-top:0.3rem" onclick="unselectItem(${item.id})">Cancelar escolha</button>`;
+    } else {
+      btnHtml=`<button class="item-btn btn-pix" onclick="openPix(${item.id})">Já fiz o Pix! 📎</button>
+               <button class="item-btn btn-unselect" style="margin-top:0.3rem" onclick="unselectItem(${item.id})">Cancelar escolha</button>`;
+    }
+  } else if(isSplitPend){
     btnHtml=`<button class="item-btn btn-unselect" onclick="cancelSplitInvite(${item.id})">Cancelar convite</button>`;
-  }else if(isMine){
-    btnHtml=`<button class="item-btn btn-unselect" onclick="unselectItem(${item.id})">Cancelar escolha</button>`;
-  }else if(isTakenOther){
+  } else if(isTakenOther){
     btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Já escolhido</button>`;
-  }else{
+  } else {
     if(splitOpenId===item.id){
       const others=allUsers.filter(u=>u.name!==me);
       const opts=others.map(u=>`<option value="${u.name}">${u.name}</option>`).join('');
@@ -532,12 +658,13 @@ function buildCard(item){
         <div class="split-box"><div class="split-label">💜 Dividir com alguém (cada um paga metade)</div>
         <select id="splitSelect_${item.id}"><option value="">— Escolha um convidado —</option>${opts}</select>
         <div class="split-actions"><button class="split-confirm" onclick="confirmSplit(${item.id})">Enviar convite 💌</button><button class="split-skip" onclick="closeSplit()">Cancelar</button></div></div>`;
-    }else if(Number(item.price)>SPLIT_THRESHOLD){
+    } else if(Number(item.price)>SPLIT_THRESHOLD){
       btnHtml=`<button class="item-btn btn-select" onclick="openSplit(${item.id})">Escolher este 🎁</button>`;
-    }else{
+    } else {
       btnHtml=`<button class="item-btn btn-select" onclick="selectAlone(${item.id})">Escolher este 🎁</button>`;
     }
   }
+
   div.innerHTML=`
     <div class="item-badge-row"><span class="item-badge ${bc}">${bt}</span></div>
     <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem">
@@ -549,14 +676,40 @@ function buildCard(item){
   return div;
 }
 
-function openSplit(id){splitOpenId=id;renderGrid();}
+// pix upload
+function openPix(id){pixOpenId=id;splitOpenId=null;renderGrid();}
+function closePix(){pixOpenId=null;renderGrid();}
+
+async function enviarComprovante(id, role){
+  const fileInput=document.getElementById(`pixFile_${id}`);
+  if(!fileInput||!fileInput.files[0]){showToast('Selecione um arquivo!');return;}
+  const file=fileInput.files[0];
+  if(file.size>5*1024*1024){showToast('Arquivo muito grande! Máximo 5MB.');return;}
+  showLoading('Enviando comprovante... 📎');
+  try{
+    const ext=file.name.split('.').pop();
+    const path=`${id}_${role}_${Date.now()}.${ext}`;
+    const url=await uploadComprovante(file,path);
+    const patch=role==='owner'
+      ?{comprovante_url:url,pix_status:'enviado'}
+      :{comprovante_url_split:url,pix_status_split:'enviado'};
+    await sbPatch('items',`id=eq.${id}`,patch);
+    await refreshItems();pixOpenId=null;
+    showToast('Comprovante enviado! Aguarde confirmação 🎉');
+    renderAll();
+  }catch(e){showToast('Erro ao enviar. Tente novamente.');console.error(e);}
+  hideLoading();
+}
+
+// item actions
+function openSplit(id){splitOpenId=id;pixOpenId=null;renderGrid();}
 function closeSplit(){splitOpenId=null;renderGrid();}
 function disableCards(){document.querySelectorAll('.item-btn').forEach(b=>b.disabled=true);}
 
 async function selectAlone(id){
   splitOpenId=null;const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:null,split_status:null});await refreshItems();showToast('Item adicionado! 🎉');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:null,split_status:null,pix_status:null,comprovante_url:null});await refreshItems();showToast('Item adicionado! 🎉');renderAll();}
   catch(e){showToast('Erro ao salvar.');console.error(e);}
 }
 async function confirmSplit(id){
@@ -564,7 +717,7 @@ async function confirmSplit(id){
   if(!sel||!sel.value){showToast('Escolha um convidado!');return;}
   const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:sel.value,split_status:'pending'});await refreshItems();splitOpenId=null;showToast(`Convite enviado para ${sel.value}! 💌`);renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:sel.value,split_status:'pending',pix_status:null,pix_status_split:null});await refreshItems();splitOpenId=null;showToast(`Convite enviado para ${sel.value}! 💌`);renderAll();}
   catch(e){showToast('Erro ao salvar.');console.error(e);}
 }
 async function acceptSplit(id){
@@ -574,25 +727,28 @@ async function acceptSplit(id){
 }
 async function refuseSplit(id){
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null});await refreshItems();showToast('Convite recusado. Item voltou para disponível.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite recusado. Item voltou para disponível.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function cancelSplitInvite(id){
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null});await refreshItems();showToast('Convite cancelado.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite cancelado.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function cancelMySplit(id){
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null});await refreshItems();showToast('Cancelado. Item voltou para disponível.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Cancelado. Item voltou para disponível.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function unselectItem(id){
+  const item=allItems.find(i=>i.id===id);
+  if(isItemLocked(item)){showToast('Este item já foi pago e não pode ser removido!');return;}
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null});await refreshItems();showToast('Item removido.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Item removido.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 
+// my list
 function renderMyList(){
   const me=currentUser.name;
   const mine=allItems.filter(i=>i.taken_by===me||(i.split_with===me&&(i.split_status==='accepted'||i.split_status==='pending')));
@@ -604,41 +760,125 @@ function renderMyList(){
     const isSplit=i.split_status==='accepted'||(i.split_with===me&&i.split_status==='pending');
     const myPrice=isSplit?Number(i.price)/2:Number(i.price);
     total+=myPrice;
+    const myPixStatus=iAmOwner?i.pix_status:(i.split_with===me?i.pix_status_split:null);
+    const locked=isItemLocked(i);
+    const myLocked=iAmOwner?i.pix_status==='confirmado':(i.pix_status_split==='confirmado');
+
     let note='',rowClass='',action='';
-    if(i.split_status==='accepted'){note=`<div class="split-note">💚 Dividido com ${iAmOwner?i.split_with:i.taken_by} · R$ ${myPrice.toFixed(2).replace('.',',')} cada</div>`;rowClass=' split-row';action=`<button class="remove-btn" onclick="cancelMySplit(${i.id});switchTab('meus')">Cancelar</button>`;}
-    else if(i.split_status==='pending'&&iAmOwner){note=`<div class="pending-note">⏳ Aguardando ${i.split_with} aceitar</div>`;rowClass=' pending-row';action=`<button class="remove-btn" onclick="cancelSplitInvite(${i.id});switchTab('meus')">Cancelar convite</button>`;}
-    else if(i.split_status==='pending'&&!iAmOwner){note=`<div class="pending-note">💌 ${i.taken_by} te convidou — responda na aba Lista</div>`;rowClass=' pending-row';}
-    else{action=`<button class="remove-btn" onclick="unselectItem(${i.id});switchTab('meus')">Remover</button>`;}
-    return `<div class="my-item-row${rowClass}"><div class="item-icon-small" style="background:${getCatBg(i.cat)}">${i.cat}</div><div class="row-info"><div class="name">${i.name} <span style="color:var(--muted);font-weight:500;font-size:0.8rem">· ${i.size}</span></div><div class="price">R$ ${myPrice.toFixed(2).replace('.',',')}</div>${note}</div>${action}</div>`;
+    if(myLocked){
+      note=`<div class="pago-note">💚 Pagamento confirmado!</div>`;
+      rowClass=' pago-row';
+      action=`<span class="pago-badge-small">Pago ✓</span>`;
+    } else if(myPixStatus==='enviado'){
+      note=`<div class="pix-note">⏳ Comprovante enviado — aguardando confirmação</div>`;
+      rowClass=' pix-row';
+      action=`<button class="pix-btn-small" disabled style="opacity:0.5;cursor:not-allowed">Aguardando...</button>`;
+    } else if(myPixStatus==='rejeitado'){
+      note=`<div class="pix-note" style="color:#dc2626">❌ Comprovante rejeitado — reenvie</div>`;
+      rowClass=' pix-row';
+      action=`<button class="pix-btn-small" onclick="switchTab('lista')">Reenviar 📎</button>`;
+    } else if(i.split_status==='accepted'){
+      note=`<div class="split-note">💚 Dividido com ${iAmOwner?i.split_with:i.taken_by} · R$ ${myPrice.toFixed(2).replace('.',',')} cada</div>`;
+      rowClass=' split-row';
+      action=`<button class="pix-btn-small" onclick="switchTab('lista')">Enviar Pix 📎</button>`;
+    } else if(i.split_status==='pending'&&iAmOwner){
+      note=`<div class="pending-note">⏳ Aguardando ${i.split_with} aceitar</div>`;
+      rowClass=' pending-row';
+      action=`<button class="remove-btn" onclick="cancelSplitInvite(${i.id});switchTab('meus')">Cancelar</button>`;
+    } else if(i.split_status==='pending'&&!iAmOwner){
+      note=`<div class="pending-note">💌 ${i.taken_by} te convidou — responda na aba Lista</div>`;
+      rowClass=' pending-row';
+    } else {
+      action=`<div style="display:flex;flex-direction:column;gap:0.3rem">
+        <button class="pix-btn-small" onclick="switchTab('lista')">Enviar Pix 📎</button>
+        <button class="remove-btn" onclick="unselectItem(${i.id});switchTab('meus')">Remover</button>
+      </div>`;
+    }
+    return `<div class="my-item-row${rowClass}">
+      <div class="item-icon-small" style="background:${getCatBg(i.cat)}">${i.cat}</div>
+      <div class="row-info">
+        <div class="name">${i.name} <span style="color:var(--muted);font-weight:500;font-size:0.8rem">· ${i.size}</span></div>
+        <div class="price">R$ ${myPrice.toFixed(2).replace('.',',')}</div>${note}
+      </div>
+      <div class="row-actions">${action}</div>
+    </div>`;
   });
   el.innerHTML=rows.join('')+`<div class="my-total-box"><div class="total-label">💰 Total dos seus presentes</div><div class="total-val">R$ ${total.toFixed(2).replace('.',',')}</div></div>`;
 }
 
+// admin
 function renderAdmin(){
   if(!currentUser||!currentUser.is_admin)return;
   const confirmed=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').length;
   const pending=allItems.filter(i=>i.split_status==='pending').length;
-  const val=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').reduce((a,i)=>a+Number(i.price),0);
+  const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
+  const pixPendente=allItems.filter(i=>i.pix_status==='enviado'||i.pix_status_split==='enviado').length;
+  const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
+
   document.getElementById('adminStats').innerHTML=`
     <div class="admin-stat pink"><div class="num">${allItems.length}</div><div class="lbl">Total itens</div></div>
-    <div class="admin-stat green"><div class="num">${confirmed}</div><div class="lbl">Confirmados</div></div>
+    <div class="admin-stat green"><div class="num">${confirmed}</div><div class="lbl">Escolhidos</div></div>
     <div class="admin-stat blue"><div class="num">${allItems.filter(i=>!i.taken_by).length}</div><div class="lbl">Disponíveis</div></div>
-    <div class="admin-stat purple"><div class="num">R$${val.toFixed(0)}</div><div class="lbl">Arrecadado</div></div>
-    <div class="admin-stat"><div class="num">${pending}</div><div class="lbl">Aguardando</div></div>
-    <div class="admin-stat"><div class="num">${allUsers.length}</div><div class="lbl">Usuários</div></div>`;
+    <div class="admin-stat amber"><div class="num">${pixPendente}</div><div class="lbl">Pix pendente</div></div>
+    <div class="admin-stat green"><div class="num">${pagos}</div><div class="lbl">Pagos</div></div>
+    <div class="admin-stat purple"><div class="num">R$${val.toFixed(0)}</div><div class="lbl">Arrecadado</div></div>`;
+
+  // comprovantes pendentes
+  const pendComp=[];
+  allItems.forEach(item=>{
+    if(item.pix_status==='enviado') pendComp.push({item,role:'owner',who:item.taken_by,url:item.comprovante_url});
+    if(item.pix_status_split==='enviado') pendComp.push({item,role:'split',who:item.split_with,url:item.comprovante_url_split});
+  });
+  const compSec=document.getElementById('comprovantesSection');
+  const compLista=document.getElementById('comprovantesLista');
+  if(pendComp.length){
+    compSec.style.display='';
+    compLista.innerHTML=pendComp.map(({item,role,who,url})=>{
+      const isImg=url&&(url.match(/\.(jpg|jpeg|png|gif|webp)$/i));
+      return `<div class="comprovante-card">
+        <div class="comp-header">
+          <div><div class="comp-name">${who}</div><div class="comp-item">${item.cat} ${item.name} · ${item.size}</div></div>
+          <span class="pix-tag">Aguardando ⏳</span>
+        </div>
+        ${isImg?`<img class="comp-img" src="${url}" onclick="openModal('${url}','${who} — ${item.name}')" alt="comprovante">`:`<a class="comp-link" href="${url}" target="_blank">📄 Ver comprovante</a>`}
+        <div class="comp-actions">
+          <button class="comp-confirm" onclick="adminConfirmarPix(${item.id},'${role}')">Confirmar ✅</button>
+          <button class="comp-reject" onclick="adminRejeitarPix(${item.id},'${role}')">Rejeitar ❌</button>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    compSec.style.display='none';
+  }
+
   document.getElementById('adminUsersList').innerHTML=allUsers.map(u=>{
     const myItems=allItems.filter(i=>i.taken_by===u.name||(i.split_with===u.name&&i.split_status==='accepted'));
     const canDel=!u.is_admin||allUsers.filter(x=>x.is_admin).length>1;
     return `<div class="user-row"><div><div class="uname">${u.name}${u.is_admin?'<span class="admin-badge">Admin 👑</span>':''}</div><div class="udetail">${myItems.length} item(s)</div></div>${canDel?`<button class="del-user-btn" onclick="adminDelUser('${u.name}')">Remover</button>`:'<span style="font-size:0.75rem;color:var(--muted)">—</span>'}</div>`;
   }).join('');
+
   document.getElementById('adminItemsTbody').innerHTML=allItems.map(item=>{
     let sh='<span class="free-tag">Disponível</span>';
-    if(item.split_status==='accepted')sh='<span class="split-tag">Dividido 💚</span>';
-    else if(item.split_status==='pending')sh='<span class="split-tag">Aguardando 🕐</span>';
-    else if(item.taken_by)sh='<span class="taken-tag">Escolhido ✓</span>';
+    if(isItemFullyPago(item)) sh='<span class="pago-tag">Pago 💚</span>';
+    else if(item.pix_status==='enviado'||item.pix_status_split==='enviado') sh='<span class="pix-tag">Pix enviado ⏳</span>';
+    else if(item.split_status==='accepted') sh='<span class="split-tag">Dividido 💚</span>';
+    else if(item.split_status==='pending') sh='<span class="split-tag">Aguardando 🕐</span>';
+    else if(item.taken_by) sh='<span class="taken-tag">Escolhido ✓</span>';
     const who=item.split_status==='accepted'?`${item.taken_by} + ${item.split_with}`:item.split_status==='pending'?`${item.taken_by} → ${item.split_with}`:item.taken_by||'—';
-    return `<tr><td><strong>${item.cat} ${item.name}</strong></td><td>${item.size}</td><td>R$ ${Number(item.price).toFixed(2).replace('.',',')}</td><td>${sh}</td><td style="font-size:0.8rem">${who}</td><td>${item.taken_by?`<button class="reset-item-btn" onclick="adminResetItem(${item.id})">Liberar</button>`:''}<button class="del-item-btn" onclick="adminDelItem(${item.id})">✕</button></td></tr>`;
+    const canReset=!isItemLocked(item)&&item.taken_by;
+    return `<tr><td><strong>${item.cat} ${item.name}</strong></td><td>${item.size}</td><td>R$ ${Number(item.price).toFixed(2).replace('.',',')}</td><td>${sh}</td><td style="font-size:0.8rem">${who}</td><td>${canReset?`<button class="reset-item-btn" onclick="adminResetItem(${item.id})">Liberar</button>`:''}<button class="del-item-btn" onclick="adminDelItem(${item.id})">✕</button></td></tr>`;
   }).join('');
+}
+
+async function adminConfirmarPix(id,role){
+  const patch=role==='owner'?{pix_status:'confirmado'}:{pix_status_split:'confirmado'};
+  try{await sbPatch('items',`id=eq.${id}`,patch);await refreshAll();showToast('Pagamento confirmado! 💚');renderAdmin();renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function adminRejeitarPix(id,role){
+  const patch=role==='owner'?{pix_status:'rejeitado',comprovante_url:null}:{pix_status_split:'rejeitado',comprovante_url_split:null};
+  try{await sbPatch('items',`id=eq.${id}`,patch);await refreshAll();showToast('Comprovante rejeitado. Usuário será notificado.');renderAdmin();renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
 }
 
 async function adminAddItem(){
@@ -658,7 +898,9 @@ async function adminDelItem(id){
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function adminResetItem(id){
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null});await refreshAll();showToast('Item liberado!');renderAdmin();renderAll();}
+  const item=allItems.find(i=>i.id===id);
+  if(isItemLocked(item)){showToast('Item já pago. Use o painel para gerenciar.');return;}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshAll();showToast('Item liberado!');renderAdmin();renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function adminAddUser(){
@@ -678,17 +920,23 @@ async function adminDelUser(name){
   if(!confirm(`Remover "${name}"?`))return;
   try{
     const theirItems=allItems.filter(i=>i.taken_by===name||i.split_with===name);
-    await Promise.all(theirItems.map(i=>sbPatch('items',`id=eq.${i.id}`,{taken_by:null,split_with:null,split_status:null})));
+    await Promise.all(theirItems.map(i=>sbPatch('items',`id=eq.${i.id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null})));
     await sbDelete('users',`name=eq.${encodeURIComponent(name)}`);
     await refreshAll();showToast('Usuário removido!');renderAdmin();renderAll();
   }catch(e){showToast('Erro.');console.error(e);}
 }
 
-function copyPix(){navigator.clipboard.writeText('063.728.353-80').then(()=>showToast('Chave Pix copiada! 📋')).catch(()=>showToast('Chave: 063.728.353-80'));}
+// modal
+function openModal(url,title){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalImg').src=url;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');}
 
+function copyPix(){navigator.clipboard.writeText('063.728.353-80').then(()=>showToast('Chave Pix copiada! 📋')).catch(()=>showToast('Chave: 063.728.353-80'));}
 function showLoading(msg='Carregando...'){const o=document.getElementById('loadingOverlay');o.querySelector('p').textContent=msg;o.classList.remove('hidden');}
 function hideLoading(){document.getElementById('loadingOverlay').classList.add('hidden');}
-
 let toastTimer=null;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
 
