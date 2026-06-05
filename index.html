@@ -238,6 +238,23 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .modal-box{background:white;border-radius:var(--radius);padding:1.5rem;max-width:500px;width:100%;max-height:90vh;overflow-y:auto}
 .modal-box img{width:100%;border-radius:8px;margin-top:0.8rem}
 .modal-close{float:right;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted)}
+
+/* carrinho flutuante */
+.cart-fab{position:fixed;bottom:2rem;right:1.5rem;z-index:50;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#f472b6,#818cf8);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(244,114,182,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s,box-shadow 0.2s}
+.cart-fab:hover{transform:scale(1.1);box-shadow:0 6px 25px rgba(244,114,182,0.6)}
+.cart-fab:active{transform:scale(0.95)}
+.cart-fab svg{width:26px;height:26px;fill:none;stroke:white;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.cart-badge{position:absolute;top:-4px;right:-4px;background:#1f2937;color:white;font-family:'Nunito',sans-serif;font-size:0.7rem;font-weight:800;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;opacity:0;transition:opacity 0.2s}
+.cart-badge.show{opacity:1}
+/* pix info dentro de meus */
+.meus-pix-section{margin-top:1.5rem;border-top:1.5px solid var(--border);padding-top:1.2rem}
+.meus-pix-section .section-subtitle{font-size:0.85rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.4rem}
+.meus-pix-row{display:flex;align-items:center;justify-content:space-between;background:var(--white);border-radius:12px;border:1.5px solid var(--border);padding:0.8rem 1rem;margin-bottom:0.6rem;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.meus-pix-row .pix-label{font-size:0.75rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem}
+.meus-pix-row .pix-value{font-size:0.95rem;font-weight:700;color:var(--text)}
+.meus-addr-box{background:var(--blue-light);border-radius:12px;padding:1rem;border:1.5px solid var(--blue);margin-top:0.2rem}
+.meus-addr-box .pix-label{font-size:0.75rem;color:#1e40af;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem}
+.meus-addr-box .addr{font-size:0.85rem;color:#1e3a8a;font-weight:600;line-height:1.6}
 @media(max-width:600px){
   .header h1{font-size:1.9rem}
   .form-row{grid-template-columns:1fr}
@@ -300,7 +317,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
       <div class="nav-right">
         <button class="tab-btn active" onclick="switchTab('lista')" id="tab-lista">🎁 Lista</button>
         <button class="tab-btn" onclick="switchTab('meus')" id="tab-meus">💜 Meus</button>
-        <button class="tab-btn" onclick="switchTab('pix')" id="tab-pix">💳 Pix</button>
         <button class="tab-btn" id="tab-admin-btn" style="display:none" onclick="switchTab('admin')">⚙️ Admin</button>
         <button class="logout-btn" onclick="doLogout()">Sair</button>
       </div>
@@ -316,17 +332,23 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     <div class="tab-content" id="tab-content-meus">
       <div class="section-title">💜 Minha lista de presentes</div>
       <div id="myItemsList"></div>
-    </div>
-    <div class="tab-content" id="tab-content-pix">
-      <div class="section-title">💳 Como enviar</div>
-      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1rem">Você pode enviar por Pix ou entregar pessoalmente 🥰</p>
-      <div class="pix-card">
-        <h3>🔑 Chave Pix</h3>
-        <div class="pix-info"><div class="label">Tipo</div><div class="value">CPF</div></div>
-        <div class="pix-info"><div class="label">Chave</div><div class="value">063.728.353-80</div><button class="copy-btn" onclick="copyPix()">📋 Copiar chave</button></div>
-        <div class="address-card"><div class="label">📦 Endereço para entrega</div><div class="addr">Rua Ilha Oregon, 61<br>Condomínio Smart Vista do Sol 1<br>Bloco 22, Apto 304<br>CEP: 69.038-561 — Manaus, AM</div></div>
+      <!-- PIX e ENDEREÇO dentro de meus -->
+      <div class="meus-pix-section">
+        <div class="section-subtitle">💳 Como enviar o presente</div>
+        <div class="meus-pix-row">
+          <div>
+            <div class="pix-label">Chave Pix (CPF)</div>
+            <div class="pix-value">063.728.353-80</div>
+          </div>
+          <button class="copy-btn" onclick="copyPix()" style="margin-top:0">📋 Copiar</button>
+        </div>
+        <div class="meus-addr-box">
+          <div class="pix-label">📦 Endereço para entrega</div>
+          <div class="addr">Rua Ilha Oregon, 61<br>Condomínio Smart Vista do Sol 1<br>Bloco 22, Apto 304<br>CEP: 69.038-561 — Manaus, AM</div>
+        </div>
       </div>
     </div>
+
     <div class="tab-content" id="tab-content-admin">
       <div class="section-title">⚙️ Painel Admin</div>
       <div class="admin-stats" id="adminStats"></div>
@@ -381,8 +403,610 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<!-- CARRINHO FLUTUANTE -->
+<button class="cart-fab" id="cartFab" onclick="switchTab('meus')" title="Ver meus presentes" style="display:none">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <path d="M16 10a4 4 0 01-8 0"/>
+  </svg>
+  <span class="cart-badge" id="cartBadge">0</span>
+</button>
 
+<div class="toast" id="toast"></div>
+<script>
+const SB_URL = '__SB_URL__';
+const SB_KEY = '__SB_KEY__';
+const ADMIN_NAME = '__ADMIN_NAME__';
+const ADMIN_PASS = '__ADMIN_PASS__';
+const SPLIT_THRESHOLD = 100;
+
+const H = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
+
+async function sbGet(table,params=''){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?${params}`,{headers:{...H,'Prefer':'return=representation'}});
+  if(!r.ok)throw new Error(await r.text());
+  return r.json();
+}
+async function sbPost(table,body){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});
+  if(!r.ok)throw new Error(await r.text());
+  return r.json();
+}
+async function sbPatch(table,filter,body){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});
+  if(!r.ok)throw new Error(await r.text());
+  return r.json();
+}
+async function sbDelete(table,filter){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'DELETE',headers:H});
+  if(!r.ok)throw new Error(await r.text());
+}
+
+// Storage upload
+async function uploadComprovante(file, path){
+  const r=await fetch(`${SB_URL}/storage/v1/object/comprovantes/${path}`,{
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type,'x-upsert':'true'},
+    body:file
+  });
+  if(!r.ok)throw new Error(await r.text());
+  return `${SB_URL}/storage/v1/object/public/comprovantes/${path}`;
+}
+
+let currentUser=null,allItems=[],allUsers=[],activeFilter='todos',activeTab='lista',splitOpenId=null,pixOpenId=null;
+
+const SEED_ITEMS=[
+  {name:'Saída maternidade',size:'RN / Creme',price:136.00,cat:'👕'},
+  {name:'Fraldas de pano',size:'Pacote 1',price:60.00,cat:'🩹'},
+  {name:'Fraldas de pano',size:'Pacote 2',price:60.00,cat:'🩹'},
+  {name:'Fraldas de pano',size:'Pacote 3',price:60.00,cat:'🩹'},
+  {name:'Fraldas de pano',size:'Pacote 4',price:60.00,cat:'🩹'},
+  {name:'Calça ecológica',size:'Kit 1 — Azul+Verde',price:39.00,cat:'👕'},
+  {name:'Calça ecológica',size:'Kit 2 — Azul+Verde',price:39.00,cat:'👕'},
+  {name:'Calça ecológica',size:'Kit 3 — Azul+Verde',price:39.00,cat:'👕'},
+  {name:'Camiseta',size:'P — Unisex',price:60.00,cat:'👕'},
+  {name:'Camiseta',size:'M — Unisex',price:60.00,cat:'👕'},
+  {name:'Camiseta',size:'G — Unisex',price:60.00,cat:'👕'},
+  {name:'Bolsa maternidade',size:'Bege creme',price:162.40,cat:'🎒'},
+  {name:'Kit higiene (cômoda)',size:'Nuvem c/ tampa branca',price:73.00,cat:'🩹'},
+  {name:'Higiene bebê',size:'Kit completo',price:163.00,cat:'🩹'},
+  {name:'Escova mamadeiras',size:'Único',price:25.00,cat:'🍼'},
+  {name:'Saco leite materno',size:'Kit',price:90.00,cat:'🍼'},
+  {name:'Canguru',size:'Cinza',price:84.00,cat:'🎒'},
+  {name:'Bebê conforto',size:'Único',price:260.00,cat:'🎒'},
+  {name:'Babá eletrônica',size:'Único',price:160.00,cat:'📱'},
+  {name:'Ruído branco',size:'Único',price:62.00,cat:'📱'},
+  {name:'Carrinho auxiliar',size:'4 Camadas — Preto',price:90.00,cat:'🎒'},
+  {name:'Mini máquina de lavar',size:'Único',price:99.00,cat:'📱'},
+  {name:'Fraldas descartáveis RN',size:'RN — Pacote 1',price:92.00,cat:'🩹'},
+  {name:'Fraldas descartáveis RN',size:'RN — Pacote 2',price:92.00,cat:'🩹'},
+  {name:'Fraldas descartáveis RN',size:'RN — Pacote 3',price:92.00,cat:'🩹'},
+  {name:'Fraldas descartáveis P',size:'P — Pacote 1',price:86.00,cat:'🩹'},
+  {name:'Fraldas descartáveis P',size:'P — Pacote 2',price:86.00,cat:'🩹'},
+  {name:'Fraldas descartáveis P',size:'P — Pacote 3',price:86.00,cat:'🩹'},
+  {name:'Fraldas descartáveis P',size:'P — Pacote 4',price:86.00,cat:'🩹'},
+  {name:'Fraldas descartáveis M',size:'M — Pacote 1',price:173.00,cat:'🩹'},
+  {name:'Fraldas descartáveis M',size:'M — Pacote 2',price:173.00,cat:'🩹'},
+];
+
+async function initDB(){
+  showLoading('Conectando ao banco... 🍼');
+  try{
+    const items=await sbGet('items','select=id&limit=1');
+    if(!items.length)await sbPost('items',SEED_ITEMS);
+    const users=await sbGet('users','select=name&limit=1');
+    if(!users.length)await sbPost('users',[{name:ADMIN_NAME,pass:ADMIN_PASS,is_admin:true}]);
+  }catch(e){console.error('initDB',e);}
+  hideLoading();
+}
+
+async function doLogin(){
+  const name=document.getElementById('loginName').value.trim();
+  const pass=document.getElementById('loginPass').value.trim();
+  const errEl=document.getElementById('loginError');
+  if(!name||!pass){errEl.textContent='Preencha todos os campos 💕';return;}
+  const btn=document.getElementById('loginBtn');btn.disabled=true;btn.textContent='Entrando...';
+  try{
+    const rows=await sbGet('users',`name=ilike.${encodeURIComponent(name)}&pass=eq.${encodeURIComponent(pass)}&select=*`);
+    if(!rows.length){errEl.textContent='Nome ou senha incorretos 😢';btn.disabled=false;btn.textContent='Entrar ✨';return;}
+    currentUser=rows[0];
+    sessionStorage.setItem('cha_ian_session',JSON.stringify({name:currentUser.name,pass:currentUser.pass}));
+    errEl.textContent='';
+    await loadData();showMain();
+  }catch(e){errEl.textContent='Erro de conexão.';console.error(e);}
+  btn.disabled=false;btn.textContent='Entrar ✨';
+}
+
+function showMain(){
+  document.getElementById('loginView').style.display='none';
+  document.getElementById('mainView').style.display='block';
+  document.getElementById('progressSection').style.display='block';
+  const initials=currentUser.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('navAvatar').textContent=initials;
+  document.getElementById('navName').textContent='Olá, '+currentUser.name.split(' ')[0]+'! 👋';
+  document.getElementById('navRole').textContent=currentUser.is_admin?'Administrador 👑':'Convidado(a)';
+  document.getElementById('tab-admin-btn').style.display=currentUser.is_admin?'':'none';
+  document.querySelectorAll('.admin-only').forEach(el=>el.style.display=currentUser.is_admin?'':'none');
+  const fab=document.getElementById('cartFab');
+  if(fab) fab.style.display='flex';
+  renderAll();
+}
+
+function doLogout(){
+  currentUser=null;allItems=[];allUsers=[];
+  sessionStorage.removeItem('cha_ian_session');
+  document.getElementById('mainView').style.display='none';
+  document.getElementById('progressSection').style.display='none';
+  document.getElementById('loginView').style.display='block';
+  document.getElementById('loginName').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginError').textContent='';
+  activeTab='lista';activeFilter='todos';splitOpenId=null;pixOpenId=null;
+  const fab2=document.getElementById('cartFab');if(fab2)fab2.style.display='none';
+}
+
+async function loadData(){
+  showLoading('Carregando lista... ✨');
+  try{[allItems,allUsers]=await Promise.all([sbGet('items','select=*&order=id.asc'),sbGet('users','select=*&order=name.asc')]);}
+  catch(e){console.error('loadData',e);}
+  hideLoading();
+}
+async function refreshItems(){try{allItems=await sbGet('items','select=*&order=id.asc');}catch(e){console.error(e);}}
+async function refreshAll(){try{[allItems,allUsers]=await Promise.all([sbGet('items','select=*&order=id.asc'),sbGet('users','select=*&order=name.asc')]);}catch(e){console.error(e);}}
+
+function switchTab(tab){
+  activeTab=tab;splitOpenId=null;pixOpenId=null;
+  ['lista','meus','admin'].forEach(t=>{
+    document.getElementById('tab-content-'+t).classList.toggle('active',t===tab);
+    const b=document.getElementById('tab-'+t);if(b)b.classList.toggle('active',t===tab);
+  });
+  const fab=document.getElementById('cartFab');
+  if(fab) fab.style.display = tab==='lista' ? 'flex' : 'none';
+  if(tab==='lista')renderGrid();
+  if(tab==='meus')renderMyList();
+  if(tab==='admin')renderAdmin();
+}
+function setFilter(f,el){
+  activeFilter=f;splitOpenId=null;pixOpenId=null;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');renderGrid();
+}
+function renderAll(){updateProgress();renderGrid();updateCartBadge();}
+
+function updateCartBadge(){
+  const me=currentUser?currentUser.name:null;
+  if(!me) return;
+  const count=allItems.filter(i=>
+    i.taken_by===me||
+    (i.split_with===me&&(i.split_status==='accepted'||i.split_status==='pending'))
+  ).length;
+  const badge=document.getElementById('cartBadge');
+  if(!badge) return;
+  badge.textContent=count;
+  badge.classList.toggle('show', count>0);
+}
+
+// Helpers de status
+function isPago(item, role){
+  // role: 'owner' ou 'split'
+  if(role==='owner') return item.pix_status==='confirmado';
+  if(role==='split') return item.pix_status_split==='confirmado';
+  return item.pix_status==='confirmado'&&(item.split_status!=='accepted'||item.pix_status_split==='confirmado');
+}
+function isItemFullyPago(item){
+  if(item.split_status==='accepted') return item.pix_status==='confirmado'&&item.pix_status_split==='confirmado';
+  return item.pix_status==='confirmado';
+}
+function isItemLocked(item){return isItemFullyPago(item);}
+
+function updateProgress(){
+  const total=allItems.length;
+  const taken=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').length;
+  const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
+  const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
+  const pct=total?Math.round(taken/total*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statTaken').textContent=taken;
+  document.getElementById('statFree').textContent=total-taken;
+  document.getElementById('statValue').textContent='R$'+val.toFixed(0);
+}
+
+function getCatBg(cat){return{'👕':'#fde8f2','🩹':'#d1fae5','🎒':'#dbeafe','📱':'#ede9fe','🍼':'#fef3c7','💙':'#f0f9ff'}[cat]||'#f3f4f6';}
+
+function renderGrid(){
+  let filtered=allItems;
+  if(activeFilter==='disponivel')filtered=allItems.filter(i=>!i.taken_by);
+  if(activeFilter==='escolhido')filtered=allItems.filter(i=>!!i.taken_by);
+  const grid=document.getElementById('itemsGrid');grid.innerHTML='';
+  if(!filtered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);font-weight:600">Nenhum item nessa categoria 💕</div>';return;}
+  filtered.forEach(item=>grid.appendChild(buildCard(item)));
+}
+
+function buildCard(item){
+  const me=currentUser.name;
+  const isMine=item.taken_by===me;
+  const isInvited=item.split_with===me&&item.split_status==='pending';
+  const isSplitDone=item.split_status==='accepted';
+  const isSplitPend=item.split_status==='pending'&&item.taken_by===me;
+  const isTakenOther=!!item.taken_by&&item.taken_by!==me&&item.split_with!==me;
+  const locked=isItemLocked(item);
+  const iAmOwner=isMine;
+  const iAmSplit=item.split_with===me&&isSplitDone;
+  const myPixStatus=iAmOwner?item.pix_status:(iAmSplit?item.pix_status_split:null);
+
+  const div=document.createElement('div');
+  let cardClass='item-card';
+  if(locked) cardClass+=' pago';
+  else if(myPixStatus==='enviado'||myPixStatus==='rejeitado') cardClass+=' pix-enviado';
+  else if(isTakenOther) cardClass+=' taken';
+  else if(isMine&&!isSplitDone&&!isSplitPend) cardClass+=' taken-by-me';
+  else if(isSplitPend) cardClass+=' split-pending';
+  else if(isInvited) cardClass+=' split-invite';
+  else if(isSplitDone&&(isMine||item.split_with===me)) cardClass+=' split-done';
+  div.className=cardClass;
+
+  // badge
+  let bc='badge-available',bt='Disponível';
+  if(locked){bc='badge-pago';bt='Pago 💚';}
+  else if(myPixStatus==='enviado'){bc='badge-pix-enviado';bt='Pix enviado ⏳';}
+  else if(myPixStatus==='rejeitado'){bc='badge-pix-rejeitado';bt='Comprovante rejeitado ❌';}
+  else if(isSplitDone){bc='badge-split-done';bt='Dividido 💚';}
+  else if(isSplitPend){bc='badge-split-pending';bt='Aguardando 🕐';}
+  else if(isInvited){bc='badge-split-invite';bt='Convite 💌';}
+  else if(isMine){bc='badge-mine';bt='Seu 💜';}
+  else if(isTakenOther){bc='badge-taken';bt='Escolhido ✓';}
+
+  const isSplit=isSplitDone||isSplitPend||isInvited;
+  const dp=isSplit?Number(item.price)/2:Number(item.price);
+  const pl=isSplit?`R$ ${dp.toFixed(2).replace('.',',')} <span style="font-size:0.72rem;color:#7c3aed;font-weight:600">(sua metade)</span>`:`R$ ${Number(item.price).toFixed(2).replace('.',',')}`;
+
+  let whoHtml='';
+  if(locked) whoHtml=`<div class="item-who">💚 Presente confirmado!</div>`;
+  else if(isSplitDone) whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div>`;
+  else if(isSplitPend) whoHtml=`<div class="item-who">⏳ Convite enviado para ${item.split_with}</div>`;
+  else if(isInvited) whoHtml=`<div class="item-who">💌 ${item.taken_by} te convidou para dividir!</div>`;
+  else if(isMine) whoHtml=`<div class="item-who">Você escolheu este 💜</div>`;
+  else if(isTakenOther) whoHtml=`<div class="item-who">Escolhido por ${item.taken_by}</div>`;
+
+  let btnHtml='';
+  if(locked){
+    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Presente confirmado 💚</button>`;
+  } else if(isInvited){
+    btnHtml=`<button class="item-btn btn-accept" onclick="acceptSplit(${item.id})">Aceitar divisão 💚</button><button class="item-btn btn-refuse" style="margin-top:0.3rem" onclick="refuseSplit(${item.id})">Recusar</button>`;
+  } else if(myPixStatus==='enviado'){
+    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Aguardando confirmação ⏳</button>`;
+  } else if(myPixStatus==='rejeitado'){
+    btnHtml=`<button class="item-btn btn-pix" onclick="openPix(${item.id})">Reenviar comprovante 📎</button>`;
+  } else if((isMine||iAmSplit)&&!myPixStatus){
+    // can send pix
+    if(pixOpenId===item.id){
+      btnHtml=`<div class="upload-box">
+        <div class="upload-label">📎 Anexar comprovante do Pix</div>
+        <input type="file" id="pixFile_${item.id}" accept="image/*,application/pdf">
+        <div class="upload-actions">
+          <button class="upload-confirm" onclick="enviarComprovante(${item.id},'${iAmOwner?'owner':'split'}')">Enviar ✓</button>
+          <button class="upload-cancel" onclick="closePix()">Cancelar</button>
+        </div>
+      </div>
+      <button class="item-btn btn-unselect" style="margin-top:0.3rem" onclick="unselectItem(${item.id})">Cancelar escolha</button>`;
+    } else {
+      btnHtml=`<button class="item-btn btn-pix" onclick="openPix(${item.id})">Já fiz o Pix! 📎</button>
+               <button class="item-btn btn-unselect" style="margin-top:0.3rem" onclick="unselectItem(${item.id})">Cancelar escolha</button>`;
+    }
+  } else if(isSplitPend){
+    btnHtml=`<button class="item-btn btn-unselect" onclick="cancelSplitInvite(${item.id})">Cancelar convite</button>`;
+  } else if(isTakenOther){
+    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Já escolhido</button>`;
+  } else {
+    if(splitOpenId===item.id){
+      const others=allUsers.filter(u=>u.name!==me);
+      const opts=others.map(u=>`<option value="${u.name}">${u.name}</option>`).join('');
+      btnHtml=`<button class="item-btn btn-select" onclick="selectAlone(${item.id})">Escolher sozinho(a)</button>
+        <div class="split-box"><div class="split-label">💜 Dividir com alguém (cada um paga metade)</div>
+        <select id="splitSelect_${item.id}"><option value="">— Escolha um convidado —</option>${opts}</select>
+        <div class="split-actions"><button class="split-confirm" onclick="confirmSplit(${item.id})">Enviar convite 💌</button><button class="split-skip" onclick="closeSplit()">Cancelar</button></div></div>`;
+    } else if(Number(item.price)>SPLIT_THRESHOLD){
+      btnHtml=`<button class="item-btn btn-select" onclick="openSplit(${item.id})">Escolher este 🎁</button>`;
+    } else {
+      btnHtml=`<button class="item-btn btn-select" onclick="selectAlone(${item.id})">Escolher este 🎁</button>`;
+    }
+  }
+
+  div.innerHTML=`
+    <div class="item-badge-row"><span class="item-badge ${bc}">${bt}</span></div>
+    <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem">
+      <div class="item-icon-area" style="background:${getCatBg(item.cat)}">${item.cat}</div>
+      <div><div class="item-name">${item.name}</div><div class="item-meta"><span class="meta-tag">${item.size}</span></div></div>
+    </div>
+    <div class="item-price${isSplit?' split-price':''}">${pl}</div>
+    ${whoHtml}${btnHtml}`;
+  return div;
+}
+
+// pix upload
+function openPix(id){pixOpenId=id;splitOpenId=null;renderGrid();}
+function closePix(){pixOpenId=null;renderGrid();}
+
+async function enviarComprovante(id, role){
+  const fileInput=document.getElementById(`pixFile_${id}`);
+  if(!fileInput||!fileInput.files[0]){showToast('Selecione um arquivo!');return;}
+  const file=fileInput.files[0];
+  if(file.size>5*1024*1024){showToast('Arquivo muito grande! Máximo 5MB.');return;}
+  showLoading('Enviando comprovante... 📎');
+  try{
+    const ext=file.name.split('.').pop();
+    const path=`${id}_${role}_${Date.now()}.${ext}`;
+    const url=await uploadComprovante(file,path);
+    const patch=role==='owner'
+      ?{comprovante_url:url,pix_status:'enviado'}
+      :{comprovante_url_split:url,pix_status_split:'enviado'};
+    await sbPatch('items',`id=eq.${id}`,patch);
+    await refreshItems();pixOpenId=null;
+    showToast('Comprovante enviado! Aguarde confirmação 🎉');
+    renderAll();
+  }catch(e){showToast('Erro ao enviar. Tente novamente.');console.error(e);}
+  hideLoading();
+}
+
+// item actions
+function openSplit(id){splitOpenId=id;pixOpenId=null;renderGrid();}
+function closeSplit(){splitOpenId=null;renderGrid();}
+function disableCards(){document.querySelectorAll('.item-btn').forEach(b=>b.disabled=true);}
+
+async function selectAlone(id){
+  splitOpenId=null;const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
+  disableCards();
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:null,split_status:null,pix_status:null,comprovante_url:null});await refreshItems();showToast('Item adicionado! 🎉');renderAll();}
+  catch(e){showToast('Erro ao salvar.');console.error(e);}
+}
+async function confirmSplit(id){
+  const sel=document.getElementById('splitSelect_'+id);
+  if(!sel||!sel.value){showToast('Escolha um convidado!');return;}
+  const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
+  disableCards();
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:sel.value,split_status:'pending',pix_status:null,pix_status_split:null});await refreshItems();splitOpenId=null;showToast(`Convite enviado para ${sel.value}! 💌`);renderAll();}
+  catch(e){showToast('Erro ao salvar.');console.error(e);}
+}
+async function acceptSplit(id){
+  disableCards();
+  try{await sbPatch('items',`id=eq.${id}`,{split_status:'accepted'});await refreshItems();showToast('Divisão aceita! 💚');renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function refuseSplit(id){
+  disableCards();
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite recusado. Item voltou para disponível.');renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function cancelSplitInvite(id){
+  disableCards();
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite cancelado.');renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function cancelMySplit(id){
+  disableCards();
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Cancelado. Item voltou para disponível.');renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function unselectItem(id){
+  const item=allItems.find(i=>i.id===id);
+  if(isItemLocked(item)){showToast('Este item já foi pago e não pode ser removido!');return;}
+  disableCards();
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Item removido.');renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+
+// my list
+function renderMyList(){
+  const me=currentUser.name;
+  const mine=allItems.filter(i=>i.taken_by===me||(i.split_with===me&&(i.split_status==='accepted'||i.split_status==='pending')));
+  const el=document.getElementById('myItemsList');
+  if(!mine.length){el.innerHTML=`<div class="my-items-empty"><p>🎁</p><div style="font-weight:700;font-size:1rem;margin-bottom:0.3rem">Sua lista está vazia</div><div style="font-size:0.85rem">Vá para "Lista" e escolha seus presentinhos!</div></div>`;return;}
+  let total=0;
+  const rows=mine.map(i=>{
+    const iAmOwner=i.taken_by===me;
+    const isSplit=i.split_status==='accepted'||(i.split_with===me&&i.split_status==='pending');
+    const myPrice=isSplit?Number(i.price)/2:Number(i.price);
+    total+=myPrice;
+    const myPixStatus=iAmOwner?i.pix_status:(i.split_with===me?i.pix_status_split:null);
+    const locked=isItemLocked(i);
+    const myLocked=iAmOwner?i.pix_status==='confirmado':(i.pix_status_split==='confirmado');
+
+    let note='',rowClass='',action='';
+    if(myLocked){
+      note=`<div class="pago-note">💚 Pagamento confirmado!</div>`;
+      rowClass=' pago-row';
+      action=`<span class="pago-badge-small">Pago ✓</span>`;
+    } else if(myPixStatus==='enviado'){
+      note=`<div class="pix-note">⏳ Comprovante enviado — aguardando confirmação</div>`;
+      rowClass=' pix-row';
+      action=`<button class="pix-btn-small" disabled style="opacity:0.5;cursor:not-allowed">Aguardando...</button>`;
+    } else if(myPixStatus==='rejeitado'){
+      note=`<div class="pix-note" style="color:#dc2626">❌ Comprovante rejeitado — reenvie</div>`;
+      rowClass=' pix-row';
+      action=`<button class="pix-btn-small" onclick="switchTab('lista')">Reenviar 📎</button>`;
+    } else if(i.split_status==='accepted'){
+      note=`<div class="split-note">💚 Dividido com ${iAmOwner?i.split_with:i.taken_by} · R$ ${myPrice.toFixed(2).replace('.',',')} cada</div>`;
+      rowClass=' split-row';
+      action=`<button class="pix-btn-small" onclick="switchTab('lista')">Enviar Pix 📎</button>`;
+    } else if(i.split_status==='pending'&&iAmOwner){
+      note=`<div class="pending-note">⏳ Aguardando ${i.split_with} aceitar</div>`;
+      rowClass=' pending-row';
+      action=`<button class="remove-btn" onclick="cancelSplitInvite(${i.id});switchTab('meus')">Cancelar</button>`;
+    } else if(i.split_status==='pending'&&!iAmOwner){
+      note=`<div class="pending-note">💌 ${i.taken_by} te convidou — responda na aba Lista</div>`;
+      rowClass=' pending-row';
+    } else {
+      action=`<div style="display:flex;flex-direction:column;gap:0.3rem">
+        <button class="pix-btn-small" onclick="switchTab('lista')">Enviar Pix 📎</button>
+        <button class="remove-btn" onclick="unselectItem(${i.id});switchTab('meus')">Remover</button>
+      </div>`;
+    }
+    return `<div class="my-item-row${rowClass}">
+      <div class="item-icon-small" style="background:${getCatBg(i.cat)}">${i.cat}</div>
+      <div class="row-info">
+        <div class="name">${i.name} <span style="color:var(--muted);font-weight:500;font-size:0.8rem">· ${i.size}</span></div>
+        <div class="price">R$ ${myPrice.toFixed(2).replace('.',',')}</div>${note}
+      </div>
+      <div class="row-actions">${action}</div>
+    </div>`;
+  });
+  el.innerHTML=rows.join('')+`<div class="my-total-box"><div class="total-label">💰 Total dos seus presentes</div><div class="total-val">R$ ${total.toFixed(2).replace('.',',')}</div></div>`;
+}
+
+// admin
+function renderAdmin(){
+  if(!currentUser||!currentUser.is_admin)return;
+  const confirmed=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').length;
+  const pending=allItems.filter(i=>i.split_status==='pending').length;
+  const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
+  const pixPendente=allItems.filter(i=>i.pix_status==='enviado'||i.pix_status_split==='enviado').length;
+  const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
+
+  document.getElementById('adminStats').innerHTML=`
+    <div class="admin-stat pink"><div class="num">${allItems.length}</div><div class="lbl">Total itens</div></div>
+    <div class="admin-stat green"><div class="num">${confirmed}</div><div class="lbl">Escolhidos</div></div>
+    <div class="admin-stat blue"><div class="num">${allItems.filter(i=>!i.taken_by).length}</div><div class="lbl">Disponíveis</div></div>
+    <div class="admin-stat amber"><div class="num">${pixPendente}</div><div class="lbl">Pix pendente</div></div>
+    <div class="admin-stat green"><div class="num">${pagos}</div><div class="lbl">Pagos</div></div>
+    <div class="admin-stat purple"><div class="num">R$${val.toFixed(0)}</div><div class="lbl">Arrecadado</div></div>`;
+
+  // comprovantes pendentes
+  const pendComp=[];
+  allItems.forEach(item=>{
+    if(item.pix_status==='enviado') pendComp.push({item,role:'owner',who:item.taken_by,url:item.comprovante_url});
+    if(item.pix_status_split==='enviado') pendComp.push({item,role:'split',who:item.split_with,url:item.comprovante_url_split});
+  });
+  const compSec=document.getElementById('comprovantesSection');
+  const compLista=document.getElementById('comprovantesLista');
+  if(pendComp.length){
+    compSec.style.display='';
+    compLista.innerHTML=pendComp.map(({item,role,who,url})=>{
+      const isImg=url&&(url.match(/\.(jpg|jpeg|png|gif|webp)$/i));
+      return `<div class="comprovante-card">
+        <div class="comp-header">
+          <div><div class="comp-name">${who}</div><div class="comp-item">${item.cat} ${item.name} · ${item.size}</div></div>
+          <span class="pix-tag">Aguardando ⏳</span>
+        </div>
+        ${isImg?`<img class="comp-img" src="${url}" onclick="openModal('${url}','${who} — ${item.name}')" alt="comprovante">`:`<a class="comp-link" href="${url}" target="_blank">📄 Ver comprovante</a>`}
+        <div class="comp-actions">
+          <button class="comp-confirm" onclick="adminConfirmarPix(${item.id},'${role}')">Confirmar ✅</button>
+          <button class="comp-reject" onclick="adminRejeitarPix(${item.id},'${role}')">Rejeitar ❌</button>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    compSec.style.display='none';
+  }
+
+  document.getElementById('adminUsersList').innerHTML=allUsers.map(u=>{
+    const myItems=allItems.filter(i=>i.taken_by===u.name||(i.split_with===u.name&&i.split_status==='accepted'));
+    const canDel=!u.is_admin||allUsers.filter(x=>x.is_admin).length>1;
+    return `<div class="user-row"><div><div class="uname">${u.name}${u.is_admin?'<span class="admin-badge">Admin 👑</span>':''}</div><div class="udetail">${myItems.length} item(s)</div></div>${canDel?`<button class="del-user-btn" onclick="adminDelUser('${u.name}')">Remover</button>`:'<span style="font-size:0.75rem;color:var(--muted)">—</span>'}</div>`;
+  }).join('');
+
+  document.getElementById('adminItemsTbody').innerHTML=allItems.map(item=>{
+    let sh='<span class="free-tag">Disponível</span>';
+    if(isItemFullyPago(item)) sh='<span class="pago-tag">Pago 💚</span>';
+    else if(item.pix_status==='enviado'||item.pix_status_split==='enviado') sh='<span class="pix-tag">Pix enviado ⏳</span>';
+    else if(item.split_status==='accepted') sh='<span class="split-tag">Dividido 💚</span>';
+    else if(item.split_status==='pending') sh='<span class="split-tag">Aguardando 🕐</span>';
+    else if(item.taken_by) sh='<span class="taken-tag">Escolhido ✓</span>';
+    const who=item.split_status==='accepted'?`${item.taken_by} + ${item.split_with}`:item.split_status==='pending'?`${item.taken_by} → ${item.split_with}`:item.taken_by||'—';
+    const canReset=!isItemLocked(item)&&item.taken_by;
+    return `<tr><td><strong>${item.cat} ${item.name}</strong></td><td>${item.size}</td><td>R$ ${Number(item.price).toFixed(2).replace('.',',')}</td><td>${sh}</td><td style="font-size:0.8rem">${who}</td><td>${canReset?`<button class="reset-item-btn" onclick="adminResetItem(${item.id})">Liberar</button>`:''}<button class="del-item-btn" onclick="adminDelItem(${item.id})">✕</button></td></tr>`;
+  }).join('');
+}
+
+async function adminConfirmarPix(id,role){
+  const patch=role==='owner'?{pix_status:'confirmado'}:{pix_status_split:'confirmado'};
+  try{await sbPatch('items',`id=eq.${id}`,patch);await refreshAll();showToast('Pagamento confirmado! 💚');renderAdmin();renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function adminRejeitarPix(id,role){
+  const patch=role==='owner'?{pix_status:'rejeitado',comprovante_url:null}:{pix_status_split:'rejeitado',comprovante_url_split:null};
+  try{await sbPatch('items',`id=eq.${id}`,patch);await refreshAll();showToast('Comprovante rejeitado. Usuário será notificado.');renderAdmin();renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+
+async function adminAddItem(){
+  const name=document.getElementById('newItemName').value.trim();
+  const size=document.getElementById('newItemSize').value.trim()||'Único';
+  const price=parseFloat(document.getElementById('newItemPrice').value)||0;
+  const cat=document.getElementById('newItemCat').value;
+  if(!name){showToast('Informe o nome do item!');return;}
+  const btn=document.getElementById('btnAddItem');btn.disabled=true;btn.textContent='Salvando...';
+  try{await sbPost('items',[{name,size,price,cat}]);await refreshAll();document.getElementById('newItemName').value='';document.getElementById('newItemSize').value='';document.getElementById('newItemPrice').value='';showToast('Item adicionado! ✨');renderAdmin();renderAll();}
+  catch(e){showToast('Erro ao salvar.');console.error(e);}
+  btn.disabled=false;btn.textContent='Adicionar item ✨';
+}
+async function adminDelItem(id){
+  if(!confirm('Remover este item?'))return;
+  try{await sbDelete('items',`id=eq.${id}`);await refreshAll();showToast('Item removido!');renderAdmin();renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function adminResetItem(id){
+  const item=allItems.find(i=>i.id===id);
+  if(isItemLocked(item)){showToast('Item já pago. Use o painel para gerenciar.');return;}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshAll();showToast('Item liberado!');renderAdmin();renderAll();}
+  catch(e){showToast('Erro.');console.error(e);}
+}
+async function adminAddUser(){
+  const name=document.getElementById('newUserName').value.trim();
+  const pass=document.getElementById('newUserPass').value.trim();
+  const isAdmin=document.getElementById('newUserAdmin').checked;
+  if(!name||!pass){showToast('Preencha nome e senha!');return;}
+  if(allUsers.find(u=>u.name.toLowerCase()===name.toLowerCase())){showToast('Usuário já existe!');return;}
+  const btn=document.getElementById('btnAddUser');btn.disabled=true;btn.textContent='Salvando...';
+  try{await sbPost('users',[{name,pass,is_admin:isAdmin}]);await refreshAll();document.getElementById('newUserName').value='';document.getElementById('newUserPass').value='';document.getElementById('newUserAdmin').checked=false;showToast(`"${name}" cadastrado!${isAdmin?' 👑':''} 🎉`);renderAdmin();}
+  catch(e){showToast('Erro ao salvar.');console.error(e);}
+  btn.disabled=false;btn.textContent='Cadastrar usuário ✨';
+}
+async function adminDelUser(name){
+  const target=allUsers.find(u=>u.name===name);
+  if(target&&target.is_admin&&allUsers.filter(u=>u.is_admin).length<=1){showToast('Não é possível remover o único admin!');return;}
+  if(!confirm(`Remover "${name}"?`))return;
+  try{
+    const theirItems=allItems.filter(i=>i.taken_by===name||i.split_with===name);
+    await Promise.all(theirItems.map(i=>sbPatch('items',`id=eq.${i.id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null})));
+    await sbDelete('users',`name=eq.${encodeURIComponent(name)}`);
+    await refreshAll();showToast('Usuário removido!');renderAdmin();renderAll();
+  }catch(e){showToast('Erro.');console.error(e);}
+}
+
+// modal
+function openModal(url,title){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalImg').src=url;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');}
+
+function copyPix(){navigator.clipboard.writeText('063.728.353-80').then(()=>showToast('Chave Pix copiada! 📋')).catch(()=>showToast('Chave: 063.728.353-80'));}
+function showLoading(msg='Carregando...'){const o=document.getElementById('loadingOverlay');o.querySelector('p').textContent=msg;o.classList.remove('hidden');}
+function hideLoading(){document.getElementById('loadingOverlay').classList.add('hidden');}
+let toastTimer=null;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
+
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPass').focus();});
+
+(async function boot(){
+  await initDB();
+  const s=sessionStorage.getItem('cha_ian_session');
+  if(s){
+    try{
+      const d=JSON.parse(s);
+      const rows=await sbGet('users',`name=eq.${encodeURIComponent(d.name)}&pass=eq.${encodeURIComponent(d.pass)}&select=*`);
+      if(rows.length){currentUser=rows[0];await loadData();showMain();return;}
+    }catch{}
+  }
+  hideLoading();
+})();
+
+</script>
 <!-- BEBEZINHO DO IAN -->
 <div id="ian-baby" style="position:fixed;z-index:2;pointer-events:none;width:90px;height:90px;left:50px;top:50%;transition:none" aria-hidden="true">
   <svg id="ian-svg" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;overflow:visible">
@@ -907,580 +1531,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     baby.style.left=bx+'px';
     baby.style.top=by+'px';
   });
-})();
-</script>
-<script>
-const SB_URL = '__SB_URL__';
-const SB_KEY = '__SB_KEY__';
-const ADMIN_NAME = '__ADMIN_NAME__';
-const ADMIN_PASS = '__ADMIN_PASS__';
-const SPLIT_THRESHOLD = 100;
-
-const H = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
-
-async function sbGet(table,params=''){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}?${params}`,{headers:{...H,'Prefer':'return=representation'}});
-  if(!r.ok)throw new Error(await r.text());
-  return r.json();
-}
-async function sbPost(table,body){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});
-  if(!r.ok)throw new Error(await r.text());
-  return r.json();
-}
-async function sbPatch(table,filter,body){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(body)});
-  if(!r.ok)throw new Error(await r.text());
-  return r.json();
-}
-async function sbDelete(table,filter){
-  const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'DELETE',headers:H});
-  if(!r.ok)throw new Error(await r.text());
-}
-
-// Storage upload
-async function uploadComprovante(file, path){
-  const r=await fetch(`${SB_URL}/storage/v1/object/comprovantes/${path}`,{
-    method:'POST',
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type,'x-upsert':'true'},
-    body:file
-  });
-  if(!r.ok)throw new Error(await r.text());
-  return `${SB_URL}/storage/v1/object/public/comprovantes/${path}`;
-}
-
-let currentUser=null,allItems=[],allUsers=[],activeFilter='todos',activeTab='lista',splitOpenId=null,pixOpenId=null;
-
-const SEED_ITEMS=[
-  {name:'Saída maternidade',size:'RN / Creme',price:136.00,cat:'👕'},
-  {name:'Fraldas de pano',size:'Pacote 1',price:60.00,cat:'🩹'},
-  {name:'Fraldas de pano',size:'Pacote 2',price:60.00,cat:'🩹'},
-  {name:'Fraldas de pano',size:'Pacote 3',price:60.00,cat:'🩹'},
-  {name:'Fraldas de pano',size:'Pacote 4',price:60.00,cat:'🩹'},
-  {name:'Calça ecológica',size:'Kit 1 — Azul+Verde',price:39.00,cat:'👕'},
-  {name:'Calça ecológica',size:'Kit 2 — Azul+Verde',price:39.00,cat:'👕'},
-  {name:'Calça ecológica',size:'Kit 3 — Azul+Verde',price:39.00,cat:'👕'},
-  {name:'Camiseta',size:'P — Unisex',price:60.00,cat:'👕'},
-  {name:'Camiseta',size:'M — Unisex',price:60.00,cat:'👕'},
-  {name:'Camiseta',size:'G — Unisex',price:60.00,cat:'👕'},
-  {name:'Bolsa maternidade',size:'Bege creme',price:162.40,cat:'🎒'},
-  {name:'Kit higiene (cômoda)',size:'Nuvem c/ tampa branca',price:73.00,cat:'🩹'},
-  {name:'Higiene bebê',size:'Kit completo',price:163.00,cat:'🩹'},
-  {name:'Escova mamadeiras',size:'Único',price:25.00,cat:'🍼'},
-  {name:'Saco leite materno',size:'Kit',price:90.00,cat:'🍼'},
-  {name:'Canguru',size:'Cinza',price:84.00,cat:'🎒'},
-  {name:'Bebê conforto',size:'Único',price:260.00,cat:'🎒'},
-  {name:'Babá eletrônica',size:'Único',price:160.00,cat:'📱'},
-  {name:'Ruído branco',size:'Único',price:62.00,cat:'📱'},
-  {name:'Carrinho auxiliar',size:'4 Camadas — Preto',price:90.00,cat:'🎒'},
-  {name:'Mini máquina de lavar',size:'Único',price:99.00,cat:'📱'},
-  {name:'Fraldas descartáveis RN',size:'RN — Pacote 1',price:92.00,cat:'🩹'},
-  {name:'Fraldas descartáveis RN',size:'RN — Pacote 2',price:92.00,cat:'🩹'},
-  {name:'Fraldas descartáveis RN',size:'RN — Pacote 3',price:92.00,cat:'🩹'},
-  {name:'Fraldas descartáveis P',size:'P — Pacote 1',price:86.00,cat:'🩹'},
-  {name:'Fraldas descartáveis P',size:'P — Pacote 2',price:86.00,cat:'🩹'},
-  {name:'Fraldas descartáveis P',size:'P — Pacote 3',price:86.00,cat:'🩹'},
-  {name:'Fraldas descartáveis P',size:'P — Pacote 4',price:86.00,cat:'🩹'},
-  {name:'Fraldas descartáveis M',size:'M — Pacote 1',price:173.00,cat:'🩹'},
-  {name:'Fraldas descartáveis M',size:'M — Pacote 2',price:173.00,cat:'🩹'},
-];
-
-async function initDB(){
-  showLoading('Conectando ao banco... 🍼');
-  try{
-    const items=await sbGet('items','select=id&limit=1');
-    if(!items.length)await sbPost('items',SEED_ITEMS);
-    const users=await sbGet('users','select=name&limit=1');
-    if(!users.length)await sbPost('users',[{name:ADMIN_NAME,pass:ADMIN_PASS,is_admin:true}]);
-  }catch(e){console.error('initDB',e);}
-  hideLoading();
-}
-
-async function doLogin(){
-  const name=document.getElementById('loginName').value.trim();
-  const pass=document.getElementById('loginPass').value.trim();
-  const errEl=document.getElementById('loginError');
-  if(!name||!pass){errEl.textContent='Preencha todos os campos 💕';return;}
-  const btn=document.getElementById('loginBtn');btn.disabled=true;btn.textContent='Entrando...';
-  try{
-    const rows=await sbGet('users',`name=ilike.${encodeURIComponent(name)}&pass=eq.${encodeURIComponent(pass)}&select=*`);
-    if(!rows.length){errEl.textContent='Nome ou senha incorretos 😢';btn.disabled=false;btn.textContent='Entrar ✨';return;}
-    currentUser=rows[0];
-    sessionStorage.setItem('cha_ian_session',JSON.stringify({name:currentUser.name,pass:currentUser.pass}));
-    errEl.textContent='';
-    await loadData();showMain();
-  }catch(e){errEl.textContent='Erro de conexão.';console.error(e);}
-  btn.disabled=false;btn.textContent='Entrar ✨';
-}
-
-function showMain(){
-  document.getElementById('loginView').style.display='none';
-  document.getElementById('mainView').style.display='block';
-  document.getElementById('progressSection').style.display='block';
-  const initials=currentUser.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('navAvatar').textContent=initials;
-  document.getElementById('navName').textContent='Olá, '+currentUser.name.split(' ')[0]+'! 👋';
-  document.getElementById('navRole').textContent=currentUser.is_admin?'Administrador 👑':'Convidado(a)';
-  document.getElementById('tab-admin-btn').style.display=currentUser.is_admin?'':'none';
-  document.querySelectorAll('.admin-only').forEach(el=>el.style.display=currentUser.is_admin?'':'none');
-  renderAll();
-}
-
-function doLogout(){
-  currentUser=null;allItems=[];allUsers=[];
-  sessionStorage.removeItem('cha_ian_session');
-  document.getElementById('mainView').style.display='none';
-  document.getElementById('progressSection').style.display='none';
-  document.getElementById('loginView').style.display='block';
-  document.getElementById('loginName').value='';
-  document.getElementById('loginPass').value='';
-  document.getElementById('loginError').textContent='';
-  activeTab='lista';activeFilter='todos';splitOpenId=null;pixOpenId=null;
-}
-
-async function loadData(){
-  showLoading('Carregando lista... ✨');
-  try{[allItems,allUsers]=await Promise.all([sbGet('items','select=*&order=id.asc'),sbGet('users','select=*&order=name.asc')]);}
-  catch(e){console.error('loadData',e);}
-  hideLoading();
-}
-async function refreshItems(){try{allItems=await sbGet('items','select=*&order=id.asc');}catch(e){console.error(e);}}
-async function refreshAll(){try{[allItems,allUsers]=await Promise.all([sbGet('items','select=*&order=id.asc'),sbGet('users','select=*&order=name.asc')]);}catch(e){console.error(e);}}
-
-function switchTab(tab){
-  activeTab=tab;splitOpenId=null;pixOpenId=null;
-  ['lista','meus','pix','admin'].forEach(t=>{
-    document.getElementById('tab-content-'+t).classList.toggle('active',t===tab);
-    const b=document.getElementById('tab-'+t);if(b)b.classList.toggle('active',t===tab);
-  });
-  if(tab==='lista')renderGrid();
-  if(tab==='meus')renderMyList();
-  if(tab==='admin')renderAdmin();
-}
-function setFilter(f,el){
-  activeFilter=f;splitOpenId=null;pixOpenId=null;
-  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');renderGrid();
-}
-function renderAll(){updateProgress();renderGrid();}
-
-// Helpers de status
-function isPago(item, role){
-  // role: 'owner' ou 'split'
-  if(role==='owner') return item.pix_status==='confirmado';
-  if(role==='split') return item.pix_status_split==='confirmado';
-  return item.pix_status==='confirmado'&&(item.split_status!=='accepted'||item.pix_status_split==='confirmado');
-}
-function isItemFullyPago(item){
-  if(item.split_status==='accepted') return item.pix_status==='confirmado'&&item.pix_status_split==='confirmado';
-  return item.pix_status==='confirmado';
-}
-function isItemLocked(item){return isItemFullyPago(item);}
-
-function updateProgress(){
-  const total=allItems.length;
-  const taken=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').length;
-  const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
-  const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
-  const pct=total?Math.round(taken/total*100):0;
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressPct').textContent=pct+'%';
-  document.getElementById('statTotal').textContent=total;
-  document.getElementById('statTaken').textContent=taken;
-  document.getElementById('statFree').textContent=total-taken;
-  document.getElementById('statValue').textContent='R$'+val.toFixed(0);
-}
-
-function getCatBg(cat){return{'👕':'#fde8f2','🩹':'#d1fae5','🎒':'#dbeafe','📱':'#ede9fe','🍼':'#fef3c7','💙':'#f0f9ff'}[cat]||'#f3f4f6';}
-
-function renderGrid(){
-  let filtered=allItems;
-  if(activeFilter==='disponivel')filtered=allItems.filter(i=>!i.taken_by);
-  if(activeFilter==='escolhido')filtered=allItems.filter(i=>!!i.taken_by);
-  const grid=document.getElementById('itemsGrid');grid.innerHTML='';
-  if(!filtered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);font-weight:600">Nenhum item nessa categoria 💕</div>';return;}
-  filtered.forEach(item=>grid.appendChild(buildCard(item)));
-}
-
-function buildCard(item){
-  const me=currentUser.name;
-  const isMine=item.taken_by===me;
-  const isInvited=item.split_with===me&&item.split_status==='pending';
-  const isSplitDone=item.split_status==='accepted';
-  const isSplitPend=item.split_status==='pending'&&item.taken_by===me;
-  const isTakenOther=!!item.taken_by&&item.taken_by!==me&&item.split_with!==me;
-  const locked=isItemLocked(item);
-  const iAmOwner=isMine;
-  const iAmSplit=item.split_with===me&&isSplitDone;
-  const myPixStatus=iAmOwner?item.pix_status:(iAmSplit?item.pix_status_split:null);
-
-  const div=document.createElement('div');
-  let cardClass='item-card';
-  if(locked) cardClass+=' pago';
-  else if(myPixStatus==='enviado'||myPixStatus==='rejeitado') cardClass+=' pix-enviado';
-  else if(isTakenOther) cardClass+=' taken';
-  else if(isMine&&!isSplitDone&&!isSplitPend) cardClass+=' taken-by-me';
-  else if(isSplitPend) cardClass+=' split-pending';
-  else if(isInvited) cardClass+=' split-invite';
-  else if(isSplitDone&&(isMine||item.split_with===me)) cardClass+=' split-done';
-  div.className=cardClass;
-
-  // badge
-  let bc='badge-available',bt='Disponível';
-  if(locked){bc='badge-pago';bt='Pago 💚';}
-  else if(myPixStatus==='enviado'){bc='badge-pix-enviado';bt='Pix enviado ⏳';}
-  else if(myPixStatus==='rejeitado'){bc='badge-pix-rejeitado';bt='Comprovante rejeitado ❌';}
-  else if(isSplitDone){bc='badge-split-done';bt='Dividido 💚';}
-  else if(isSplitPend){bc='badge-split-pending';bt='Aguardando 🕐';}
-  else if(isInvited){bc='badge-split-invite';bt='Convite 💌';}
-  else if(isMine){bc='badge-mine';bt='Seu 💜';}
-  else if(isTakenOther){bc='badge-taken';bt='Escolhido ✓';}
-
-  const isSplit=isSplitDone||isSplitPend||isInvited;
-  const dp=isSplit?Number(item.price)/2:Number(item.price);
-  const pl=isSplit?`R$ ${dp.toFixed(2).replace('.',',')} <span style="font-size:0.72rem;color:#7c3aed;font-weight:600">(sua metade)</span>`:`R$ ${Number(item.price).toFixed(2).replace('.',',')}`;
-
-  let whoHtml='';
-  if(locked) whoHtml=`<div class="item-who">💚 Presente confirmado!</div>`;
-  else if(isSplitDone) whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div>`;
-  else if(isSplitPend) whoHtml=`<div class="item-who">⏳ Convite enviado para ${item.split_with}</div>`;
-  else if(isInvited) whoHtml=`<div class="item-who">💌 ${item.taken_by} te convidou para dividir!</div>`;
-  else if(isMine) whoHtml=`<div class="item-who">Você escolheu este 💜</div>`;
-  else if(isTakenOther) whoHtml=`<div class="item-who">Escolhido por ${item.taken_by}</div>`;
-
-  let btnHtml='';
-  if(locked){
-    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Presente confirmado 💚</button>`;
-  } else if(isInvited){
-    btnHtml=`<button class="item-btn btn-accept" onclick="acceptSplit(${item.id})">Aceitar divisão 💚</button><button class="item-btn btn-refuse" style="margin-top:0.3rem" onclick="refuseSplit(${item.id})">Recusar</button>`;
-  } else if(myPixStatus==='enviado'){
-    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Aguardando confirmação ⏳</button>`;
-  } else if(myPixStatus==='rejeitado'){
-    btnHtml=`<button class="item-btn btn-pix" onclick="openPix(${item.id})">Reenviar comprovante 📎</button>`;
-  } else if((isMine||iAmSplit)&&!myPixStatus){
-    // can send pix
-    if(pixOpenId===item.id){
-      btnHtml=`<div class="upload-box">
-        <div class="upload-label">📎 Anexar comprovante do Pix</div>
-        <input type="file" id="pixFile_${item.id}" accept="image/*,application/pdf">
-        <div class="upload-actions">
-          <button class="upload-confirm" onclick="enviarComprovante(${item.id},'${iAmOwner?'owner':'split'}')">Enviar ✓</button>
-          <button class="upload-cancel" onclick="closePix()">Cancelar</button>
-        </div>
-      </div>
-      <button class="item-btn btn-unselect" style="margin-top:0.3rem" onclick="unselectItem(${item.id})">Cancelar escolha</button>`;
-    } else {
-      btnHtml=`<button class="item-btn btn-pix" onclick="openPix(${item.id})">Já fiz o Pix! 📎</button>
-               <button class="item-btn btn-unselect" style="margin-top:0.3rem" onclick="unselectItem(${item.id})">Cancelar escolha</button>`;
-    }
-  } else if(isSplitPend){
-    btnHtml=`<button class="item-btn btn-unselect" onclick="cancelSplitInvite(${item.id})">Cancelar convite</button>`;
-  } else if(isTakenOther){
-    btnHtml=`<button class="item-btn btn-taken-disabled" disabled>Já escolhido</button>`;
-  } else {
-    if(splitOpenId===item.id){
-      const others=allUsers.filter(u=>u.name!==me);
-      const opts=others.map(u=>`<option value="${u.name}">${u.name}</option>`).join('');
-      btnHtml=`<button class="item-btn btn-select" onclick="selectAlone(${item.id})">Escolher sozinho(a)</button>
-        <div class="split-box"><div class="split-label">💜 Dividir com alguém (cada um paga metade)</div>
-        <select id="splitSelect_${item.id}"><option value="">— Escolha um convidado —</option>${opts}</select>
-        <div class="split-actions"><button class="split-confirm" onclick="confirmSplit(${item.id})">Enviar convite 💌</button><button class="split-skip" onclick="closeSplit()">Cancelar</button></div></div>`;
-    } else if(Number(item.price)>SPLIT_THRESHOLD){
-      btnHtml=`<button class="item-btn btn-select" onclick="openSplit(${item.id})">Escolher este 🎁</button>`;
-    } else {
-      btnHtml=`<button class="item-btn btn-select" onclick="selectAlone(${item.id})">Escolher este 🎁</button>`;
-    }
-  }
-
-  div.innerHTML=`
-    <div class="item-badge-row"><span class="item-badge ${bc}">${bt}</span></div>
-    <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem">
-      <div class="item-icon-area" style="background:${getCatBg(item.cat)}">${item.cat}</div>
-      <div><div class="item-name">${item.name}</div><div class="item-meta"><span class="meta-tag">${item.size}</span></div></div>
-    </div>
-    <div class="item-price${isSplit?' split-price':''}">${pl}</div>
-    ${whoHtml}${btnHtml}`;
-  return div;
-}
-
-// pix upload
-function openPix(id){pixOpenId=id;splitOpenId=null;renderGrid();}
-function closePix(){pixOpenId=null;renderGrid();}
-
-async function enviarComprovante(id, role){
-  const fileInput=document.getElementById(`pixFile_${id}`);
-  if(!fileInput||!fileInput.files[0]){showToast('Selecione um arquivo!');return;}
-  const file=fileInput.files[0];
-  if(file.size>5*1024*1024){showToast('Arquivo muito grande! Máximo 5MB.');return;}
-  showLoading('Enviando comprovante... 📎');
-  try{
-    const ext=file.name.split('.').pop();
-    const path=`${id}_${role}_${Date.now()}.${ext}`;
-    const url=await uploadComprovante(file,path);
-    const patch=role==='owner'
-      ?{comprovante_url:url,pix_status:'enviado'}
-      :{comprovante_url_split:url,pix_status_split:'enviado'};
-    await sbPatch('items',`id=eq.${id}`,patch);
-    await refreshItems();pixOpenId=null;
-    showToast('Comprovante enviado! Aguarde confirmação 🎉');
-    renderAll();
-  }catch(e){showToast('Erro ao enviar. Tente novamente.');console.error(e);}
-  hideLoading();
-}
-
-// item actions
-function openSplit(id){splitOpenId=id;pixOpenId=null;renderGrid();}
-function closeSplit(){splitOpenId=null;renderGrid();}
-function disableCards(){document.querySelectorAll('.item-btn').forEach(b=>b.disabled=true);}
-
-async function selectAlone(id){
-  splitOpenId=null;const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
-  disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:null,split_status:null,pix_status:null,comprovante_url:null});await refreshItems();showToast('Item adicionado! 🎉');renderAll();}
-  catch(e){showToast('Erro ao salvar.');console.error(e);}
-}
-async function confirmSplit(id){
-  const sel=document.getElementById('splitSelect_'+id);
-  if(!sel||!sel.value){showToast('Escolha um convidado!');return;}
-  const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
-  disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:sel.value,split_status:'pending',pix_status:null,pix_status_split:null});await refreshItems();splitOpenId=null;showToast(`Convite enviado para ${sel.value}! 💌`);renderAll();}
-  catch(e){showToast('Erro ao salvar.');console.error(e);}
-}
-async function acceptSplit(id){
-  disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{split_status:'accepted'});await refreshItems();showToast('Divisão aceita! 💚');renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-async function refuseSplit(id){
-  disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite recusado. Item voltou para disponível.');renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-async function cancelSplitInvite(id){
-  disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite cancelado.');renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-async function cancelMySplit(id){
-  disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Cancelado. Item voltou para disponível.');renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-async function unselectItem(id){
-  const item=allItems.find(i=>i.id===id);
-  if(isItemLocked(item)){showToast('Este item já foi pago e não pode ser removido!');return;}
-  disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Item removido.');renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-
-// my list
-function renderMyList(){
-  const me=currentUser.name;
-  const mine=allItems.filter(i=>i.taken_by===me||(i.split_with===me&&(i.split_status==='accepted'||i.split_status==='pending')));
-  const el=document.getElementById('myItemsList');
-  if(!mine.length){el.innerHTML=`<div class="my-items-empty"><p>🎁</p><div style="font-weight:700;font-size:1rem;margin-bottom:0.3rem">Sua lista está vazia</div><div style="font-size:0.85rem">Vá para "Lista" e escolha seus presentinhos!</div></div>`;return;}
-  let total=0;
-  const rows=mine.map(i=>{
-    const iAmOwner=i.taken_by===me;
-    const isSplit=i.split_status==='accepted'||(i.split_with===me&&i.split_status==='pending');
-    const myPrice=isSplit?Number(i.price)/2:Number(i.price);
-    total+=myPrice;
-    const myPixStatus=iAmOwner?i.pix_status:(i.split_with===me?i.pix_status_split:null);
-    const locked=isItemLocked(i);
-    const myLocked=iAmOwner?i.pix_status==='confirmado':(i.pix_status_split==='confirmado');
-
-    let note='',rowClass='',action='';
-    if(myLocked){
-      note=`<div class="pago-note">💚 Pagamento confirmado!</div>`;
-      rowClass=' pago-row';
-      action=`<span class="pago-badge-small">Pago ✓</span>`;
-    } else if(myPixStatus==='enviado'){
-      note=`<div class="pix-note">⏳ Comprovante enviado — aguardando confirmação</div>`;
-      rowClass=' pix-row';
-      action=`<button class="pix-btn-small" disabled style="opacity:0.5;cursor:not-allowed">Aguardando...</button>`;
-    } else if(myPixStatus==='rejeitado'){
-      note=`<div class="pix-note" style="color:#dc2626">❌ Comprovante rejeitado — reenvie</div>`;
-      rowClass=' pix-row';
-      action=`<button class="pix-btn-small" onclick="switchTab('lista')">Reenviar 📎</button>`;
-    } else if(i.split_status==='accepted'){
-      note=`<div class="split-note">💚 Dividido com ${iAmOwner?i.split_with:i.taken_by} · R$ ${myPrice.toFixed(2).replace('.',',')} cada</div>`;
-      rowClass=' split-row';
-      action=`<button class="pix-btn-small" onclick="switchTab('lista')">Enviar Pix 📎</button>`;
-    } else if(i.split_status==='pending'&&iAmOwner){
-      note=`<div class="pending-note">⏳ Aguardando ${i.split_with} aceitar</div>`;
-      rowClass=' pending-row';
-      action=`<button class="remove-btn" onclick="cancelSplitInvite(${i.id});switchTab('meus')">Cancelar</button>`;
-    } else if(i.split_status==='pending'&&!iAmOwner){
-      note=`<div class="pending-note">💌 ${i.taken_by} te convidou — responda na aba Lista</div>`;
-      rowClass=' pending-row';
-    } else {
-      action=`<div style="display:flex;flex-direction:column;gap:0.3rem">
-        <button class="pix-btn-small" onclick="switchTab('lista')">Enviar Pix 📎</button>
-        <button class="remove-btn" onclick="unselectItem(${i.id});switchTab('meus')">Remover</button>
-      </div>`;
-    }
-    return `<div class="my-item-row${rowClass}">
-      <div class="item-icon-small" style="background:${getCatBg(i.cat)}">${i.cat}</div>
-      <div class="row-info">
-        <div class="name">${i.name} <span style="color:var(--muted);font-weight:500;font-size:0.8rem">· ${i.size}</span></div>
-        <div class="price">R$ ${myPrice.toFixed(2).replace('.',',')}</div>${note}
-      </div>
-      <div class="row-actions">${action}</div>
-    </div>`;
-  });
-  el.innerHTML=rows.join('')+`<div class="my-total-box"><div class="total-label">💰 Total dos seus presentes</div><div class="total-val">R$ ${total.toFixed(2).replace('.',',')}</div></div>`;
-}
-
-// admin
-function renderAdmin(){
-  if(!currentUser||!currentUser.is_admin)return;
-  const confirmed=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').length;
-  const pending=allItems.filter(i=>i.split_status==='pending').length;
-  const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
-  const pixPendente=allItems.filter(i=>i.pix_status==='enviado'||i.pix_status_split==='enviado').length;
-  const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
-
-  document.getElementById('adminStats').innerHTML=`
-    <div class="admin-stat pink"><div class="num">${allItems.length}</div><div class="lbl">Total itens</div></div>
-    <div class="admin-stat green"><div class="num">${confirmed}</div><div class="lbl">Escolhidos</div></div>
-    <div class="admin-stat blue"><div class="num">${allItems.filter(i=>!i.taken_by).length}</div><div class="lbl">Disponíveis</div></div>
-    <div class="admin-stat amber"><div class="num">${pixPendente}</div><div class="lbl">Pix pendente</div></div>
-    <div class="admin-stat green"><div class="num">${pagos}</div><div class="lbl">Pagos</div></div>
-    <div class="admin-stat purple"><div class="num">R$${val.toFixed(0)}</div><div class="lbl">Arrecadado</div></div>`;
-
-  // comprovantes pendentes
-  const pendComp=[];
-  allItems.forEach(item=>{
-    if(item.pix_status==='enviado') pendComp.push({item,role:'owner',who:item.taken_by,url:item.comprovante_url});
-    if(item.pix_status_split==='enviado') pendComp.push({item,role:'split',who:item.split_with,url:item.comprovante_url_split});
-  });
-  const compSec=document.getElementById('comprovantesSection');
-  const compLista=document.getElementById('comprovantesLista');
-  if(pendComp.length){
-    compSec.style.display='';
-    compLista.innerHTML=pendComp.map(({item,role,who,url})=>{
-      const isImg=url&&(url.match(/\.(jpg|jpeg|png|gif|webp)$/i));
-      return `<div class="comprovante-card">
-        <div class="comp-header">
-          <div><div class="comp-name">${who}</div><div class="comp-item">${item.cat} ${item.name} · ${item.size}</div></div>
-          <span class="pix-tag">Aguardando ⏳</span>
-        </div>
-        ${isImg?`<img class="comp-img" src="${url}" onclick="openModal('${url}','${who} — ${item.name}')" alt="comprovante">`:`<a class="comp-link" href="${url}" target="_blank">📄 Ver comprovante</a>`}
-        <div class="comp-actions">
-          <button class="comp-confirm" onclick="adminConfirmarPix(${item.id},'${role}')">Confirmar ✅</button>
-          <button class="comp-reject" onclick="adminRejeitarPix(${item.id},'${role}')">Rejeitar ❌</button>
-        </div>
-      </div>`;
-    }).join('');
-  } else {
-    compSec.style.display='none';
-  }
-
-  document.getElementById('adminUsersList').innerHTML=allUsers.map(u=>{
-    const myItems=allItems.filter(i=>i.taken_by===u.name||(i.split_with===u.name&&i.split_status==='accepted'));
-    const canDel=!u.is_admin||allUsers.filter(x=>x.is_admin).length>1;
-    return `<div class="user-row"><div><div class="uname">${u.name}${u.is_admin?'<span class="admin-badge">Admin 👑</span>':''}</div><div class="udetail">${myItems.length} item(s)</div></div>${canDel?`<button class="del-user-btn" onclick="adminDelUser('${u.name}')">Remover</button>`:'<span style="font-size:0.75rem;color:var(--muted)">—</span>'}</div>`;
-  }).join('');
-
-  document.getElementById('adminItemsTbody').innerHTML=allItems.map(item=>{
-    let sh='<span class="free-tag">Disponível</span>';
-    if(isItemFullyPago(item)) sh='<span class="pago-tag">Pago 💚</span>';
-    else if(item.pix_status==='enviado'||item.pix_status_split==='enviado') sh='<span class="pix-tag">Pix enviado ⏳</span>';
-    else if(item.split_status==='accepted') sh='<span class="split-tag">Dividido 💚</span>';
-    else if(item.split_status==='pending') sh='<span class="split-tag">Aguardando 🕐</span>';
-    else if(item.taken_by) sh='<span class="taken-tag">Escolhido ✓</span>';
-    const who=item.split_status==='accepted'?`${item.taken_by} + ${item.split_with}`:item.split_status==='pending'?`${item.taken_by} → ${item.split_with}`:item.taken_by||'—';
-    const canReset=!isItemLocked(item)&&item.taken_by;
-    return `<tr><td><strong>${item.cat} ${item.name}</strong></td><td>${item.size}</td><td>R$ ${Number(item.price).toFixed(2).replace('.',',')}</td><td>${sh}</td><td style="font-size:0.8rem">${who}</td><td>${canReset?`<button class="reset-item-btn" onclick="adminResetItem(${item.id})">Liberar</button>`:''}<button class="del-item-btn" onclick="adminDelItem(${item.id})">✕</button></td></tr>`;
-  }).join('');
-}
-
-async function adminConfirmarPix(id,role){
-  const patch=role==='owner'?{pix_status:'confirmado'}:{pix_status_split:'confirmado'};
-  try{await sbPatch('items',`id=eq.${id}`,patch);await refreshAll();showToast('Pagamento confirmado! 💚');renderAdmin();renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-async function adminRejeitarPix(id,role){
-  const patch=role==='owner'?{pix_status:'rejeitado',comprovante_url:null}:{pix_status_split:'rejeitado',comprovante_url_split:null};
-  try{await sbPatch('items',`id=eq.${id}`,patch);await refreshAll();showToast('Comprovante rejeitado. Usuário será notificado.');renderAdmin();renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-
-async function adminAddItem(){
-  const name=document.getElementById('newItemName').value.trim();
-  const size=document.getElementById('newItemSize').value.trim()||'Único';
-  const price=parseFloat(document.getElementById('newItemPrice').value)||0;
-  const cat=document.getElementById('newItemCat').value;
-  if(!name){showToast('Informe o nome do item!');return;}
-  const btn=document.getElementById('btnAddItem');btn.disabled=true;btn.textContent='Salvando...';
-  try{await sbPost('items',[{name,size,price,cat}]);await refreshAll();document.getElementById('newItemName').value='';document.getElementById('newItemSize').value='';document.getElementById('newItemPrice').value='';showToast('Item adicionado! ✨');renderAdmin();renderAll();}
-  catch(e){showToast('Erro ao salvar.');console.error(e);}
-  btn.disabled=false;btn.textContent='Adicionar item ✨';
-}
-async function adminDelItem(id){
-  if(!confirm('Remover este item?'))return;
-  try{await sbDelete('items',`id=eq.${id}`);await refreshAll();showToast('Item removido!');renderAdmin();renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-async function adminResetItem(id){
-  const item=allItems.find(i=>i.id===id);
-  if(isItemLocked(item)){showToast('Item já pago. Use o painel para gerenciar.');return;}
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshAll();showToast('Item liberado!');renderAdmin();renderAll();}
-  catch(e){showToast('Erro.');console.error(e);}
-}
-async function adminAddUser(){
-  const name=document.getElementById('newUserName').value.trim();
-  const pass=document.getElementById('newUserPass').value.trim();
-  const isAdmin=document.getElementById('newUserAdmin').checked;
-  if(!name||!pass){showToast('Preencha nome e senha!');return;}
-  if(allUsers.find(u=>u.name.toLowerCase()===name.toLowerCase())){showToast('Usuário já existe!');return;}
-  const btn=document.getElementById('btnAddUser');btn.disabled=true;btn.textContent='Salvando...';
-  try{await sbPost('users',[{name,pass,is_admin:isAdmin}]);await refreshAll();document.getElementById('newUserName').value='';document.getElementById('newUserPass').value='';document.getElementById('newUserAdmin').checked=false;showToast(`"${name}" cadastrado!${isAdmin?' 👑':''} 🎉`);renderAdmin();}
-  catch(e){showToast('Erro ao salvar.');console.error(e);}
-  btn.disabled=false;btn.textContent='Cadastrar usuário ✨';
-}
-async function adminDelUser(name){
-  const target=allUsers.find(u=>u.name===name);
-  if(target&&target.is_admin&&allUsers.filter(u=>u.is_admin).length<=1){showToast('Não é possível remover o único admin!');return;}
-  if(!confirm(`Remover "${name}"?`))return;
-  try{
-    const theirItems=allItems.filter(i=>i.taken_by===name||i.split_with===name);
-    await Promise.all(theirItems.map(i=>sbPatch('items',`id=eq.${i.id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null})));
-    await sbDelete('users',`name=eq.${encodeURIComponent(name)}`);
-    await refreshAll();showToast('Usuário removido!');renderAdmin();renderAll();
-  }catch(e){showToast('Erro.');console.error(e);}
-}
-
-// modal
-function openModal(url,title){
-  document.getElementById('modalTitle').textContent=title;
-  document.getElementById('modalImg').src=url;
-  document.getElementById('modalOverlay').classList.remove('hidden');
-}
-function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');}
-
-function copyPix(){navigator.clipboard.writeText('063.728.353-80').then(()=>showToast('Chave Pix copiada! 📋')).catch(()=>showToast('Chave: 063.728.353-80'));}
-function showLoading(msg='Carregando...'){const o=document.getElementById('loadingOverlay');o.querySelector('p').textContent=msg;o.classList.remove('hidden');}
-function hideLoading(){document.getElementById('loadingOverlay').classList.add('hidden');}
-let toastTimer=null;
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
-
-document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPass').focus();});
-
-(async function boot(){
-  await initDB();
-  const s=sessionStorage.getItem('cha_ian_session');
-  if(s){
-    try{
-      const d=JSON.parse(s);
-      const rows=await sbGet('users',`name=eq.${encodeURIComponent(d.name)}&pass=eq.${encodeURIComponent(d.pass)}&select=*`);
-      if(rows.length){currentUser=rows[0];await loadData();showMain();return;}
-    }catch{}
-  }
-  hideLoading();
 })();
 </script>
 </body>
