@@ -255,6 +255,34 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .meus-addr-box{background:var(--blue-light);border-radius:12px;padding:1rem;border:1.5px solid var(--blue);margin-top:0.2rem}
 .meus-addr-box .pix-label{font-size:0.75rem;color:#1e40af;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem}
 .meus-addr-box .addr{font-size:0.85rem;color:#1e3a8a;font-weight:600;line-height:1.6}
+
+/* chat fab */
+.chat-fab{position:fixed;bottom:2rem;left:1.5rem;z-index:50;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(20,184,166,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s;position:fixed}
+.chat-fab:hover{transform:scale(1.1)}
+.chat-fab-emoji{font-size:1.8rem;line-height:1}
+.chat-pulse{position:absolute;top:2px;right:2px;width:14px;height:14px;background:#10b981;border-radius:50%;border:2px solid white;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:0.7}}
+.chat-window{position:fixed;bottom:6rem;left:1.5rem;width:320px;max-height:480px;background:var(--white);border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,0.18);border:1.5px solid var(--border);z-index:51;display:flex;flex-direction:column;overflow:hidden;transition:opacity 0.2s,transform 0.2s}
+.chat-window.hidden{opacity:0;pointer-events:none;transform:translateY(16px) scale(0.97)}
+.chat-header{background:linear-gradient(135deg,#14b8a6,#06b6d4);padding:0.9rem 1rem;display:flex;align-items:center;justify-content:space-between}
+.chat-header-left{display:flex;align-items:center;gap:0.7rem}
+.chat-avatar{width:38px;height:38px;background:rgba(255,255,255,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.chat-title{font-weight:800;color:white;font-size:0.95rem}
+.chat-subtitle{font-size:0.72rem;color:rgba(255,255,255,0.85);font-weight:600}
+.chat-close{background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:0.85rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.chat-close:hover{background:rgba(255,255,255,0.35)}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.6rem;min-height:200px;max-height:300px}
+.chat-bubble{max-width:85%;padding:0.6rem 0.85rem;border-radius:16px;font-size:0.85rem;font-weight:600;line-height:1.4;word-break:break-word}
+.chat-bubble.ian{background:linear-gradient(135deg,#ccfbf1,#cffafe);color:#134e4a;border-bottom-left-radius:4px;align-self:flex-start}
+.chat-bubble.user{background:linear-gradient(135deg,#14b8a6,#06b6d4);color:white;border-bottom-right-radius:4px;align-self:flex-end}
+.chat-bubble.typing{background:var(--cream);color:var(--muted);font-style:italic;align-self:flex-start;border-bottom-left-radius:4px}
+.chat-input-row{display:flex;gap:0.5rem;padding:0.75rem;border-top:1.5px solid var(--border);background:var(--cream)}
+.chat-input-row input{flex:1;padding:0.55rem 0.85rem;border:1.5px solid var(--border);border-radius:99px;font-family:'Nunito',sans-serif;font-size:0.85rem;color:var(--text);background:var(--white);outline:none}
+.chat-input-row input:focus{border-color:#14b8a6}
+#chatSendBtn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#chatSendBtn:hover{opacity:0.85}
+#chatSendBtn:disabled{opacity:0.4;cursor:not-allowed}
+@media(max-width:400px){.chat-window{width:calc(100vw - 2rem);left:1rem}}
 @media(max-width:600px){
   .header h1{font-size:1.9rem}
   .form-row{grid-template-columns:1fr}
@@ -413,6 +441,39 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
   <span class="cart-badge" id="cartBadge">0</span>
 </button>
 
+<!-- CHAT DO IAN -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Conversar com o Ian" style="display:none">
+  <span class="chat-fab-emoji">👶</span>
+  <span class="chat-pulse"></span>
+</button>
+
+<!-- JANELA DO CHAT -->
+<div class="chat-window hidden" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="chat-avatar">👶</div>
+      <div>
+        <div class="chat-title">Ian Levi</div>
+        <div class="chat-subtitle">Bebê em desenvolvimento · 🌱</div>
+      </div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-bubble ian">
+      Oi! 🍼 Eu sou o Ian Levi, ainda tô quentinho aqui dentro! Pode me mandar mensagem que eu respondo do meu jeito bebezinho 💙
+    </div>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chatInput" placeholder="Manda um oi pro Ian..." maxlength="200">
+    <button id="chatSendBtn" onclick="sendChat()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+        <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <script>
 const SB_URL = '__SB_URL__';
@@ -524,12 +585,13 @@ function showMain(){
   document.getElementById('progressSection').style.display='block';
   const initials=currentUser.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   document.getElementById('navAvatar').textContent=initials;
-  document.getElementById('navName').textContent='Olá, '+currentUser.name.split(' ')[0]+'! 👋';
-  document.getElementById('navRole').textContent=currentUser.is_admin?'Administrador 👑':'Convidado(a)';
+  document.getElementById('navName').textContent='Olá, '+(currentUser.apelido||currentUser.name.split(' ')[0])+'! 👋';  document.getElementById('navRole').textContent=currentUser.is_admin?'Administrador 👑':'Convidado(a)';
   document.getElementById('tab-admin-btn').style.display=currentUser.is_admin?'':'none';
   document.querySelectorAll('.admin-only').forEach(el=>el.style.display=currentUser.is_admin?'':'none');
   const fab=document.getElementById('cartFab');
   if(fab) fab.style.display='flex';
+  const chatFabEl=document.getElementById('chatFab');
+  if(chatFabEl) chatFabEl.style.display='flex';
   renderAll();
 }
 
@@ -544,6 +606,8 @@ function doLogout(){
   document.getElementById('loginError').textContent='';
   activeTab='lista';activeFilter='todos';splitOpenId=null;pixOpenId=null;
   const fab2=document.getElementById('cartFab');if(fab2)fab2.style.display='none';
+  const chatFabEl2=document.getElementById('chatFab');if(chatFabEl2)chatFabEl2.style.display='none';
+  const chatWin=document.getElementById('chatWindow');if(chatWin)chatWin.classList.add('hidden');
 }
 
 async function loadData(){
@@ -664,11 +728,11 @@ function buildCard(item){
   const pl=isSplit?`R$ ${dp.toFixed(2).replace('.',',')} <span style="font-size:0.72rem;color:#7c3aed;font-weight:600">(sua metade)</span>`:`R$ ${Number(item.price).toFixed(2).replace('.',',')}`;
 
   let whoHtml='';
-  if(locked) whoHtml=`<div class="item-who">💚 Presente confirmado!</div>`;
-  else if(isSplitDone) whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div>`;
+  if(locked) whoHtml=`<div class="item-who">💚 Presente confirmado!</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver na minha lista →</button>`;
+  else if(isSplitDone) whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver na minha lista →</button>`;
   else if(isSplitPend) whoHtml=`<div class="item-who">⏳ Convite enviado para ${item.split_with}</div>`;
   else if(isInvited) whoHtml=`<div class="item-who">💌 ${item.taken_by} te convidou para dividir!</div>`;
-  else if(isMine) whoHtml=`<div class="item-who">Você escolheu este 💜</div>`;
+  else if(isMine) whoHtml=`<div class="item-who">Você escolheu este 💜</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver na minha lista →</button>`;
   else if(isTakenOther) whoHtml=`<div class="item-who">Escolhido por ${item.taken_by}</div>`;
 
   let btnHtml='';
@@ -1004,9 +1068,132 @@ document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='
     }catch{}
   }
   hideLoading();
+
+// ============================================================
+// CHAT DO IAN
+// ============================================================
+const OPENROUTER_KEY = '__OPENROUTER_KEY__';
+let chatOpen = false;
+let chatHistory = [];
+let chatLoading = false;
+
+function getWeeksPregnant(){
+  const due = new Date('2026-11-20');
+  const conception = new Date(due.getTime() - 280*24*60*60*1000);
+  const diffMs = new Date() - conception;
+  const weeks = Math.floor(diffMs / (7*24*60*60*1000));
+  return Math.max(1, Math.min(weeks, 42));
+}
+
+function getDevInfo(w){
+  if(w<=8)  return 'estou formando meus órgãos, meu coraçãozinho já bate e tenho o tamanho de um feijãozinho';
+  if(w<=12) return 'já tenho dedinhos, unhinhas e faço movimentos, do tamanho de um limãozinho';
+  if(w<=16) return 'já ouço sons lá fora, tenho sobrancelhinhas e chuto de vez em quando, do tamanho de um abacate';
+  if(w<=20) return 'já ouço a voz da mamãe e do papai, tenho cabelo e fico acordado e dormindo, do tamanho de uma banana';
+  if(w<=24) return 'já tenho impressões digitais únicas, respondo a sons com chutinhos, do tamanho de uma espiga de milho';
+  if(w<=28) return 'já consigo abrir os olhinhos, tenho bastante cabelo e treino respiração, do tamanho de uma berinjela';
+  if(w<=32) return 'estou ganhando gordurinha, meu cérebro se desenvolve muito, do tamanho de uma abóbora';
+  if(w<=36) return 'estou quase pronto, cheinho de gordurinha pra me manter quentinho lá fora, do tamanho de um melão';
+  return 'estou grandinho e pronto para conhecer todo mundo, mal posso esperar para sair daqui!';
+}
+
+function buildSystemPrompt(){
+  const w = getWeeksPregnant();
+  const dev = getDevInfo(w);
+  const u = currentUser || {};
+  const nome = u.apelido || (u.name ? u.name.split(' ')[0] : 'familiar');
+  const parentesco = u.parentesco || 'familiar';
+  return `Você é o Ian Levi, um bebê que ainda está na barriga da mamãe Layara. Você tem ${w} semanas de gestação.
+
+SOBRE VOCÊ:
+- Seu nome é Ian Levi
+- Está na barriga da mamãe Layara e do papai Igor
+- Tem ${w} semanas de gestação — ${dev}
+- Curioso, animado e cheio de personalidade mesmo antes de nascer
+- Já sente chutes, ouve vozes e tem muito amor pra dar
+
+SOBRE QUEM ESTÁ CONVERSANDO:
+- Nome carinhoso: ${nome}
+- Parentesco: ${parentesco}
+- Trate com muito carinho usando o nome carinhoso (ex: "minha voinha", "minha titia Nay")
+
+REGRAS:
+- NUNCA revele a data prevista do nascimento — é surpresa!
+- Se perguntarem quando nasce, diga que é surpresa e que vai aparecer quando estiver pronto
+- Fale como bebê fofo, com amor, emojis 🍼👶💙
+- Respostas curtas, máximo 3-4 frases
+- Fale na primeira pessoa como o Ian
+- Às vezes mencione chutinhos, soluço ou que está dormindo
+- Comente sobre o chá de bebê com carinho
+- Seja sempre alegre e amoroso`;
+}
+
+function toggleChat(){
+  chatOpen = !chatOpen;
+  document.getElementById('chatWindow').classList.toggle('hidden', !chatOpen);
+  if(chatOpen){
+    setTimeout(()=>{
+      document.getElementById('chatInput').focus();
+      scrollChatBottom();
+    },150);
+  }
+}
+
+function scrollChatBottom(){
+  const el=document.getElementById('chatMessages');
+  el.scrollTop=el.scrollHeight;
+}
+
+function addBubble(text, role){
+  const msgs=document.getElementById('chatMessages');
+  const div=document.createElement('div');
+  div.className=`chat-bubble ${role}`;
+  div.textContent=text;
+  msgs.appendChild(div);
+  scrollChatBottom();
+  return div;
+}
+
+async function sendChat(){
+  if(chatLoading) return;
+  const input=document.getElementById('chatInput');
+  const msg=input.value.trim();
+  if(!msg) return;
+  input.value='';
+  addBubble(msg,'user');
+  chatHistory.push({role:'user',content:msg});
+  chatLoading=true;
+  document.getElementById('chatSendBtn').disabled=true;
+  const typing=addBubble('Ian está pensando... 💭','typing');
+  try{
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_KEY,'HTTP-Referer':window.location.href,'X-Title':'Chá do Ian Levi'},
+      body:JSON.stringify({model:'google/gemini-2.0-flash-001',max_tokens:200,messages:[{role:'system',content:buildSystemPrompt()},...chatHistory.slice(-8)]})
+    });
+    const data=await res.json();
+    const reply=data.choices?.[0]?.message?.content||'Oi! 🍼 Tô aqui!';
+    typing.remove();
+    addBubble(reply,'ian');
+    chatHistory.push({role:'assistant',content:reply});
+  }catch(e){
+    typing.remove();
+    addBubble('Ops, tô com soluço aqui dentro! 😅 Tenta de novo!','ian');
+    console.error(e);
+  }
+  chatLoading=false;
+  document.getElementById('chatSendBtn').disabled=false;
+  input.focus();
+}
+
+document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+
 })();
 
 </script>
+
+
+
 <!-- BEBEZINHO DO IAN -->
 <div id="ian-baby" style="position:fixed;z-index:2;pointer-events:none;width:90px;height:90px;left:50px;top:50%;transition:none" aria-hidden="true">
   <svg id="ian-svg" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;overflow:visible">
