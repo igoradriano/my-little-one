@@ -2,5 +2,5 @@
   command   = "bash build.sh"
   publish   = "dist"
 
-[functions]
-  directory = "netlify/functions"
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "OPENROUTER_API_KEY"

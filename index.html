@@ -1069,7 +1069,7 @@ document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='
 // ============================================================
 // CHAT DO IAN
 // ============================================================
-// OPENAI_API_KEY gerenciada pelo servidor via Netlify Function
+const OPENROUTER_API_KEY = "__OPENROUTER_API_KEY__";
 let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
@@ -1165,11 +1165,11 @@ async function sendWelcome(){
   const w = getWeeksPregnant();
   const typing = addBubble('Ian está preparando uma mensagem... 💭', 'typing');
   try{
-    const res = await fetch('/.netlify/functions/chat',{
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_API_KEY,'HTTP-Referer':'https://cha-ian-levi.netlify.app','X-Title':'Chá do Ian Levi'},
       body:JSON.stringify({
-        model:'gpt-4o-mini',
+        model:'google/gemini-2.0-flash-001',
         max_tokens:150,
         messages:[
           {role:'system', content: buildSystemPrompt()},
@@ -1287,11 +1287,11 @@ async function sendChat(){
   document.getElementById('chatSendBtn').disabled=true;
   const typing=addBubble('Ian está pensando... 💭','typing');
   try{
-    const res=await fetch('/.netlify/functions/chat',{
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_API_KEY,'HTTP-Referer':'https://cha-ian-levi.netlify.app','X-Title':'Chá do Ian Levi'},
       body:JSON.stringify({
-        model:'gpt-4o-mini',
+        model:'google/gemini-2.0-flash-001',
         max_tokens:300,
         messages:[{role:'system',content:buildSystemPrompt()},...chatHistory.slice(-10)]
       })

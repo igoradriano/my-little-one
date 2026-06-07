@@ -41,7 +41,7 @@ A web application created to manage Ian Levi's baby shower gift registry. Family
 | ---------- | ---------------------------------------------------------- |
 | Frontend   | HTML + CSS + Vanilla JavaScript                            |
 | Database   | Supabase (PostgreSQL + Storage)                            |
-| AI Chat    | OpenAI API (`gpt-4o-mini`)                                 |
+| AI Chat    | OpenRouter API (`google/gemini-2.0-flash-001`)             |
 | Hosting    | Netlify                                                    |
 | CI/CD      | GitHub → Netlify (automatic deploy on push)                |
 | Build      | `bash build.sh` (injects environment variables into HTML)  |
@@ -67,7 +67,7 @@ cha-ian-levi/
 * GitHub account
 * Supabase account
 * Netlify account
-* OpenAI account (API key from platform.openai.com)
+* OpenRouter account (free API key from openrouter.ai)
 
 ---
 
@@ -161,7 +161,7 @@ update users set parentesco = 'pai do Ian',  apelido = 'Papai'  where name = 'Ig
 * Project URL (e.g. `https://xxxxxxxxxxx.supabase.co`)
 * anon public key
 
-**OpenAI** — generate an API key at [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+**OpenRouter** — create a free account and generate an API key at [openrouter.ai/keys](https://openrouter.ai/keys)
 
 ---
 
@@ -192,7 +192,7 @@ git push -u origin main
 | `SB_KEY`         | Your Supabase anon key        |
 | `ADMIN_NAME`     | Administrator username        |
 | `ADMIN_PASS`     | Administrator password        |
-| `OPENAI_API_KEY` | Your OpenAI API key           |
+| `OPENROUTER_API_KEY` | Your OpenRouter API key   |
 
 4. Click **Deploy site**
 
@@ -315,7 +315,7 @@ The floating 👶 button opens a chat where guests talk to Ian Levi, powered by 
 | Supabase | 500MB DB + 1GB Storage                    | < 10MB              |
 | Netlify  | 100GB Bandwidth + 300 Build Minutes/Month | < 1GB / < 5 min     |
 | GitHub   | Unlimited Public Repositories             | —                   |
-| OpenAI   | Pay-per-use (`gpt-4o-mini`)               | < R$1 total         |
+| OpenRouter | Free tier + pay-per-use                 | ~R$0 total          |
 
 ---
 
