@@ -378,10 +378,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
             </div>
           </div>
         </div>
-        <div class="meus-addr-box">
-          <div class="pix-label">📦 Meu Endereço </div>
-          <div class="addr">Rua Ilha Oregon, 61<br>Condomínio Smart Vista do Sol 1<br>Bloco 22, Apto 304<br>CEP: 69.038-561 — Manaus, AM</div>
-        </div>
+
       </div>
       <div class="section-title">💜 Minha lista de presentes</div>
       <div id="myItemsList"></div>
@@ -473,11 +470,12 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 
 <div class="toast" id="toast"></div>
 <script>
-const  SB_URL="https://ivsziutrxbtotkueddfk.supabase.co"
-const  SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2c3ppdXRyeGJ0b3RrdWVkZGZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2ODI5ODcsImV4cCI6MjA5NjI1ODk4N30.BEntuUqJVrbGmKi8iyJ6PGnltlSoyG9ZXUz8dXf_cxI"
-const  ADMIN_NAME="Igor"
-const  ADMIN_PASS="ian2025"
+const SB_KEY = '__SB_KEY__';
+const SB_URL = '__SB_URL__';
+const ADMIN_NAME = '__ADMIN_NAME__';
+const ADMIN_PASS = '__ADMIN_PASS__';
 const SPLIT_THRESHOLD = 100;
+
 
 
 const H = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
@@ -655,7 +653,13 @@ function switchTab(tab){
 function setFilter(f,el){
   activeFilter=f;splitOpenId=null;pixOpenId=null;
   document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');renderGrid();
+  if(el) el.classList.add('active');
+  else {
+    const map={'todos':0,'disponivel':1,'escolhido':2};
+    const idx=map[f];
+    if(idx!==undefined){const chips=document.querySelectorAll('.filter-chip');if(chips[idx])chips[idx].classList.add('active');}
+  }
+  renderGrid();
 }
 function renderAll(){updateProgress();renderGrid();}
 
@@ -867,7 +871,7 @@ async function unselectItem(id){
   const item=allItems.find(i=>i.id===id);
   if(isItemLocked(item)){showToast('Este item já foi pago e não pode ser removido!');return;}
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Item removido.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Item removido.');renderAll();if(activeTab==='meus')renderMyList();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 
@@ -1070,6 +1074,7 @@ document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='
 // CHAT DO IAN
 // ============================================================
 const OPENROUTER_API_KEY = "__OPENROUTER_API_KEY__";
+
 let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
@@ -1113,12 +1118,14 @@ SOBRE QUEM ESTÁ CONVERSANDO:
 - Trate com muito carinho usando o nome carinhoso
 
 SOBRE SUA FAMÍLIA (use APENAS se perguntado diretamente):
-- Pai: Igor Rodrigues, analista de dados, ama ciência de dados e estuda muito, inclusive investimentos
-- Mãe: Layara Reis, está estudando para ser técnica de enfermagem, comendo muitas frutas, ansiosa para voltar à academia após a gestação
-- Irmão: Lohan Reis, 15 anos, ainda estudando para ter um futuro brilhante
-- Você vai nascer em Manaus, onde mora a família do papai
+- Pai: Igor, analista de dados, ama ciência de dados e estuda muito, inclusive investimentos
+- Mãe: Layara, está estudando para ser técnica de enfermagem, comendo muitas frutas, ansiosa para voltar à academia após a gestação
+- Irmão: Lohan, 15 anos, ainda estudando para ter um futuro brilhante
+- Avós paternos: moram em Manaus, adoram o Ian e estão ansiosos para conhecê-lo ( Avô: Earle e Avó: Adriane)
+- Avós maternos: moram em Limoeiro do Norte - CE, também estão muito ansiosos para conhecer o Ian (Avô(padrasto da mãe): Dedé e Avó: Kelia) e  voinho Lindomar que é o pai da mãe.
+- Você vai nascer em Manaus - AM, onde mora a família do papai
 - A família materna é cearense, de Limoeiro do Norte - CE
-- Você tem um irmãozinho no céu chamado Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza
+- Você tem um irmãozinho no céu chamado Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza, alguns dizem que voce poderia ser a reencarnação dele em um corpinho sem defeitos, mas voce nao tem certeza disso, pois não sem lembra das suas vidas passadas. 
 
 SOBRE O APP (para ajudar a navegar):
 - Aba 🎁 Lista: ver todos os presentes disponíveis e escolher. Itens acima de R$100 podem ser divididos entre duas pessoas
@@ -1136,9 +1143,16 @@ LISTA DE PRESENTES (contexto atual):
 - Outros convidados disponíveis para dividir: ${ctx.users||'nenhum'}
 
 AÇÕES QUE VOCÊ PODE EXECUTAR (quando o usuário pedir):
-Quando o usuário quiser executar uma ação, responda APENAS com um JSON no formato abaixo, sem texto antes ou depois:
+REGRA CRÍTICA: Execute IMEDIATAMENTE sem avisar antes — não diga "vou fazer", "um momentinho" ou "tem certeza?". NUNCA peça confirmação. Responda APENAS com JSON puro, sem texto antes ou depois, SEM blocos de código markdown (proibido usar \`\`\` ou \`\`\`json).
+
+Para UMA ação: {"action":"addItem","itemId":ID}
+Para MÚLTIPLAS ações, SEMPRE use colchetes: [{"action":"addItem","itemId":ID1},{"action":"addItem","itemId":ID2}]
+NUNCA retorne múltiplos JSONs sem colchetes.
+
+Ações disponíveis:
 {"action":"addItem","itemId":ID}           — adicionar item à lista
-{"action":"removeItem","itemId":ID}        — remover item da lista  
+{"action":"removeItem","itemId":ID}        — remover item da lista
+{"action":"clearMyList"}                   — REMOVER TODOS os itens da lista do usuário de uma vez (use quando pedir "limpar tudo", "remover todos", "tirar tudo")
 {"action":"splitItem","itemId":ID,"partner":"NOME"} — dividir item com alguém
 {"action":"acceptSplit","itemId":ID}       — aceitar convite de divisão
 {"action":"refuseSplit","itemId":ID}       — recusar convite de divisão
@@ -1146,7 +1160,12 @@ Quando o usuário quiser executar uma ação, responda APENAS com um JSON no for
 {"action":"showAvailable"}                 — mostrar itens disponíveis
 {"action":"navigate","tab":"lista"|"meus"} — navegar para uma aba
 
-Sempre confirme a ação com uma mensagem fofa após executar. Se não tiver certeza do que o usuário quer, pergunte antes de agir.
+REGRAS DE EXECUÇÃO:
+- Execute SEMPRE sem pedir confirmação, mesmo para remoções
+- "limpar lista", "remover todos", "tirar tudo" → use clearMyList imediatamente
+- "remover X" onde X é nome do item → use removeItem com o id correspondente da lista "Seus presentes"
+- Se o usuário pedir múltiplos itens → emita múltiplas ações em um único array JSON
+- NUNCA pergunte qual item — use os IDs da lista "Seus presentes" no contexto acima
 
 REGRAS:
 - NUNCA revele a data prevista do nascimento — é surpresa!
@@ -1169,7 +1188,7 @@ async function sendWelcome(){
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_API_KEY,'HTTP-Referer':'https://cha-ian-levi.netlify.app','X-Title':'Chá do Ian Levi'},
       body:JSON.stringify({
-        model:'google/gemini-2.0-flash-001',
+        model:'google/gemini-2.5-flash-lite',
         max_tokens:150,
         messages:[
           {role:'system', content: buildSystemPrompt()},
@@ -1221,43 +1240,89 @@ function addBubble(text, role){
 }
 
 // ---- Agent action executor ----
-async function executeAction(action, confirmMsg){
-  const id = action.itemId;
+// Tabs permitidas para navigate (nunca expõe admin pelo agente)
+const AGENT_ALLOWED_TABS = new Set(['lista','meus']);
+
+async function executeAction(action){
+  // Garante dados frescos antes de qualquer ação destrutiva
+  if(['addItem','removeItem','splitItem','acceptSplit','refuseSplit'].includes(action.action)){
+    await refreshItems();
+  }
+  const id = Number(action.itemId); // normaliza para número
   const item = allItems.find(i=>i.id===id);
   try{
     if(action.action==='addItem'){
-      if(!item||item.taken_by){ return '❌ Item não disponível para escolha.'; }
+      // Bloqueia: item inexistente, já tomado por qualquer pessoa, ou o próprio usuário já tem
+      if(!item){ return {type:'msg',msg:'❌ Item não encontrado.'}; }
+      if(item.taken_by){ return {type:'msg',msg:`❌ O item "${item.name}" já foi escolhido por alguém.`}; }
+      if(item.split_with===currentUser.name){ return {type:'msg',msg:`❌ Você já tem um convite pendente para "${item.name}".`}; }
       await selectAlone(id);
-      return confirmMsg || `Adicionei o ${item.name} na sua lista! 🎁💙`;
+      await refreshItems(); renderAll();
+      return {type:'add',name:item.name};
     }
     if(action.action==='removeItem'){
-      if(!item||item.taken_by!==currentUser.name){ return '❌ Esse item não está na sua lista.'; }
-      await unselectItem(id);
-      return confirmMsg || `Removi o ${item.name} da sua lista 💨`;
+      if(!item||item.taken_by!==currentUser.name){ return {type:'msg',msg:'❌ Esse item não está na sua lista.'}; }
+      if(item.pix_status==='enviado'||item.pix_status==='confirmado'){
+        return {type:'msg',msg:`❌ Não posso remover "${item.name}" — já tem comprovante enviado ou pagamento confirmado.`};
+      }
+      if(isItemLocked(item)){ return {type:'msg',msg:`❌ "${item.name}" já foi pago e não pode ser removido.`}; }
+      // Chama sbPatch diretamente para ter controle do resultado (unselectItem não retorna erro)
+      await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});
+      await refreshItems(); renderAll();
+      if(activeTab==='meus') renderMyList();
+      return {type:'remove',name:item.name};
+    }
+    if(action.action==='clearMyList'){
+      // Remove todos os itens do usuário que não estão pagos/com comprovante
+      const myItems = allItems.filter(i=>
+        i.taken_by===currentUser.name &&
+        i.pix_status!=='enviado' && i.pix_status!=='confirmado' &&
+        !isItemLocked(i)
+      );
+      if(!myItems.length){ return {type:'msg',msg:'Sua lista já está vazia ou todos os itens têm pagamento em andamento! 🎁'}; }
+      for(const it of myItems){
+        await sbPatch('items',`id=eq.${it.id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});
+      }
+      await refreshItems(); renderAll();
+      if(activeTab==='meus') renderMyList();
+      return {type:'msg',msg:`Removi ${myItems.length} ${myItems.length===1?'item':'itens'} da sua lista! 💨`};
     }
     if(action.action==='splitItem'){
-      if(!item||item.taken_by){ return '❌ Item não disponível.'; }
-      const partner = allUsers.find(u=>u.name.toLowerCase()===action.partner.toLowerCase()||( u.apelido&&u.apelido.toLowerCase()===action.partner.toLowerCase()));
-      if(!partner){ return `❌ Não encontrei ninguém com esse nome. Os convidados disponíveis são: ${allUsers.filter(u=>u.name!==currentUser.name).map(u=>u.name).join(', ')}`; }
-      if(Number(item.price)<=100){ return '❌ Só é possível dividir itens acima de R$100.'; }
-      // simulate confirmSplit
+      if(!item){ return {type:'msg',msg:'❌ Item não encontrado.'}; }
+      if(item.taken_by){ return {type:'msg',msg:`❌ O item "${item.name}" já foi escolhido.`}; }
+      if(Number(item.price)<=SPLIT_THRESHOLD){ return {type:'msg',msg:`❌ Só é possível dividir itens acima de R$${SPLIT_THRESHOLD},00.`}; }
+      if(!action.partner){ return {type:'msg',msg:'❌ Informe o nome do convidado para dividir.'}; }
+      const partnerName = String(action.partner).trim();
+      const partner = allUsers.find(u=>
+        u.name.toLowerCase()===partnerName.toLowerCase()||
+        (u.apelido&&u.apelido.toLowerCase()===partnerName.toLowerCase())
+      );
+      if(!partner){ return {type:'msg',msg:`❌ Não encontrei "${partnerName}". Convidados disponíveis: ${allUsers.filter(u=>u.name!==currentUser.name).map(u=>u.apelido||u.name).join(', ')}`}; }
+      if(partner.name===currentUser.name){ return {type:'msg',msg:'❌ Você não pode dividir um item com você mesmo.'}; }
       await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:partner.name,split_status:'pending',pix_status:null,pix_status_split:null,taken_at:new Date().toISOString()});
       await refreshItems(); renderAll();
-      return confirmMsg || `Enviei o convite para ${partner.apelido||partner.name} dividir o ${item.name}! 💌`;
+      return {type:'msg',msg:`Enviei o convite para ${partner.apelido||partner.name} dividir o ${item.name}! 💌`};
     }
     if(action.action==='acceptSplit'){
-      if(!item||item.split_with!==currentUser.name||item.split_status!=='pending'){ return '❌ Não há convite pendente para esse item.'; }
+      if(!item){ return {type:'msg',msg:'❌ Item não encontrado.'}; }
+      if(item.split_with!==currentUser.name||item.split_status!=='pending'){ return {type:'msg',msg:'❌ Não há convite pendente para esse item.'}; }
+      if(isItemLocked(item)){ return {type:'msg',msg:'❌ Este item já foi pago.'}; }
       await acceptSplit(id);
-      return confirmMsg || `Aceitei a divisão do ${item.name}! 💚`;
+      await refreshItems(); renderAll();
+      return {type:'msg',msg:`Aceitei a divisão do ${item.name}! 💚`};
     }
     if(action.action==='refuseSplit'){
-      if(!item||item.split_with!==currentUser.name||item.split_status!=='pending'){ return '❌ Não há convite pendente para esse item.'; }
+      if(!item){ return {type:'msg',msg:'❌ Item não encontrado.'}; }
+      if(item.split_with!==currentUser.name||item.split_status!=='pending'){ return {type:'msg',msg:'❌ Não há convite pendente para esse item.'}; }
       await refuseSplit(id);
-      return confirmMsg || `Recusei o convite do ${item.name}. O item voltou para disponível.`;
+      await refreshItems(); renderAll();
+      return {type:'msg',msg:`Recusei o convite do ${item.name}. O item voltou para disponível.`};
     }
     if(action.action==='navigate'){
-      switchTab(action.tab);
-      return null; // no bubble needed, just navigate
+      const tab = String(action.tab||'').toLowerCase();
+      if(!AGENT_ALLOWED_TABS.has(tab)){ return {type:'msg',msg:`❌ Aba inválida: "${tab}".`}; }
+      switchTab(tab);
+      return null;
     }
     if(action.action==='showMyList'){
       switchTab('meus');
@@ -1265,12 +1330,12 @@ async function executeAction(action, confirmMsg){
     }
     if(action.action==='showAvailable'){
       switchTab('lista');
-      setFilter('disponivel', document.querySelector('.filter-chip:nth-child(2)'));
+      setFilter('disponivel', null);
       return null;
     }
   }catch(e){
     console.error('Action error:', e);
-    return '❌ Ops, tive um problema ao executar essa ação. Tenta de novo!';
+    return {type:'msg',msg:'❌ Ops, tive um problema ao executar essa ação. Tenta de novo!'};
   }
   return null;
 }
@@ -1291,7 +1356,7 @@ async function sendChat(){
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_API_KEY,'HTTP-Referer':'https://cha-ian-levi.netlify.app','X-Title':'Chá do Ian Levi'},
       body:JSON.stringify({
-        model:'google/gemini-2.0-flash-001',
+        model:'google/gemini-2.5-flash-lite',
         max_tokens:300,
         messages:[{role:'system',content:buildSystemPrompt()},...chatHistory.slice(-10)]
       })
@@ -1300,18 +1365,93 @@ async function sendChat(){
     const reply=data.choices?.[0]?.message?.content||'Oi! 🍼 Tô aqui!';
     typing.remove();
 
-    // Try to parse as action JSON
-    const trimmed=reply.trim();
-    if(trimmed.startsWith('{')){
+    // ── Extração robusta de ações JSON do reply do modelo ────────────────────
+    // Lida com: texto antes/depois, blocos markdown, múltiplos blocos separados
+    // por newline, objetos sem colchetes de array, e qualquer combinação disso.
+    function extractActions(raw) {
+      let s = raw.trim();
+      // Remove marcadores de bloco markdown preservando conteúdo interno
+      s = s.replace(/```(?:json)?\s*([\s\S]*?)```/gi, '$1');
+      const found = [];
+      // Encontra todos os blocos JSON (objeto ou array) no texto
+      const jsonPattern = /(\[[\s\S]*?\]|\{[\s\S]*?\})/g;
+      let m;
+      while ((m = jsonPattern.exec(s)) !== null) {
+        try {
+          const parsed = JSON.parse(m[1]);
+          const arr = Array.isArray(parsed) ? parsed : [parsed];
+          // Aceita apenas objetos com a chave "action" (descarta JSON irrelevante)
+          arr.filter(a => a && typeof a.action === 'string').forEach(a => found.push(a));
+        } catch(_) { /* bloco malformado, ignora */ }
+      }
+      return found;
+    }
+
+    const actions = extractActions(reply);
+
+    if(actions.length > 0){
       try{
-        const action=JSON.parse(trimmed);
-        const result=await executeAction(action);
-        if(result){
-          addBubble(result,'ian');
-          chatHistory.push({role:'assistant',content:result});
+        const results=[];
+        for(const action of actions){
+          const result=await executeAction(action);
+          if(result) results.push(result);
+        }
+        // Refresh final após todas as ações
+        await refreshItems();
+        renderAll();
+        if(activeTab==='meus') renderMyList();
+
+        const validResults=results.filter(Boolean);
+        if(validResults.length){
+          let confirmMsg;
+          if(validResults.length===1){
+            const r=validResults[0];
+            if(r&&r.type==='add') confirmMsg=`Adicionei ${r.name} na sua lista! 🎁💙`;
+            else if(r&&r.type==='remove') confirmMsg=`Removi ${r.name} da sua lista! 💨`;
+            else if(r&&r.type==='msg') confirmMsg=r.msg;
+            else confirmMsg=typeof r==='string'?r:(r.msg||'');
+          } else {
+            const adicionados=validResults.filter(r=>r&&r.type==='add').map(r=>r.name);
+            const removidos=validResults.filter(r=>r&&r.type==='remove').map(r=>r.name);
+            const msgs=validResults.filter(r=>r&&r.type==='msg').map(r=>r.msg);
+            const partes=[];
+            if(adicionados.length){
+              const lista=adicionados.length>1?adicionados.slice(0,-1).join(', ')+' e '+adicionados[adicionados.length-1]:adicionados[0];
+              partes.push(`Adicionei ${lista} na sua lista! 🎁💙`);
+            }
+            if(removidos.length){
+              const lista=removidos.length>1?removidos.slice(0,-1).join(', ')+' e '+removidos[removidos.length-1]:removidos[0];
+              partes.push(`Removi ${lista} da sua lista! 💨`);
+            }
+            msgs.forEach(m=>partes.push(m));
+            confirmMsg=partes.join(' ');
+          }
+          if(confirmMsg){
+            addBubble(confirmMsg,'ian');
+            chatHistory.push({role:'assistant',content:confirmMsg});
+          }
+        } else {
+          // Ações de navegação — follow-up automático
+          const followRes=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_API_KEY,'HTTP-Referer':'https://cha-ian-levi.netlify.app','X-Title':'Chá do Ian Levi'},
+            body:JSON.stringify({
+              model:'google/gemini-2.5-flash-lite',
+              max_tokens:150,
+              messages:[
+                {role:'system',content:buildSystemPrompt()},
+                ...chatHistory.slice(-8),
+                {role:'assistant',content:'[executei a ação solicitada]'},
+                {role:'user',content:'Confirme o que fez em 1-2 frases fofas.'}
+              ]
+            })
+          });
+          const followData=await followRes.json();
+          const followReply=followData.choices?.[0]?.message?.content||'Pronto! 💙🍼';
+          addBubble(followReply,'ian');
+          chatHistory.push({role:'assistant',content:followReply});
         }
       }catch(e){
-        // Not valid JSON, treat as normal reply
         addBubble(reply,'ian');
         chatHistory.push({role:'assistant',content:reply});
       }
