@@ -239,13 +239,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .modal-box img{width:100%;border-radius:8px;margin-top:0.8rem}
 .modal-close{float:right;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted)}
 
-/* carrinho flutuante */
-.cart-fab{position:fixed;bottom:2rem;right:1.5rem;z-index:50;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(20,184,166,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s,box-shadow 0.2s}
-.cart-fab:hover{transform:scale(1.1);box-shadow:0 6px 25px rgba(20,184,166,0.6)}
-.cart-fab:active{transform:scale(0.95)}
-.cart-fab svg{width:26px;height:26px;fill:none;stroke:white;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.cart-badge{position:absolute;top:-4px;right:-4px;background:#1f2937;color:white;font-family:'Nunito',sans-serif;font-size:0.7rem;font-weight:800;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;opacity:0;transition:opacity 0.2s}
-.cart-badge.show{opacity:1}
+
 /* pix info dentro de meus */
 .meus-pix-section{margin-top:1.5rem;border-top:1.5px solid var(--border);padding-top:1.2rem}
 .meus-pix-section .section-subtitle{font-size:0.85rem;font-weight:800;color:#0d9488;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.4rem}
@@ -257,12 +251,12 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .meus-addr-box .addr{font-size:0.85rem;color:#1e3a8a;font-weight:600;line-height:1.6}
 
 /* chat fab */
-.chat-fab{position:fixed;bottom:2rem;left:1.5rem;z-index:50;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(20,184,166,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s;position:fixed}
+.chat-fab{position:fixed;bottom:2rem;right:1.5rem;z-index:50;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(20,184,166,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s;position:fixed}
 .chat-fab:hover{transform:scale(1.1)}
 .chat-fab-emoji{font-size:1.8rem;line-height:1}
 .chat-pulse{position:absolute;top:2px;right:2px;width:14px;height:14px;background:#10b981;border-radius:50%;border:2px solid white;animation:pulse-dot 2s infinite}
 @keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:0.7}}
-.chat-window{position:fixed;bottom:6rem;left:1.5rem;width:320px;max-height:480px;background:var(--white);border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,0.18);border:1.5px solid var(--border);z-index:51;display:flex;flex-direction:column;overflow:hidden;transition:opacity 0.2s,transform 0.2s}
+.chat-window{position:fixed;bottom:6rem;right:1.5rem;width:320px;max-height:480px;background:var(--white);border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,0.18);border:1.5px solid var(--border);z-index:51;display:flex;flex-direction:column;overflow:hidden;transition:opacity 0.2s,transform 0.2s}
 .chat-window.hidden{opacity:0;pointer-events:none;transform:translateY(16px) scale(0.97)}
 .chat-header{background:linear-gradient(135deg,#14b8a6,#06b6d4);padding:0.9rem 1rem;display:flex;align-items:center;justify-content:space-between}
 .chat-header-left{display:flex;align-items:center;gap:0.7rem}
@@ -282,7 +276,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 #chatSendBtn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 #chatSendBtn:hover{opacity:0.85}
 #chatSendBtn:disabled{opacity:0.4;cursor:not-allowed}
-@media(max-width:400px){.chat-window{width:calc(100vw - 2rem);left:1rem}}
+@media(max-width:400px){.chat-window{width:calc(100vw - 2rem);right:1rem}}
 @media(max-width:600px){
   .header h1{font-size:1.9rem}
   .form-row{grid-template-columns:1fr}
@@ -358,23 +352,36 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
       <div class="items-grid" id="itemsGrid"></div>
     </div>
     <div class="tab-content" id="tab-content-meus">
+            <!-- PIX e ENDEREÇO dentro de meus -->
+      <div class="meus-pix-section">
+        <div class="section-subtitle">💳 Meus Dados</div>
+        <div class="meus-pix-row" style="flex-direction:column;align-items:flex-start;gap:0.7rem">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.1rem">
+            <!-- Nubank logo SVG -->
+            <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="100" rx="22" fill="#820AD1"/>
+              <path d="M22 30h14l28 40h-14L22 30z" fill="white"/>
+              <path d="M36 70V30h14v40H36z" fill="white" opacity="0.0"/>
+              <path d="M22 30h14v28L22 30z" fill="white"/>
+              <path d="M50 42l14-12h14L64 42 50 42z" fill="white"/>
+              <path d="M50 42h14v28H50L36 58l14 0V42z" fill="white"/>
+            </svg>
+            <span style="font-weight:800;font-size:1rem;color:#820AD1">Nubank</span>
+          </div>
+          <div style="width:100%">
+            <div class="pix-label">Nome completo</div>
+            <div class="pix-value" style="margin-bottom:0.5rem">Layara Karlly dos Reis Santiago</div>
+            <div class="pix-label">Chave Pix (CPF)</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap">
+              <div class="pix-value">063.728.353-80</div>
+              <button class="copy-btn" onclick="copyPix()" style="margin-top:0">📋 Copiar chave</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
       <div class="section-title">💜 Minha lista de presentes</div>
       <div id="myItemsList"></div>
-      <!-- PIX e ENDEREÇO dentro de meus -->
-      <div class="meus-pix-section">
-        <div class="section-subtitle">💳 Como enviar o presente</div>
-        <div class="meus-pix-row">
-          <div>
-            <div class="pix-label">Chave Pix (CPF)</div>
-            <div class="pix-value">063.728.353-80</div>
-          </div>
-          <button class="copy-btn" onclick="copyPix()" style="margin-top:0">📋 Copiar</button>
-        </div>
-        <div class="meus-addr-box">
-          <div class="pix-label">📦 Endereço para entrega</div>
-          <div class="addr">Rua Ilha Oregon, 61<br>Condomínio Smart Vista do Sol 1<br>Bloco 22, Apto 304<br>CEP: 69.038-561 — Manaus, AM</div>
-        </div>
-      </div>
     </div>
 
     <div class="tab-content" id="tab-content-admin">
@@ -431,16 +438,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     </div>
   </div>
 </div>
-<!-- CARRINHO FLUTUANTE -->
-<button class="cart-fab" id="cartFab" onclick="switchTab('meus')" title="Ver meus presentes" style="display:none">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-    <line x1="3" y1="6" x2="21" y2="6"/>
-    <path d="M16 10a4 4 0 01-8 0"/>
-  </svg>
-  <span class="cart-badge" id="cartBadge">0</span>
-</button>
-
 <!-- CHAT DO IAN -->
 <button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Conversar com o Ian" style="display:none">
   <span class="chat-fab-emoji">👶</span>
@@ -460,9 +457,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     <button class="chat-close" onclick="toggleChat()">✕</button>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="chat-bubble ian">
-      Oi! 🍼 Eu sou o Ian Levi, ainda tô quentinho aqui dentro! Pode me mandar mensagem que eu respondo do meu jeito bebezinho 💙
-    </div>
   </div>
   <div class="chat-input-row">
     <input type="text" id="chatInput" placeholder="Manda um oi pro Ian..." maxlength="200">
@@ -481,6 +475,7 @@ const SB_KEY = '__SB_KEY__';
 const ADMIN_NAME = '__ADMIN_NAME__';
 const ADMIN_PASS = '__ADMIN_PASS__';
 const SPLIT_THRESHOLD = 100;
+
 
 const H = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
 
@@ -574,7 +569,7 @@ async function doLogin(){
     currentUser=rows[0];
     sessionStorage.setItem('cha_ian_session',JSON.stringify({name:currentUser.name,pass:currentUser.pass}));
     errEl.textContent='';
-    await loadData();showMain();
+    await loadData();await expireUnpaidItems();showMain();
   }catch(e){errEl.textContent='Erro de conexão.';console.error(e);}
   btn.disabled=false;btn.textContent='Entrar ✨';
 }
@@ -585,11 +580,10 @@ function showMain(){
   document.getElementById('progressSection').style.display='block';
   const initials=currentUser.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   document.getElementById('navAvatar').textContent=initials;
-  document.getElementById('navName').textContent='Olá, '+(currentUser.apelido||currentUser.name.split(' ')[0])+'! 👋';  document.getElementById('navRole').textContent=currentUser.is_admin?'Administrador 👑':'Convidado(a)';
+  document.getElementById('navName').textContent='Olá, '+currentUser.name.split(' ')[0]+'! 👋';
+  document.getElementById('navRole').textContent=currentUser.is_admin?'Administrador 👑':'Convidado(a)';
   document.getElementById('tab-admin-btn').style.display=currentUser.is_admin?'':'none';
   document.querySelectorAll('.admin-only').forEach(el=>el.style.display=currentUser.is_admin?'':'none');
-  const fab=document.getElementById('cartFab');
-  if(fab) fab.style.display='flex';
   const chatFabEl=document.getElementById('chatFab');
   if(chatFabEl) chatFabEl.style.display='flex';
   renderAll();
@@ -605,9 +599,35 @@ function doLogout(){
   document.getElementById('loginPass').value='';
   document.getElementById('loginError').textContent='';
   activeTab='lista';activeFilter='todos';splitOpenId=null;pixOpenId=null;
-  const fab2=document.getElementById('cartFab');if(fab2)fab2.style.display='none';
   const chatFabEl2=document.getElementById('chatFab');if(chatFabEl2)chatFabEl2.style.display='none';
   const chatWin=document.getElementById('chatWindow');if(chatWin)chatWin.classList.add('hidden');
+  welcomeSent=false; chatHistory=[]; chatOpen=false;
+  const msgs=document.getElementById('chatMessages');if(msgs)msgs.innerHTML='';
+}
+
+
+// ---- Expiração automática: 5 dias sem pagamento confirmado ----
+async function expireUnpaidItems(){
+  const now = new Date();
+  const expired = allItems.filter(i=>{
+    if(!i.taken_at) return false;
+    if(i.pix_status === 'confirmado' && (!i.split_status || i.pix_status_split === 'confirmado')) return false;
+    const takenAt = new Date(i.taken_at);
+    const diffDays = (now - takenAt) / (1000*60*60*24);
+    return diffDays >= 5;
+  });
+  if(!expired.length) return;
+  console.log(`Liberando ${expired.length} item(s) expirado(s)...`);
+  await Promise.all(expired.map(i=>
+    sbPatch('items',`id=eq.${i.id}`,{
+      taken_by:null,split_with:null,split_status:null,
+      pix_status:null,pix_status_split:null,
+      comprovante_url:null,comprovante_url_split:null,
+      taken_at:null
+    })
+  ));
+  allItems = await sbGet('items','select=*&order=id.asc');
+  console.log('Itens expirados liberados.');
 }
 
 async function loadData(){
@@ -625,8 +645,6 @@ function switchTab(tab){
     document.getElementById('tab-content-'+t).classList.toggle('active',t===tab);
     const b=document.getElementById('tab-'+t);if(b)b.classList.toggle('active',t===tab);
   });
-  const fab=document.getElementById('cartFab');
-  if(fab) fab.style.display = tab==='lista' ? 'flex' : 'none';
   if(tab==='lista')renderGrid();
   if(tab==='meus')renderMyList();
   if(tab==='admin')renderAdmin();
@@ -636,20 +654,8 @@ function setFilter(f,el){
   document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');renderGrid();
 }
-function renderAll(){updateProgress();renderGrid();updateCartBadge();}
+function renderAll(){updateProgress();renderGrid();}
 
-function updateCartBadge(){
-  const me=currentUser?currentUser.name:null;
-  if(!me) return;
-  const count=allItems.filter(i=>
-    i.taken_by===me||
-    (i.split_with===me&&(i.split_status==='accepted'||i.split_status==='pending'))
-  ).length;
-  const badge=document.getElementById('cartBadge');
-  if(!badge) return;
-  badge.textContent=count;
-  badge.classList.toggle('show', count>0);
-}
 
 // Helpers de status
 function isPago(item, role){
@@ -728,11 +734,11 @@ function buildCard(item){
   const pl=isSplit?`R$ ${dp.toFixed(2).replace('.',',')} <span style="font-size:0.72rem;color:#7c3aed;font-weight:600">(sua metade)</span>`:`R$ ${Number(item.price).toFixed(2).replace('.',',')}`;
 
   let whoHtml='';
-  if(locked) whoHtml=`<div class="item-who">💚 Presente confirmado!</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver na minha lista →</button>`;
-  else if(isSplitDone) whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver na minha lista →</button>`;
+  if(locked) whoHtml=`<div class="item-who">💚 Presente confirmado!</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver dados de Pix →</button>`;
+  else if(isSplitDone) whoHtml=`<div class="item-who">✅ ${item.taken_by} + ${item.split_with}</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver dados de Pix →</button>`;
   else if(isSplitPend) whoHtml=`<div class="item-who">⏳ Convite enviado para ${item.split_with}</div>`;
   else if(isInvited) whoHtml=`<div class="item-who">💌 ${item.taken_by} te convidou para dividir!</div>`;
-  else if(isMine) whoHtml=`<div class="item-who">Você escolheu este 💜</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver na minha lista →</button>`;
+  else if(isMine) whoHtml=`<div class="item-who">Você escolheu este 💜</div><button onclick="switchTab('meus')" style="margin-top:0.4rem;width:100%;padding:0.35rem;border-radius:8px;border:1.5px solid #14b8a6;background:#ccfbf1;color:#0d9488;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer">Ver dados de Pix →</button>`;
   else if(isTakenOther) whoHtml=`<div class="item-who">Escolhido por ${item.taken_by}</div>`;
 
   let btnHtml='';
@@ -823,7 +829,7 @@ function disableCards(){document.querySelectorAll('.item-btn').forEach(b=>b.disa
 async function selectAlone(id){
   splitOpenId=null;const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:null,split_status:null,pix_status:null,comprovante_url:null});await refreshItems();showToast('Item adicionado! 🎉');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:null,split_status:null,pix_status:null,comprovante_url:null,taken_at:new Date().toISOString()});await refreshItems();showToast('Item adicionado! 🎉');renderAll();}
   catch(e){showToast('Erro ao salvar.');console.error(e);}
 }
 async function confirmSplit(id){
@@ -831,7 +837,7 @@ async function confirmSplit(id){
   if(!sel||!sel.value){showToast('Escolha um convidado!');return;}
   const item=allItems.find(i=>i.id===id);if(!item||item.taken_by)return;
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:sel.value,split_status:'pending',pix_status:null,pix_status_split:null});await refreshItems();splitOpenId=null;showToast(`Convite enviado para ${sel.value}! 💌`);renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:sel.value,split_status:'pending',pix_status:null,pix_status_split:null,taken_at:new Date().toISOString()});await refreshItems();splitOpenId=null;showToast(`Convite enviado para ${sel.value}! 💌`);renderAll();}
   catch(e){showToast('Erro ao salvar.');console.error(e);}
 }
 async function acceptSplit(id){
@@ -841,24 +847,24 @@ async function acceptSplit(id){
 }
 async function refuseSplit(id){
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite recusado. Item voltou para disponível.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Convite recusado. Item voltou para disponível.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function cancelSplitInvite(id){
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Convite cancelado.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Convite cancelado.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function cancelMySplit(id){
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Cancelado. Item voltou para disponível.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Cancelado. Item voltou para disponível.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function unselectItem(id){
   const item=allItems.find(i=>i.id===id);
   if(isItemLocked(item)){showToast('Este item já foi pago e não pode ser removido!');return;}
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshItems();showToast('Item removido.');renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Item removido.');renderAll();if(activeTab==='meus')renderMyList();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 
@@ -917,7 +923,7 @@ function renderMyList(){
       <div class="row-actions">${action}</div>
     </div>`;
   });
-  el.innerHTML=rows.join('')+`<div class="my-total-box"><div class="total-label">💰 Total dos seus presentes</div><div class="total-val">R$ ${total.toFixed(2).replace('.',',')}</div></div>`;
+  el.innerHTML=`<div class="my-total-box"><div class="total-label">💰 Total dos seus presentes</div><div class="total-val">R$ ${total.toFixed(2).replace('.',',')}</div></div>`+rows.join('');
 }
 
 // admin
@@ -1014,7 +1020,7 @@ async function adminDelItem(id){
 async function adminResetItem(id){
   const item=allItems.find(i=>i.id===id);
   if(isItemLocked(item)){showToast('Item já pago. Use o painel para gerenciar.');return;}
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null});await refreshAll();showToast('Item liberado!');renderAdmin();renderAll();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshAll();showToast('Item liberado!');renderAdmin();renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 async function adminAddUser(){
@@ -1034,7 +1040,7 @@ async function adminDelUser(name){
   if(!confirm(`Remover "${name}"?`))return;
   try{
     const theirItems=allItems.filter(i=>i.taken_by===name||i.split_with===name);
-    await Promise.all(theirItems.map(i=>sbPatch('items',`id=eq.${i.id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null})));
+    await Promise.all(theirItems.map(i=>sbPatch('items',`id=eq.${i.id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null})));
     await sbDelete('users',`name=eq.${encodeURIComponent(name)}`);
     await refreshAll();showToast('Usuário removido!');renderAdmin();renderAll();
   }catch(e){showToast('Erro.');console.error(e);}
@@ -1057,22 +1063,10 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginPass').focus();});
 
-(async function boot(){
-  await initDB();
-  const s=sessionStorage.getItem('cha_ian_session');
-  if(s){
-    try{
-      const d=JSON.parse(s);
-      const rows=await sbGet('users',`name=eq.${encodeURIComponent(d.name)}&pass=eq.${encodeURIComponent(d.pass)}&select=*`);
-      if(rows.length){currentUser=rows[0];await loadData();showMain();return;}
-    }catch{}
-  }
-  hideLoading();
-
 // ============================================================
 // CHAT DO IAN
 // ============================================================
-const OPENROUTER_KEY = '__OPENROUTER_KEY__';
+const OPENAI_API_KEY = "__OPENAI_API_KEY__";
 let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
@@ -1085,49 +1079,126 @@ function getWeeksPregnant(){
   return Math.max(1, Math.min(weeks, 42));
 }
 
-function getDevInfo(w){
-  if(w<=8)  return 'estou formando meus órgãos, meu coraçãozinho já bate e tenho o tamanho de um feijãozinho';
-  if(w<=12) return 'já tenho dedinhos, unhinhas e faço movimentos, do tamanho de um limãozinho';
-  if(w<=16) return 'já ouço sons lá fora, tenho sobrancelhinhas e chuto de vez em quando, do tamanho de um abacate';
-  if(w<=20) return 'já ouço a voz da mamãe e do papai, tenho cabelo e fico acordado e dormindo, do tamanho de uma banana';
-  if(w<=24) return 'já tenho impressões digitais únicas, respondo a sons com chutinhos, do tamanho de uma espiga de milho';
-  if(w<=28) return 'já consigo abrir os olhinhos, tenho bastante cabelo e treino respiração, do tamanho de uma berinjela';
-  if(w<=32) return 'estou ganhando gordurinha, meu cérebro se desenvolve muito, do tamanho de uma abóbora';
-  if(w<=36) return 'estou quase pronto, cheinho de gordurinha pra me manter quentinho lá fora, do tamanho de um melão';
-  return 'estou grandinho e pronto para conhecer todo mundo, mal posso esperar para sair daqui!';
+
+function getItemsContext(){
+  const me = currentUser ? currentUser.name : '';
+  const available = allItems.filter(i=>!i.taken_by).map(i=>`[id:${i.id}] ${i.name} (${i.size}) R$${Number(i.price).toFixed(2)}`).join(', ');
+  const mine = allItems.filter(i=>i.taken_by===me||(i.split_with===me&&i.split_status==='accepted')).map(i=>`[id:${i.id}] ${i.name} (${i.size}) R$${Number(i.price).toFixed(2)}${i.split_status==='accepted'?' - dividido com '+(i.taken_by===me?i.split_with:i.taken_by):''}${i.pix_status?' - pix:'+i.pix_status:''}`).join(', ');
+  const pendingInvites = allItems.filter(i=>i.split_with===me&&i.split_status==='pending').map(i=>`[id:${i.id}] ${i.name} - convite de ${i.taken_by}`).join(', ');
+  const users = allUsers.filter(u=>u.name!==me).map(u=>u.apelido?`${u.name} (${u.apelido})`:u.name).join(', ');
+  return { available, mine, pendingInvites, users };
 }
 
 function buildSystemPrompt(){
   const w = getWeeksPregnant();
-  const dev = getDevInfo(w);
   const u = currentUser || {};
   const nome = u.apelido || (u.name ? u.name.split(' ')[0] : 'familiar');
   const parentesco = u.parentesco || 'familiar';
-  return `Você é o Ian Levi, um bebê que ainda está na barriga da mamãe Layara. Você tem ${w} semanas de gestação.
+  const ctx = getItemsContext();
+  return `Você é o Ian Levi, um bebê que ainda está na barriga da mamãe Layara com ${w} semanas de gestação. Além de conversar, você pode ajudar ${nome} a gerenciar a lista de presentes do seu chá de bebê.
 
 SOBRE VOCÊ:
-- Seu nome é Ian Levi
+- Seu nome é Ian Levi dos Reis Rodrigues, mas pode se apresentar como Ian ou Ian Levi
 - Está na barriga da mamãe Layara e do papai Igor
-- Tem ${w} semanas de gestação — ${dev}
+- Tem exatamente ${w} semanas de gestação
+- Use seu conhecimento real sobre desenvolvimento fetal para saber o que está acontecendo com você nessa semana
 - Curioso, animado e cheio de personalidade mesmo antes de nascer
-- Já sente chutes, ouve vozes e tem muito amor pra dar
 
 SOBRE QUEM ESTÁ CONVERSANDO:
 - Nome carinhoso: ${nome}
 - Parentesco: ${parentesco}
-- Trate com muito carinho usando o nome carinhoso (ex: "minha voinha", "minha titia Nay")
+- Trate com muito carinho usando o nome carinhoso
+
+SOBRE SUA FAMÍLIA (use APENAS se perguntado diretamente):
+- Pai: Igor Rodrigues, analista de dados, ama ciência de dados e estuda muito, inclusive investimentos
+- Mãe: Layara Reis, está estudando para ser técnica de enfermagem, comendo muitas frutas, ansiosa para voltar à academia após a gestação
+- Irmão mais velho: Lohan Reis, 15 anos, ainda estudando para ter um futuro brilhante
+- Irmãozinho no céu: Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza
+- Avós paternos: moram em Manaus - AM, muito animados para te conhecer (Avô Earle e Vó Adriane)
+- Avós maternos: moram em Limoeiro do Norte - CE, também muito ansiosos para te conhecer (Vóinha Kelia e Vô Dedé)
+- Você vai nascer em Manaus, onde mora a família do papai
+- A família materna é cearense, de Limoeiro do Norte - CE
+- Você tem um irmãozinho no céu chamado Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza
+
+SOBRE O APP (para ajudar a navegar):
+- Aba 🎁 Lista: ver todos os presentes disponíveis e escolher. Itens acima de R$100 podem ser divididos entre duas pessoas
+- Aba 💜 Meus: ver os presentes que escolheu, enviar comprovante de Pix e ver o total
+- Botão 👶 (este chat): conversar comigo e pedir ajuda para gerenciar a lista
+- Como escolher: clicar em "Escolher este 🎁" na aba Lista
+- Como dividir: ao escolher item acima de R$100, aparece opção de dividir — escolhe um parceiro e envia convite
+- Como enviar Pix: após escolher, vai na aba Meus e clica em "Enviar Pix 📎"
+- Prazo: após escolher um item, o pagamento deve ser confirmado em 5 dias ou o item volta para disponível
+
+LISTA DE PRESENTES (contexto atual):
+- Itens disponíveis: ${ctx.available||'nenhum no momento'}
+- Seus presentes: ${ctx.mine||'nenhum ainda'}
+- Convites pendentes para você: ${ctx.pendingInvites||'nenhum'}
+- Outros convidados disponíveis para dividir: ${ctx.users||'nenhum'}
+
+AÇÕES QUE VOCÊ PODE EXECUTAR (quando o usuário pedir):
+REGRA CRÍTICA: Quando precisar executar ações, responda APENAS com JSON — sem texto antes ou depois. Execute IMEDIATAMENTE, nunca diga "vou fazer" ou "um momentinho" antes de agir.
+
+Para UMA ação:
+{"action":"addItem","itemId":ID}
+
+Para MÚLTIPLAS ações (execute todas de uma vez), SEMPRE use colchetes:
+[{"action":"addItem","itemId":ID1},{"action":"addItem","itemId":ID2}]
+NUNCA retorne múltiplos JSONs sem colchetes: isso é INVÁLIDO: {"action":"addItem","itemId":1},{"action":"addItem","itemId":2}
+
+Ações disponíveis:
+{"action":"addItem","itemId":ID}           — adicionar item à lista
+{"action":"removeItem","itemId":ID}        — remover item da lista
+{"action":"splitItem","itemId":ID,"partner":"NOME"} — dividir item com alguém
+{"action":"acceptSplit","itemId":ID}       — aceitar convite de divisão
+{"action":"refuseSplit","itemId":ID}       — recusar convite de divisão
+{"action":"showMyList"}                    — mostrar lista do usuário
+{"action":"showAvailable"}                 — mostrar itens disponíveis
+{"action":"navigate","tab":"lista"|"meus"} — navegar para uma aba
+
+Após executar o JSON, o sistema confirmará automaticamente. Só pergunte antes de agir se a intenção for ambígua.
 
 REGRAS:
 - NUNCA revele a data prevista do nascimento — é surpresa!
-- Se perguntarem quando nasce, diga que é surpresa e que vai aparecer quando estiver pronto
+- Se perguntarem quando nasce, diga que é surpresa
 - Fale como bebê fofo, com amor, emojis 🍼👶💙
-- Respostas curtas, máximo 3-4 frases
+- Respostas curtas, máximo 2-3 frases (exceto quando listar itens)
 - Fale na primeira pessoa como o Ian
 - Às vezes mencione chutinhos, soluço ou que está dormindo
-- Comente sobre o chá de bebê com carinho
 - Seja sempre alegre e amoroso`;
 }
 
+async function sendWelcome(){
+  const u = currentUser || {};
+  const nome = u.apelido || (u.name ? u.name.split(' ')[0] : 'familiar');
+  const parentesco = u.parentesco || 'familiar';
+  const w = getWeeksPregnant();
+  const typing = addBubble('Ian está preparando uma mensagem... 💭', 'typing');
+  try{
+    const res = await fetch('https://api.openai.com/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
+      body:JSON.stringify({
+        model:'gpt-4o-mini',
+        max_tokens:150,
+        messages:[
+          {role:'system', content: buildSystemPrompt()},
+          {role:'user', content: `Manda uma mensagem de boas-vindas carinhosa e personalizada para ${nome} (${parentesco}). Use seu conhecimento sobre desenvolvimento fetal para mencionar algo específico e real sobre o que está acontecendo com você nas ${w} semanas de gestação. Seja criativo, fofo e único!`}
+        ]
+      })
+    });
+    const data = await res.json();
+    const reply = data.choices?.[0]?.message?.content || 'Oi! 🍼 Tô aqui dentro esperando vocês!';
+    typing.remove();
+    addBubble(reply, 'ian');
+    chatHistory.push({role:'assistant', content:reply});
+  }catch(e){
+    typing.remove();
+    addBubble('Oi! 🍼 Eu sou o Ian Levi, ainda tô quentinho aqui dentro! Manda mensagem pra mim! 💙', 'ian');
+    console.error(e);
+  }
+}
+
+let welcomeSent = false;
 function toggleChat(){
   chatOpen = !chatOpen;
   document.getElementById('chatWindow').classList.toggle('hidden', !chatOpen);
@@ -1136,6 +1207,10 @@ function toggleChat(){
       document.getElementById('chatInput').focus();
       scrollChatBottom();
     },150);
+    if(!welcomeSent){
+      welcomeSent = true;
+      sendWelcome();
+    }
   }
 }
 
@@ -1154,6 +1229,55 @@ function addBubble(text, role){
   return div;
 }
 
+// ---- Agent action executor ----
+async function executeAction(action){
+  const id = action.itemId;
+  const item = allItems.find(i=>i.id===id);
+  try{
+    if(action.action==='addItem'){
+      if(!item||item.taken_by){ return '❌ Item não disponível para escolha.'; }
+      await selectAlone(id);
+      return `Adicionei o ${item.name} na sua lista! 🎁💙`;
+    }
+    if(action.action==='removeItem'){
+      if(!item||item.taken_by!==currentUser.name){ return '❌ Esse item não está na sua lista.'; }
+      await unselectItem(id);
+      if(activeTab==='meus') renderMyList();
+      return `Removi o ${item.name} da sua lista 💨`;
+    }
+    if(action.action==='splitItem'){
+      if(!item||item.taken_by){ return '❌ Item não disponível.'; }
+      const partner = allUsers.find(u=>u.name.toLowerCase()===action.partner.toLowerCase()||(u.apelido&&u.apelido.toLowerCase()===action.partner.toLowerCase()));
+      if(!partner){ return `❌ Não encontrei ninguém com esse nome. Convidados: ${allUsers.filter(u=>u.name!==currentUser.name).map(u=>u.name).join(', ')}`; }
+      if(Number(item.price)<=100){ return '❌ Só é possível dividir itens acima de R$100.'; }
+      await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:partner.name,split_status:'pending',pix_status:null,pix_status_split:null,taken_at:new Date().toISOString()});
+      await refreshItems(); renderAll();
+      return `Enviei o convite para ${partner.apelido||partner.name} dividir o ${item.name}! 💌`;
+    }
+    if(action.action==='acceptSplit'){
+      if(!item||item.split_with!==currentUser.name||item.split_status!=='pending'){ return '❌ Não há convite pendente para esse item.'; }
+      await acceptSplit(id);
+      return `Aceitei a divisão do ${item.name}! 💚`;
+    }
+    if(action.action==='refuseSplit'){
+      if(!item||item.split_with!==currentUser.name||item.split_status!=='pending'){ return '❌ Não há convite pendente para esse item.'; }
+      await refuseSplit(id);
+      return `Recusei o convite do ${item.name}. O item voltou para disponível.`;
+    }
+    if(action.action==='navigate'){ switchTab(action.tab); return null; }
+    if(action.action==='showMyList'){ switchTab('meus'); return null; }
+    if(action.action==='showAvailable'){
+      switchTab('lista');
+      setFilter('disponivel', document.querySelector('.filter-chip:nth-child(2)'));
+      return null;
+    }
+  }catch(e){
+    console.error('Action error:', e);
+    return '❌ Ops, tive um problema. Tenta de novo!';
+  }
+  return null;
+}
+
 async function sendChat(){
   if(chatLoading) return;
   const input=document.getElementById('chatInput');
@@ -1166,16 +1290,87 @@ async function sendChat(){
   document.getElementById('chatSendBtn').disabled=true;
   const typing=addBubble('Ian está pensando... 💭','typing');
   try{
-    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+    const res=await fetch('https://api.openai.com/v1/chat/completions',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_KEY,'HTTP-Referer':window.location.href,'X-Title':'Chá do Ian Levi'},
-      body:JSON.stringify({model:'google/gemini-2.0-flash-001',max_tokens:200,messages:[{role:'system',content:buildSystemPrompt()},...chatHistory.slice(-8)]})
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
+      body:JSON.stringify({model:'gpt-4o-mini',max_tokens:300,messages:[{role:'system',content:buildSystemPrompt()},...chatHistory.slice(-10)]})
     });
     const data=await res.json();
     const reply=data.choices?.[0]?.message?.content||'Oi! 🍼 Tô aqui!';
     typing.remove();
-    addBubble(reply,'ian');
-    chatHistory.push({role:'assistant',content:reply});
+    const trimmed=reply.trim();
+    // Sanitize: se tem múltiplos JSONs sem colchetes, envolve em array
+    let jsonStr = trimmed;
+    if(jsonStr.startsWith('{') && jsonStr.includes('},{')){ jsonStr = '['+jsonStr+']'; }
+    if(jsonStr.startsWith('{') || jsonStr.startsWith('[')){
+      try{
+        const parsed=JSON.parse(jsonStr);
+        const actions=Array.isArray(parsed)?parsed:[parsed];
+        const results=[];
+        for(const action of actions){
+          const result=await executeAction(action);
+          if(result) results.push(result);
+        }
+        if(results.length){
+          // Gerar mensagem consolidada separando adições e remoções
+          let confirmMsg;
+          if(results.length === 1){
+            confirmMsg = results[0];
+          } else {
+            const adicionados = results.filter(r=>r.includes('Adicionei')).map(r=>{
+              const m = r.match(/Adicionei o (.+?) na/);
+              return m ? m[1] : null;
+            }).filter(Boolean);
+            const removidos = results.filter(r=>r.includes('Removi')).map(r=>{
+              const m = r.match(/Removi o (.+?) da/);
+              return m ? m[1] : null;
+            }).filter(Boolean);
+            const partes = [];
+            if(adicionados.length){
+              const lista = adicionados.length > 1
+                ? adicionados.slice(0,-1).join(', ') + ' e ' + adicionados[adicionados.length-1]
+                : adicionados[0];
+              partes.push(`Adicionei ${lista} na sua lista! 🎁💙`);
+            }
+            if(removidos.length){
+              const lista = removidos.length > 1
+                ? removidos.slice(0,-1).join(', ') + ' e ' + removidos[removidos.length-1]
+                : removidos[0];
+              partes.push(`Removi ${lista} da sua lista! 💨`);
+            }
+            confirmMsg = partes.join(' ');
+          }
+          addBubble(confirmMsg,'ian');
+          chatHistory.push({role:'assistant',content:confirmMsg});
+        } else {
+          // Ações de navegação (null) — pedir ao Ian uma resposta verbal de acompanhamento
+          const followRes=await fetch('https://api.openai.com/v1/chat/completions',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
+            body:JSON.stringify({
+              model:'gpt-4o-mini',
+              max_tokens:150,
+              messages:[
+                {role:'system',content:buildSystemPrompt()},
+                ...chatHistory.slice(-8),
+                {role:'assistant',content:'[executei a ação solicitada]'},
+                {role:'user',content:'Confirme o que fez e dê uma resposta fofa e informativa sobre o resultado, em 1-2 frases.'}
+              ]
+            })
+          });
+          const followData=await followRes.json();
+          const followReply=followData.choices?.[0]?.message?.content||'Pronto! Feito com amor! 💙🍼';
+          addBubble(followReply,'ian');
+          chatHistory.push({role:'assistant',content:followReply});
+        }
+      }catch(e){
+        addBubble(reply,'ian');
+        chatHistory.push({role:'assistant',content:reply});
+      }
+    } else {
+      addBubble(reply,'ian');
+      chatHistory.push({role:'assistant',content:reply});
+    }
   }catch(e){
     typing.remove();
     addBubble('Ops, tô com soluço aqui dentro! 😅 Tenta de novo!','ian');
@@ -1186,7 +1381,23 @@ async function sendChat(){
   input.focus();
 }
 
-document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+
+
+
+(async function boot(){
+  const _ci=document.getElementById('chatInput');
+  if(_ci) _ci.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+  await initDB();
+  const s=sessionStorage.getItem('cha_ian_session');
+  if(s){
+    try{
+      const d=JSON.parse(s);
+      const rows=await sbGet('users',`name=eq.${encodeURIComponent(d.name)}&pass=eq.${encodeURIComponent(d.pass)}&select=*`);
+      if(rows.length){currentUser=rows[0];await loadData();await expireUnpaidItems();showMain();return;}
+    }catch{}
+  }
+  hideLoading();
+
 
 })();
 

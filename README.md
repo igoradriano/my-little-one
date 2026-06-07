@@ -1,6 +1,6 @@
 # 🍼 Ian Levi's Baby Shower Gift Registry
 
-A web application created to manage Ian Levi's baby shower gift registry. Family and friends can log in, choose gifts, upload Pix payment receipts, and track payment status in real time.
+A web application created to manage Ian Levi's baby shower gift registry. Family and friends can log in, choose gifts, upload Pix payment receipts, and track payment status in real time — and even chat with Ian himself.
 
 > 💜 **A personal note**
 >
@@ -17,28 +17,34 @@ A web application created to manage Ian Levi's baby shower gift registry. Family
 ## ✨ Features
 
 * **Guest login** — each family member has their own username and password
-* **Gift registry** — gift cards with real-time status updates (available, reserved, paid)
-* **Gift splitting** — gifts costing more than R$100 can be shared between two guests, each paying half
-* **Pix receipt upload** — guests can upload a photo or PDF receipt directly through the application
-* **Payment confirmation** — administrators approve or reject receipts; once paid, an item becomes permanently locked
-* **Admin dashboard** — statistics, user and gift management, and pending receipt review
-* **Floating cart button** — fixed shortcut in the corner of the gift list screen that shows how many items the guest has selected and links directly to their list
-* **"View in my list" button** — appears on each card right after the guest selects an item, for quick navigation
-* **Chat with Ian 👶** — AI-powered chat widget where guests can talk to Ian Levi himself, who responds as a baby still in the womb, knowing his gestational age, developmental stage, the guest's name, nickname, and family relationship
-* **Animated baby** — Ian crawls, falls, yawns, dances, bumps his head on gift cards, climbs cards, and roams freely in the background
+* **Gift registry** — gift cards with real-time status (available, reserved, paid)
+* **Gift splitting** — gifts above R$100 can be shared between two guests, each paying half
+* **Pix receipt upload** — guests upload a photo or PDF receipt directly in the app
+* **Payment confirmation** — admin approves or rejects receipts; once paid, item is permanently locked
+* **5-day auto-release** — items without confirmed payment after 5 days automatically return to available
+* **Admin dashboard** — statistics, user and item management, pending receipt review
+* **"View in my list" shortcut** — appears on each card right after the guest selects an item
+* **Chat with Ian 👶** — AI-powered chat where guests talk to Ian Levi himself, who:
+  * Knows his exact gestational age (calculated in real time)
+  * Describes his own fetal development using real medical knowledge
+  * Knows each guest's name, nickname, and family relationship
+  * Acts as an **agent** — can add/remove items, split gifts, accept/refuse invites, and navigate the app on the guest's behalf
+  * Executes multiple actions at once (e.g. "add 4 items under R$300")
+  * Never reveals the due date — it's a surprise! 🤫
+* **Animated baby** — Ian crawls, falls, yawns, dances, bumps his head on cards, and roams the background
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer    | Technology                                                  |
-| -------- | ----------------------------------------------------------- |
-| Frontend | HTML + CSS + Vanilla JavaScript                             |
-| Database | Supabase (PostgreSQL + Storage)                             |
-| AI Chat  | OpenRouter API (Gemini 2.0 Flash)                           |
-| Hosting  | Netlify                                                     |
-| CI/CD    | GitHub → Netlify (automatic deployment on push)             |
-| Build    | `bash build.sh` (injects environment variables into HTML)   |
+| Layer      | Technology                                                 |
+| ---------- | ---------------------------------------------------------- |
+| Frontend   | HTML + CSS + Vanilla JavaScript                            |
+| Database   | Supabase (PostgreSQL + Storage)                            |
+| AI Chat    | OpenAI API (`gpt-4o-mini`)                                 |
+| Hosting    | Netlify                                                    |
+| CI/CD      | GitHub → Netlify (automatic deploy on push)                |
+| Build      | `bash build.sh` (injects environment variables into HTML)  |
 
 ---
 
@@ -46,9 +52,9 @@ A web application created to manage Ian Levi's baby shower gift registry. Family
 
 ```text
 cha-ian-levi/
-├── index.html      # Complete application with credential placeholders
-├── build.sh        # Build script that replaces placeholders with env vars
-├── netlify.toml    # Netlify configuration (build command + publish directory)
+├── index.html      # Complete app with credential placeholders
+├── build.sh        # Build script — replaces placeholders with env vars
+├── netlify.toml    # Netlify config (build command + publish directory)
 └── README.md
 ```
 
@@ -61,7 +67,7 @@ cha-ian-levi/
 * GitHub account
 * Supabase account
 * Netlify account
-* OpenRouter account (free tier available at openrouter.ai)
+* OpenAI account (API key from platform.openai.com)
 
 ---
 
@@ -78,7 +84,6 @@ cha-ian-levi/
 Open the **SQL Editor** and run:
 
 ```sql
--- Users table
 create table users (
   id uuid primary key default gen_random_uuid(),
   name text unique not null,
@@ -89,11 +94,10 @@ create table users (
   created_at timestamptz default now()
 );
 
--- Items table
 create table items (
   id serial primary key,
   name text not null,
-  size text default 'One Size',
+  size text default 'Único',
   price numeric not null,
   cat text default '💙',
   taken_by text references users(name) on update cascade on delete set null,
@@ -103,6 +107,9 @@ create table items (
   pix_status_split text,
   comprovante_url text,
   comprovante_url_split text,
+  taken_at timestamptz,
+  pix_enviado_at timestamptz,
+  pix_enviado_at_split timestamptz,
   created_at timestamptz default now()
 );
 
@@ -135,38 +142,30 @@ create policy "delete_comprovantes" on storage.objects
 
 ### 4. Populate Guest Nicknames and Family Relationships
 
-The chat with Ian uses each guest's nickname (`apelido`) and family relationship (`parentesco`) to personalize responses. Populate them via SQL:
+The Ian chat uses each guest's `apelido` and `parentesco` to personalize responses:
 
 ```sql
 alter table users add column if not exists parentesco text;
 alter table users add column if not exists apelido text;
 
--- Example
 update users set parentesco = 'mãe do Ian', apelido = 'Mamãe' where name = 'Layara';
-update users set parentesco = 'pai do Ian', apelido = 'Papai' where name = 'Igor';
--- Add the remaining guests as needed
+update users set parentesco = 'pai do Ian',  apelido = 'Papai'  where name = 'Igor';
+-- add remaining guests as needed
 ```
 
 ---
 
-### 5. Retrieve Supabase Credentials
+### 5. Get Credentials
 
-Navigate to **Settings → API** and copy:
+**Supabase** — go to **Settings → API** and copy:
+* Project URL (e.g. `https://xxxxxxxxxxx.supabase.co`)
+* anon public key
 
-* **Project URL** — e.g. `https://xxxxxxxxxxx.supabase.co`
-* **anon public key**
-
----
-
-### 6. Get an OpenRouter API Key
-
-1. Create a free account at [openrouter.ai](https://openrouter.ai)
-2. Go to **Keys** and generate a new API key
-3. The application uses `google/gemini-2.0-flash-001` by default (free tier)
+**OpenAI** — generate an API key at [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
 
 ---
 
-### 7. Push the Repository to GitHub
+### 6. Push to GitHub
 
 ```bash
 git init
@@ -179,32 +178,29 @@ git push -u origin main
 
 ---
 
-### 8. Connect Netlify
+### 7. Connect Netlify
 
-1. Open Netlify → **Add new site → Import an existing project → GitHub**
-2. Select the repository
-3. Netlify automatically detects via `netlify.toml`:
+1. Netlify → **Add new site → Import an existing project → GitHub**
+2. Select the repository — Netlify auto-detects via `netlify.toml`:
    * Build command: `bash build.sh`
    * Publish directory: `dist`
-4. Add the following **Environment Variables** under **Site configuration → Environment variables**:
+3. Add **Environment Variables** under **Site configuration → Environment variables**:
 
-| Key              | Value                            |
-| ---------------- | -------------------------------- |
-| `SB_URL`         | Your Supabase project URL        |
-| `SB_KEY`         | Your Supabase anon key           |
-| `ADMIN_NAME`     | Administrator username           |
-| `ADMIN_PASS`     | Administrator password           |
-| `OPENROUTER_KEY` | Your OpenRouter API key          |
+| Key              | Value                         |
+| ---------------- | ----------------------------- |
+| `SB_URL`         | Your Supabase project URL     |
+| `SB_KEY`         | Your Supabase anon key        |
+| `ADMIN_NAME`     | Administrator username        |
+| `ADMIN_PASS`     | Administrator password        |
+| `OPENAI_API_KEY` | Your OpenAI API key           |
 
-5. Click **Deploy site**
+4. Click **Deploy site**
 
-> ⚠️ Credentials are never stored in the repository. `build.sh` replaces placeholders with environment variable values only during the Netlify build.
+> ⚠️ Credentials are never stored in the repository. `build.sh` replaces placeholders only during the Netlify build.
 
 ---
 
-### 9. Update the Website
-
-Every code change is automatically published:
+### 8. Update the Website
 
 ```bash
 git add .
@@ -212,15 +208,17 @@ git commit -m "describe your change"
 git push
 ```
 
+Netlify detects the push and redeploys automatically.
+
 ---
 
 ## 👥 Managing Users
 
 ### Through the Admin Panel
 
-Log in as an administrator → **⚙️ Admin** tab → **Add User** section.
+Log in as admin → **⚙️ Admin** tab → **Add User** section.
 
-### Through the Supabase SQL Editor (bulk insert)
+### Bulk insert via SQL
 
 ```sql
 insert into users (name, pass, is_admin, parentesco, apelido) values
@@ -236,7 +234,7 @@ do update set pass = excluded.pass, parentesco = excluded.parentesco, apelido = 
 
 ```text
 available → reserved → receipt submitted → paid ✅ (permanently locked)
-                                   ↘ rejected → guest uploads a new receipt
+                                         ↘ rejected → guest resubmits receipt
 ```
 
 | State             | Guest Can Cancel? | Admin Can Release? |
@@ -245,72 +243,79 @@ available → reserved → receipt submitted → paid ✅ (permanently locked)
 | Receipt Submitted | ❌ No              | ✅ Yes              |
 | Paid              | ❌ No              | ❌ No (SQL only)    |
 
-### Reset an item via SQL (for testing or exceptional cases)
+Items without confirmed payment after **5 days** are automatically released when any user logs in.
+
+### Reset an item via SQL
 
 ```sql
--- Reset a specific item by id
+-- Reset specific item
 update items set
   taken_by = null, split_with = null, split_status = null,
   pix_status = null, pix_status_split = null,
-  comprovante_url = null, comprovante_url_split = null
+  comprovante_url = null, comprovante_url_split = null, taken_at = null
 where id = 1;
 
 -- Reset all items
 update items set
   taken_by = null, split_with = null, split_status = null,
   pix_status = null, pix_status_split = null,
-  comprovante_url = null, comprovante_url_split = null;
+  comprovante_url = null, comprovante_url_split = null, taken_at = null;
 ```
 
 ---
 
 ## 💜 Gift Splitting
 
-Items costing more than **R$100.00** can be shared between two guests:
+Items above **R$100.00** can be shared between two guests:
 
-1. Guest A selects a gift and picks a partner from the dropdown
-2. An invitation is sent — Guest B sees a "Invite 💌" badge on the card
+1. Guest A selects a gift and picks a partner
+2. Guest B receives an invite (💌 badge on the card)
 3. Guest B accepts or declines
-   * **Accept** → each guest pays half and uploads their own receipt independently
-   * **Decline** → the item goes back to available
-4. The gift is considered fully paid only when **both receipts** are confirmed by the admin
+   * **Accept** → each pays half and uploads their own receipt independently
+   * **Decline** → item returns to available
+4. Gift is fully paid only when **both receipts** are confirmed
 
 ---
 
-## 👶 Chat with Ian
+## 👶 Chat with Ian — Agent Mode
 
-A floating button (bottom-left corner) opens a chat widget where guests can talk to Ian Levi. Ian responds as a baby still in the womb, powered by the OpenRouter API.
+The floating 👶 button opens a chat where guests talk to Ian Levi, powered by `gpt-4o-mini`.
 
-**What Ian knows:**
-- His exact gestational age (calculated in real time from the due date)
-- His developmental stage for that week (organs forming, size, senses, movements)
-- Who he is talking to — the guest's nickname and family relationship
-- That a baby shower is happening right now
-- **He never reveals the due date** — it's a surprise! 🤫
+**What Ian knows in real time:**
+- Exact gestational age (calculated from due date)
+- Fetal development for that week (using the model's own medical knowledge)
+- Guest's name, nickname, and family relationship
+- Full current state of the gift list (available items, guest's selections, pending invites)
 
-**System prompt is built dynamically** on every message, so Ian always knows the current week even months after deployment.
+**What Ian can do:**
+- Add or remove items from the guest's list
+- Split an item with another guest
+- Accept or refuse a split invite
+- Navigate to a tab
+- Execute multiple actions at once — e.g. *"add 4 items under R$300"* adds all 4 in a single response
+- Never reveals the due date 🤫
+
+**System prompt is rebuilt on every message** so Ian always has up-to-date context.
 
 ---
 
 ## 🔑 Default Credentials
 
-| Field          | Default Value                |
-| -------------- | ---------------------------- |
-| Admin name     | Defined via `ADMIN_NAME`     |
-| Admin password | Defined via `ADMIN_PASS`     |
-
-> Change credentials before sharing the application link.
+| Field          | Default Value              |
+| -------------- | -------------------------- |
+| Admin name     | Defined via `ADMIN_NAME`   |
+| Admin password | Defined via `ADMIN_PASS`   |
 
 ---
 
-## 📦 Free-Tier Services Used
+## 📦 Free-Tier Services
 
-| Service      | Free Tier Limit                             | Estimated Usage  |
-| ------------ | ------------------------------------------- | ---------------- |
-| Supabase     | 500MB DB + 1GB Storage                      | < 10MB           |
-| Netlify      | 100GB Bandwidth + 300 Build Minutes/Month   | < 1GB / < 5 min  |
-| GitHub       | Unlimited Public Repositories               | —                |
-| OpenRouter   | Free credits on registration + free models  | < $0.01 total    |
+| Service  | Free Tier Limit                           | Estimated Usage     |
+| -------- | ----------------------------------------- | ------------------- |
+| Supabase | 500MB DB + 1GB Storage                    | < 10MB              |
+| Netlify  | 100GB Bandwidth + 300 Build Minutes/Month | < 1GB / < 5 min     |
+| GitHub   | Unlimited Public Repositories             | —                   |
+| OpenAI   | Pay-per-use (`gpt-4o-mini`)               | < R$1 total         |
 
 ---
 
