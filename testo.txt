@@ -1,8 +1,0 @@
-const  SB_URL="https://ivsziutrxbtotkueddfk.supabase.co"
-const  SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2c3ppdXRyeGJ0b3RrdWVkZGZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2ODI5ODcsImV4cCI6MjA5NjI1ODk4N30.BEntuUqJVrbGmKi8iyJ6PGnltlSoyG9ZXUz8dXf_cxI"
-const  ADMIN_NAME="Igor"
-const  ADMIN_PASS="ian2025"
-const SPLIT_THRESHOLD = 100;
-
-
-"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"
