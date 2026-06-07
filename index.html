@@ -378,7 +378,10 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
             </div>
           </div>
         </div>
-
+        <div class="meus-addr-box">
+          <div class="pix-label">📦 Meu Endereço </div>
+          <div class="addr">Rua Ilha Oregon, 61<br>Condomínio Smart Vista do Sol 1<br>Bloco 22, Apto 304<br>CEP: 69.038-561 — Manaus, AM</div>
+        </div>
       </div>
       <div class="section-title">💜 Minha lista de presentes</div>
       <div id="myItemsList"></div>
@@ -470,10 +473,10 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 
 <div class="toast" id="toast"></div>
 <script>
-const SB_URL = '__SB_URL__';
-const SB_KEY = '__SB_KEY__';
-const ADMIN_NAME = '__ADMIN_NAME__';
-const ADMIN_PASS = '__ADMIN_PASS__';
+const  SB_URL="https://ivsziutrxbtotkueddfk.supabase.co"
+const  SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2c3ppdXRyeGJ0b3RrdWVkZGZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2ODI5ODcsImV4cCI6MjA5NjI1ODk4N30.BEntuUqJVrbGmKi8iyJ6PGnltlSoyG9ZXUz8dXf_cxI"
+const  ADMIN_NAME="Igor"
+const  ADMIN_PASS="ian2025"
 const SPLIT_THRESHOLD = 100;
 
 
@@ -864,7 +867,7 @@ async function unselectItem(id){
   const item=allItems.find(i=>i.id===id);
   if(isItemLocked(item)){showToast('Este item já foi pago e não pode ser removido!');return;}
   disableCards();
-  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Item removido.');renderAll();if(activeTab==='meus')renderMyList();}
+  try{await sbPatch('items',`id=eq.${id}`,{taken_by:null,split_with:null,split_status:null,pix_status:null,pix_status_split:null,comprovante_url:null,comprovante_url_split:null,taken_at:null});await refreshItems();showToast('Item removido.');renderAll();}
   catch(e){showToast('Erro.');console.error(e);}
 }
 
@@ -1066,7 +1069,7 @@ document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='
 // ============================================================
 // CHAT DO IAN
 // ============================================================
-const OPENAI_API_KEY = "__OPENAI_API_KEY__";
+// OPENAI_API_KEY gerenciada pelo servidor via Netlify Function
 let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
@@ -1112,10 +1115,7 @@ SOBRE QUEM ESTÁ CONVERSANDO:
 SOBRE SUA FAMÍLIA (use APENAS se perguntado diretamente):
 - Pai: Igor Rodrigues, analista de dados, ama ciência de dados e estuda muito, inclusive investimentos
 - Mãe: Layara Reis, está estudando para ser técnica de enfermagem, comendo muitas frutas, ansiosa para voltar à academia após a gestação
-- Irmão mais velho: Lohan Reis, 15 anos, ainda estudando para ter um futuro brilhante
-- Irmãozinho no céu: Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza
-- Avós paternos: moram em Manaus - AM, muito animados para te conhecer (Avô Earle e Vó Adriane)
-- Avós maternos: moram em Limoeiro do Norte - CE, também muito ansiosos para te conhecer (Vóinha Kelia e Vô Dedé)
+- Irmão: Lohan Reis, 15 anos, ainda estudando para ter um futuro brilhante
 - Você vai nascer em Manaus, onde mora a família do papai
 - A família materna é cearense, de Limoeiro do Norte - CE
 - Você tem um irmãozinho no céu chamado Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza
@@ -1136,18 +1136,9 @@ LISTA DE PRESENTES (contexto atual):
 - Outros convidados disponíveis para dividir: ${ctx.users||'nenhum'}
 
 AÇÕES QUE VOCÊ PODE EXECUTAR (quando o usuário pedir):
-REGRA CRÍTICA: Quando precisar executar ações, responda APENAS com JSON — sem texto antes ou depois. Execute IMEDIATAMENTE, nunca diga "vou fazer" ou "um momentinho" antes de agir.
-
-Para UMA ação:
-{"action":"addItem","itemId":ID}
-
-Para MÚLTIPLAS ações (execute todas de uma vez), SEMPRE use colchetes:
-[{"action":"addItem","itemId":ID1},{"action":"addItem","itemId":ID2}]
-NUNCA retorne múltiplos JSONs sem colchetes: isso é INVÁLIDO: {"action":"addItem","itemId":1},{"action":"addItem","itemId":2}
-
-Ações disponíveis:
+Quando o usuário quiser executar uma ação, responda APENAS com um JSON no formato abaixo, sem texto antes ou depois:
 {"action":"addItem","itemId":ID}           — adicionar item à lista
-{"action":"removeItem","itemId":ID}        — remover item da lista
+{"action":"removeItem","itemId":ID}        — remover item da lista  
 {"action":"splitItem","itemId":ID,"partner":"NOME"} — dividir item com alguém
 {"action":"acceptSplit","itemId":ID}       — aceitar convite de divisão
 {"action":"refuseSplit","itemId":ID}       — recusar convite de divisão
@@ -1155,7 +1146,7 @@ Ações disponíveis:
 {"action":"showAvailable"}                 — mostrar itens disponíveis
 {"action":"navigate","tab":"lista"|"meus"} — navegar para uma aba
 
-Após executar o JSON, o sistema confirmará automaticamente. Só pergunte antes de agir se a intenção for ambígua.
+Sempre confirme a ação com uma mensagem fofa após executar. Se não tiver certeza do que o usuário quer, pergunte antes de agir.
 
 REGRAS:
 - NUNCA revele a data prevista do nascimento — é surpresa!
@@ -1174,9 +1165,9 @@ async function sendWelcome(){
   const w = getWeeksPregnant();
   const typing = addBubble('Ian está preparando uma mensagem... 💭', 'typing');
   try{
-    const res = await fetch('https://api.openai.com/v1/chat/completions',{
+    const res = await fetch('/.netlify/functions/chat',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         model:'gpt-4o-mini',
         max_tokens:150,
@@ -1230,42 +1221,48 @@ function addBubble(text, role){
 }
 
 // ---- Agent action executor ----
-async function executeAction(action){
+async function executeAction(action, confirmMsg){
   const id = action.itemId;
   const item = allItems.find(i=>i.id===id);
   try{
     if(action.action==='addItem'){
       if(!item||item.taken_by){ return '❌ Item não disponível para escolha.'; }
       await selectAlone(id);
-      return `Adicionei o ${item.name} na sua lista! 🎁💙`;
+      return confirmMsg || `Adicionei o ${item.name} na sua lista! 🎁💙`;
     }
     if(action.action==='removeItem'){
       if(!item||item.taken_by!==currentUser.name){ return '❌ Esse item não está na sua lista.'; }
       await unselectItem(id);
-      if(activeTab==='meus') renderMyList();
-      return `Removi o ${item.name} da sua lista 💨`;
+      return confirmMsg || `Removi o ${item.name} da sua lista 💨`;
     }
     if(action.action==='splitItem'){
       if(!item||item.taken_by){ return '❌ Item não disponível.'; }
-      const partner = allUsers.find(u=>u.name.toLowerCase()===action.partner.toLowerCase()||(u.apelido&&u.apelido.toLowerCase()===action.partner.toLowerCase()));
-      if(!partner){ return `❌ Não encontrei ninguém com esse nome. Convidados: ${allUsers.filter(u=>u.name!==currentUser.name).map(u=>u.name).join(', ')}`; }
+      const partner = allUsers.find(u=>u.name.toLowerCase()===action.partner.toLowerCase()||( u.apelido&&u.apelido.toLowerCase()===action.partner.toLowerCase()));
+      if(!partner){ return `❌ Não encontrei ninguém com esse nome. Os convidados disponíveis são: ${allUsers.filter(u=>u.name!==currentUser.name).map(u=>u.name).join(', ')}`; }
       if(Number(item.price)<=100){ return '❌ Só é possível dividir itens acima de R$100.'; }
+      // simulate confirmSplit
       await sbPatch('items',`id=eq.${id}`,{taken_by:currentUser.name,split_with:partner.name,split_status:'pending',pix_status:null,pix_status_split:null,taken_at:new Date().toISOString()});
       await refreshItems(); renderAll();
-      return `Enviei o convite para ${partner.apelido||partner.name} dividir o ${item.name}! 💌`;
+      return confirmMsg || `Enviei o convite para ${partner.apelido||partner.name} dividir o ${item.name}! 💌`;
     }
     if(action.action==='acceptSplit'){
       if(!item||item.split_with!==currentUser.name||item.split_status!=='pending'){ return '❌ Não há convite pendente para esse item.'; }
       await acceptSplit(id);
-      return `Aceitei a divisão do ${item.name}! 💚`;
+      return confirmMsg || `Aceitei a divisão do ${item.name}! 💚`;
     }
     if(action.action==='refuseSplit'){
       if(!item||item.split_with!==currentUser.name||item.split_status!=='pending'){ return '❌ Não há convite pendente para esse item.'; }
       await refuseSplit(id);
-      return `Recusei o convite do ${item.name}. O item voltou para disponível.`;
+      return confirmMsg || `Recusei o convite do ${item.name}. O item voltou para disponível.`;
     }
-    if(action.action==='navigate'){ switchTab(action.tab); return null; }
-    if(action.action==='showMyList'){ switchTab('meus'); return null; }
+    if(action.action==='navigate'){
+      switchTab(action.tab);
+      return null; // no bubble needed, just navigate
+    }
+    if(action.action==='showMyList'){
+      switchTab('meus');
+      return null;
+    }
     if(action.action==='showAvailable'){
       switchTab('lista');
       setFilter('disponivel', document.querySelector('.filter-chip:nth-child(2)'));
@@ -1273,7 +1270,7 @@ async function executeAction(action){
     }
   }catch(e){
     console.error('Action error:', e);
-    return '❌ Ops, tive um problema. Tenta de novo!';
+    return '❌ Ops, tive um problema ao executar essa ação. Tenta de novo!';
   }
   return null;
 }
@@ -1290,80 +1287,31 @@ async function sendChat(){
   document.getElementById('chatSendBtn').disabled=true;
   const typing=addBubble('Ian está pensando... 💭','typing');
   try{
-    const res=await fetch('https://api.openai.com/v1/chat/completions',{
+    const res=await fetch('/.netlify/functions/chat',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
-      body:JSON.stringify({model:'gpt-4o-mini',max_tokens:300,messages:[{role:'system',content:buildSystemPrompt()},...chatHistory.slice(-10)]})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'gpt-4o-mini',
+        max_tokens:300,
+        messages:[{role:'system',content:buildSystemPrompt()},...chatHistory.slice(-10)]
+      })
     });
     const data=await res.json();
     const reply=data.choices?.[0]?.message?.content||'Oi! 🍼 Tô aqui!';
     typing.remove();
+
+    // Try to parse as action JSON
     const trimmed=reply.trim();
-    // Sanitize: se tem múltiplos JSONs sem colchetes, envolve em array
-    let jsonStr = trimmed;
-    if(jsonStr.startsWith('{') && jsonStr.includes('},{')){ jsonStr = '['+jsonStr+']'; }
-    if(jsonStr.startsWith('{') || jsonStr.startsWith('[')){
+    if(trimmed.startsWith('{')){
       try{
-        const parsed=JSON.parse(jsonStr);
-        const actions=Array.isArray(parsed)?parsed:[parsed];
-        const results=[];
-        for(const action of actions){
-          const result=await executeAction(action);
-          if(result) results.push(result);
-        }
-        if(results.length){
-          // Gerar mensagem consolidada separando adições e remoções
-          let confirmMsg;
-          if(results.length === 1){
-            confirmMsg = results[0];
-          } else {
-            const adicionados = results.filter(r=>r.includes('Adicionei')).map(r=>{
-              const m = r.match(/Adicionei o (.+?) na/);
-              return m ? m[1] : null;
-            }).filter(Boolean);
-            const removidos = results.filter(r=>r.includes('Removi')).map(r=>{
-              const m = r.match(/Removi o (.+?) da/);
-              return m ? m[1] : null;
-            }).filter(Boolean);
-            const partes = [];
-            if(adicionados.length){
-              const lista = adicionados.length > 1
-                ? adicionados.slice(0,-1).join(', ') + ' e ' + adicionados[adicionados.length-1]
-                : adicionados[0];
-              partes.push(`Adicionei ${lista} na sua lista! 🎁💙`);
-            }
-            if(removidos.length){
-              const lista = removidos.length > 1
-                ? removidos.slice(0,-1).join(', ') + ' e ' + removidos[removidos.length-1]
-                : removidos[0];
-              partes.push(`Removi ${lista} da sua lista! 💨`);
-            }
-            confirmMsg = partes.join(' ');
-          }
-          addBubble(confirmMsg,'ian');
-          chatHistory.push({role:'assistant',content:confirmMsg});
-        } else {
-          // Ações de navegação (null) — pedir ao Ian uma resposta verbal de acompanhamento
-          const followRes=await fetch('https://api.openai.com/v1/chat/completions',{
-            method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
-            body:JSON.stringify({
-              model:'gpt-4o-mini',
-              max_tokens:150,
-              messages:[
-                {role:'system',content:buildSystemPrompt()},
-                ...chatHistory.slice(-8),
-                {role:'assistant',content:'[executei a ação solicitada]'},
-                {role:'user',content:'Confirme o que fez e dê uma resposta fofa e informativa sobre o resultado, em 1-2 frases.'}
-              ]
-            })
-          });
-          const followData=await followRes.json();
-          const followReply=followData.choices?.[0]?.message?.content||'Pronto! Feito com amor! 💙🍼';
-          addBubble(followReply,'ian');
-          chatHistory.push({role:'assistant',content:followReply});
+        const action=JSON.parse(trimmed);
+        const result=await executeAction(action);
+        if(result){
+          addBubble(result,'ian');
+          chatHistory.push({role:'assistant',content:result});
         }
       }catch(e){
+        // Not valid JSON, treat as normal reply
         addBubble(reply,'ian');
         chatHistory.push({role:'assistant',content:reply});
       }
