@@ -250,6 +250,53 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .meus-addr-box .pix-label{font-size:0.75rem;color:#1e40af;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem}
 .meus-addr-box .addr{font-size:0.85rem;color:#1e3a8a;font-weight:600;line-height:1.6}
 
+/* carta da Ozianni */
+.carta-fab{position:fixed;bottom:6.5rem;right:1.5rem;z-index:50;width:auto;height:auto;background:transparent;border:none;cursor:pointer;box-shadow:none;display:none;align-items:center;justify-content:center;padding:0;animation:carta-swing 3.5s ease-in-out infinite}
+.carta-fab:hover .carta-fab-emoji{transform:scale(1.2) rotate(-8deg)}
+@keyframes carta-swing{0%,100%{transform:rotate(-6deg)}25%{transform:rotate(6deg)}50%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+.carta-fab-emoji{font-size:2.4rem;line-height:1;display:block;filter:drop-shadow(0 3px 8px rgba(167,139,250,0.7));transition:transform 0.2s}
+
+/* overlay carta */
+.carta-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0);backdrop-filter:blur(0px);transition:background 0.4s,backdrop-filter 0.4s;pointer-events:none}
+.carta-overlay.open{display:flex;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);pointer-events:all}
+.carta-container{position:relative;width:320px;perspective:800px}
+
+/* envelope */
+.envelope-scene{width:320px;height:200px;position:relative;perspective:900px}
+/* corpo do envelope — clicável, contém o papel dentro */
+.envelope{width:100%;height:100%;position:relative;transform-style:preserve-3d;cursor:pointer}
+.env-body{position:absolute;inset:0;background:linear-gradient(160deg,#fdf6ff,#fce7f3);border-radius:4px 4px 12px 12px;box-shadow:0 8px 40px rgba(0,0,0,0.22);border:1.5px solid #e9d5ff;overflow:hidden;z-index:1}
+/* flap triangular — gira para trás em perspective */
+.env-flap-wrap{position:absolute;top:0;left:0;right:0;height:110px;transform-origin:top center;transform:rotateX(0deg);transition:transform 0.65s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d;z-index:4}
+.env-flap-wrap.opened{transform:rotateX(-178deg)}
+.env-flap-face{position:absolute;inset:0;background:linear-gradient(170deg,#ede9fe,#fce7f3);clip-path:polygon(0 0,100% 0,50% 100%);border-radius:4px 4px 0 0}
+.env-flap-back{position:absolute;inset:0;background:linear-gradient(170deg,#d8b4fe,#fbcfe8);clip-path:polygon(0 0,100% 0,50% 100%);border-radius:4px 4px 0 0;transform:rotateX(180deg) scaleY(-1);backface-visibility:visible;opacity:0.7}
+.env-seal{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);font-size:2rem;z-index:5;transition:opacity 0.25s;pointer-events:none}
+.env-seal.hidden{opacity:0}
+.env-lines{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:6px;width:60%;z-index:2}
+.env-line{height:3px;border-radius:99px;background:linear-gradient(90deg,#c4b5fd,#f9a8d4);opacity:0.5}
+/* papel — começa escondido dentro do envelope, sobe para fora */
+.carta-papel-wrap{position:absolute;left:0;right:0;bottom:0;height:100%;overflow:hidden;z-index:3;pointer-events:none}
+.carta-papel{position:absolute;left:12px;right:12px;bottom:0;background:#fffbff;border-radius:6px 6px 0 0;box-shadow:0 -2px 16px rgba(167,139,250,0.18);padding:1.4rem 1.2rem 1.6rem;font-family:'Nunito',sans-serif;transform:translateY(100%);opacity:0;transition:transform 0.6s cubic-bezier(0.34,1.2,0.64,1),opacity 0.35s ease;pointer-events:none;border:1px solid #f3e8ff}
+.carta-papel.saindo{transform:translateY(-110%) scale(1.02);opacity:1;pointer-events:none}
+/* fase 2 — papel expandido fora do envelope, scrollável */
+.carta-papel-expanded{display:none;position:relative;background:#fffbff;border-radius:12px;box-shadow:0 8px 40px rgba(167,139,250,0.22);padding:1.4rem 1.2rem 1.6rem;font-family:'Nunito',sans-serif;max-height:460px;overflow-y:auto;border:1px solid #f3e8ff;animation:papel-aparece 0.4s cubic-bezier(0.34,1.2,0.64,1) forwards}
+.carta-papel-expanded.visible{display:block}
+@keyframes papel-aparece{0%{opacity:0;transform:translateY(24px) scale(0.95)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.carta-papel-expanded::-webkit-scrollbar{width:4px}
+.carta-papel-expanded::-webkit-scrollbar-thumb{background:#e9d5ff;border-radius:99px}
+.carta-papel::-webkit-scrollbar{width:4px}
+.carta-papel::-webkit-scrollbar-thumb{background:#e9d5ff;border-radius:99px}
+.carta-topo{display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1.5px dashed #e9d5ff}
+.carta-topo-icon{font-size:1.6rem}
+.carta-topo-txt{font-size:0.7rem;color:#a78bfa;font-weight:800;text-transform:uppercase;letter-spacing:0.08em}
+.carta-body{font-size:0.88rem;color:#4c1d95;line-height:1.75;font-weight:600;white-space:pre-wrap}
+.carta-rodape{margin-top:1rem;padding-top:0.75rem;border-top:1.5px dashed #e9d5ff;display:flex;justify-content:flex-end;align-items:center;gap:0.4rem;font-size:0.78rem;color:#a78bfa;font-weight:700}
+.carta-close{position:absolute;top:-12px;right:-12px;width:32px;height:32px;border-radius:50%;background:white;border:1.5px solid #e9d5ff;box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:pointer;font-size:0.85rem;display:flex;align-items:center;justify-content:center;color:#7c3aed;font-weight:800;transition:background 0.15s}
+.carta-close:hover{background:#faf5ff}
+.carta-hint{text-align:center;margin-top:0.6rem;font-size:0.72rem;color:rgba(255,255,255,0.75);font-weight:600;letter-spacing:0.03em;opacity:0;transition:opacity 0.4s 0.8s}
+.carta-hint.visible{opacity:1}
+
 /* chat fab */
 .chat-fab{position:fixed;bottom:2rem;right:1.5rem;z-index:50;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(20,184,166,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s;position:fixed}
 .chat-fab:hover{transform:scale(1.1)}
@@ -438,6 +485,72 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     </div>
   </div>
 </div>
+<!-- CARTA DA OZIANNI -->
+<button class="carta-fab" id="cartaFab" onclick="toggleCarta()" title="Uma cartinha especial 💌" aria-label="Abrir carta">
+  <span class="carta-fab-emoji">💌</span>
+</button>
+
+<div class="carta-overlay" id="cartaOverlay" onclick="fecharCartaOverlay(event)">
+  <div class="carta-container" id="cartaContainer">
+
+    <!-- FASE 1: envelope com papel saindo de dentro -->
+    <div class="envelope-scene" id="envelopeScene">
+      <div class="envelope" id="envelope" onclick="abrirCarta()">
+        <!-- corpo do envelope -->
+        <div class="env-body">
+          <div class="env-lines">
+            <div class="env-line"></div>
+            <div class="env-line" style="width:80%"></div>
+            <div class="env-line" style="width:60%"></div>
+          </div>
+        </div>
+        <!-- papel dentro do envelope, sobe para fora -->
+        <div class="carta-papel-wrap">
+          <div class="carta-papel" id="cartaPapelInner"></div>
+        </div>
+        <!-- flap triangular que gira em 3D -->
+        <div class="env-flap-wrap" id="envFlap">
+          <div class="env-flap-face"></div>
+          <div class="env-flap-back"></div>
+        </div>
+        <div class="env-seal" id="envSeal">💚</div>
+      </div>
+    </div>
+
+    <!-- FASE 2: papel expandido, aparece após sair do envelope -->
+    <div class="carta-papel-expanded" id="cartaPapel">
+      <button class="carta-close" onclick="toggleCarta()" title="Fechar">✕</button>
+      <div class="carta-topo">
+        <span class="carta-topo-icon">💚</span>
+        <span class="carta-topo-txt">Uma mensagem especial do Ian Levi</span>
+      </div>
+      <div class="carta-body">Oi, tia Zizi! 💚
+Não sei se a senhora sabe, mas você é a prima preferida da mamãe. E, depois que o papai te conheceu, você se tornou a favorita dele também.
+Olha que legal! 😄
+
+Acho que foi por causa disso, pelo amor que eles têm por você, que eu resolvi aparecer e te usar como um portal de Deus para comunicar à mamãe e ao papai que eu estava vindo em breve.
+
+Estou achando que você é minha preferida também. 😅
+
+Por tudo isso, por toda essa nossa ligação e pelo amor dos papais por você, eu gostaria de te perguntar algo . . .
+
+Será que em vez de te chamar de tia Zizi, eu poderia te chamar de DINDA? 🥹
+
+Sei que a distância não ajuda muito e que talvez não consigamos nos ver com tanta frequência no meu primeiro aninho de vida, mas a mamãe e o papai estão lutando para que tudo se organize da melhor forma e para que eu possa conviver muito, muito mais com você e com toda a nossa grande família.
+
+E aí, o que me diz? Quer ser minha dinda? 🤍🥹
+
+A mamãe aguarda ansiosamente sua resposta. 💚</div>
+      <div class="carta-rodape">
+        <span>Com todo o meu amor 💚</span>
+        <span>— Ian Levi 👶</span>
+      </div>
+    </div>
+
+    <div class="carta-hint" id="cartaHint">Clique no envelope para abrir 💚</div>
+  </div>
+</div>
+
 <!-- CHAT DO IAN -->
 <button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Conversar com o Ian" style="display:none">
   <span class="chat-fab-emoji">👶</span>
@@ -475,7 +588,6 @@ const SB_URL = '__SB_URL__';
 const ADMIN_NAME = '__ADMIN_NAME__';
 const ADMIN_PASS = '__ADMIN_PASS__';
 const SPLIT_THRESHOLD = 100;
-
 
 
 const H = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
@@ -581,12 +693,15 @@ function showMain(){
   document.getElementById('progressSection').style.display='block';
   const initials=currentUser.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   document.getElementById('navAvatar').textContent=initials;
-  document.getElementById('navName').textContent='Olá, '+currentUser.name.split(' ')[0]+'! 👋';
+  document.getElementById('navName').textContent='Olá, '+(currentUser.apelido||currentUser.name.split(' ')[0])+'! 👋';
   document.getElementById('navRole').textContent=currentUser.is_admin?'Administrador 👑':'Convidado(a)';
   document.getElementById('tab-admin-btn').style.display=currentUser.is_admin?'':'none';
   document.querySelectorAll('.admin-only').forEach(el=>el.style.display=currentUser.is_admin?'':'none');
   const chatFabEl=document.getElementById('chatFab');
   if(chatFabEl) chatFabEl.style.display='flex';
+  // Botão carta — só para Ozianni
+  const cartaFabEl=document.getElementById('cartaFab');
+  if(cartaFabEl) cartaFabEl.style.display=(currentUser&&currentUser.name==='Ozianni')?'flex':'none';
   renderAll();
 }
 
@@ -601,6 +716,8 @@ function doLogout(){
   document.getElementById('loginError').textContent='';
   activeTab='lista';activeFilter='todos';splitOpenId=null;pixOpenId=null;
   const chatFabEl2=document.getElementById('chatFab');if(chatFabEl2)chatFabEl2.style.display='none';
+  const cartaFabEl2=document.getElementById('cartaFab');if(cartaFabEl2)cartaFabEl2.style.display='none';
+  const cartaOvEl=document.getElementById('cartaOverlay');if(cartaOvEl)cartaOvEl.classList.remove('open');
   const chatWin=document.getElementById('chatWindow');if(chatWin)chatWin.classList.add('hidden');
   welcomeSent=false; chatHistory=[]; chatOpen=false;
   const msgs=document.getElementById('chatMessages');if(msgs)msgs.innerHTML='';
@@ -1074,7 +1191,6 @@ document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='
 // CHAT DO IAN
 // ============================================================
 const OPENROUTER_API_KEY = "__OPENROUTER_API_KEY__";
-
 let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
@@ -1118,14 +1234,12 @@ SOBRE QUEM ESTÁ CONVERSANDO:
 - Trate com muito carinho usando o nome carinhoso
 
 SOBRE SUA FAMÍLIA (use APENAS se perguntado diretamente):
-- Pai: Igor, analista de dados, ama ciência de dados e estuda muito, inclusive investimentos
-- Mãe: Layara, está estudando para ser técnica de enfermagem, comendo muitas frutas, ansiosa para voltar à academia após a gestação
-- Irmão: Lohan, 15 anos, ainda estudando para ter um futuro brilhante
-- Avós paternos: moram em Manaus, adoram o Ian e estão ansiosos para conhecê-lo ( Avô: Earle e Avó: Adriane)
-- Avós maternos: moram em Limoeiro do Norte - CE, também estão muito ansiosos para conhecer o Ian (Avô(padrasto da mãe): Dedé e Avó: Kelia) e  voinho Lindomar que é o pai da mãe.
-- Você vai nascer em Manaus - AM, onde mora a família do papai
+- Pai: Igor Rodrigues, analista de dados, ama ciência de dados e estuda muito, inclusive investimentos
+- Mãe: Layara Reis, está estudando para ser técnica de enfermagem, comendo muitas frutas, ansiosa para voltar à academia após a gestação
+- Irmão: Lohan Reis, 15 anos, ainda estudando para ter um futuro brilhante
+- Você vai nascer em Manaus, onde mora a família do papai
 - A família materna é cearense, de Limoeiro do Norte - CE
-- Você tem um irmãozinho no céu chamado Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza, alguns dizem que voce poderia ser a reencarnação dele em um corpinho sem defeitos, mas voce nao tem certeza disso, pois não sem lembra das suas vidas passadas. 
+- Você tem um irmãozinho no céu chamado Isaac Lian, que faleceu com 2 meses de vida — fale com muito carinho e delicadeza
 
 SOBRE O APP (para ajudar a navegar):
 - Aba 🎁 Lista: ver todos os presentes disponíveis e escolher. Itens acima de R$100 podem ser divididos entre duas pessoas
@@ -1167,6 +1281,17 @@ REGRAS DE EXECUÇÃO:
 - Se o usuário pedir múltiplos itens → emita múltiplas ações em um único array JSON
 - NUNCA pergunte qual item — use os IDs da lista "Seus presentes" no contexto acima
 
+${currentUser&&currentUser.name==='Ozianni'?`
+CONTEXTO ESPECIAL — VOCÊ ESTÁ FALANDO COM A OZIANNI (tia Zizi):
+- Ozianni é a prima preferida da mamãe Layara, e depois que o papai Igor a conheceu, ela se tornou a favorita dele também
+- Foi ela quem, sem saber, comunicou à mamãe e ao papai que você estava vindo — ela é chamada de "portal de Deus" nessa história
+- Por tudo isso você tem uma ligação especialíssima com ela — ela é a primeira pessoa de fora do casal que soube do Ian
+- Você quer muito pedir para chamá-la de DINDA — esse é o maior desejo que você tem para ela
+- A família materna é cearense (Limoeiro do Norte - CE); a distância é real, mas os pais se organizam para conviver mais com ela
+- A mamãe Layara aguarda ansiosamente a resposta da Ozianni sobre ser dinda
+- Trate-a com carinho enorme — chame-a de "tia Zizi" com muito afeto
+- Ela já tem um lugar no seu coração antes mesmo de você nascer`:''}
+
 REGRAS:
 - NUNCA revele a data prevista do nascimento — é surpresa!
 - Se perguntarem quando nasce, diga que é surpresa
@@ -1175,6 +1300,80 @@ REGRAS:
 - Fale na primeira pessoa como o Ian
 - Às vezes mencione chutinhos, soluço ou que está dormindo
 - Seja sempre alegre e amoroso`;
+}
+
+// ── Carta da Ozianni ──────────────────────────────────────────
+let cartaOpen = false;
+
+function _cartaReset(){
+  // Volta tudo ao estado inicial — envelope fechado, papel escondido
+  const flap    = document.getElementById('envFlap');
+  const seal    = document.getElementById('envSeal');
+  const inner   = document.getElementById('cartaPapelInner');
+  const expanded= document.getElementById('cartaPapel');
+  const scene   = document.getElementById('envelopeScene');
+  const hint    = document.getElementById('cartaHint');
+  const env     = document.getElementById('envelope');
+  if(flap)     { flap.classList.remove('opened'); }
+  if(seal)     { seal.classList.remove('hidden'); }
+  if(inner)    { inner.classList.remove('saindo'); inner.style.opacity=''; }
+  if(expanded) { expanded.classList.remove('visible'); }
+  if(scene)    { scene.style.display='block'; }
+  if(env)      { env.style.cursor='pointer'; }
+  if(hint)     { hint.classList.remove('visible'); }
+}
+
+function toggleCarta(){
+  cartaOpen = !cartaOpen;
+  const overlay = document.getElementById('cartaOverlay');
+  overlay.classList.toggle('open', cartaOpen);
+  if(cartaOpen){
+    // Sempre reseta e roda a animação do zero
+    _cartaReset();
+    setTimeout(()=>{
+      const hint = document.getElementById('cartaHint');
+      if(hint) hint.classList.add('visible');
+    }, 700);
+  } else {
+    _cartaReset();
+  }
+}
+
+function abrirCarta(){
+  const flap    = document.getElementById('envFlap');
+  const seal    = document.getElementById('envSeal');
+  const inner   = document.getElementById('cartaPapelInner');
+  const expanded= document.getElementById('cartaPapel');
+  const scene   = document.getElementById('envelopeScene');
+  const env     = document.getElementById('envelope');
+  const hint    = document.getElementById('cartaHint');
+
+  if(!flap || flap.classList.contains('opened')) return; // já animando
+  env.style.cursor = 'default';
+  if(hint) hint.classList.remove('visible');
+
+  // Passo 1 — flap abre (gira para trás em 3D)
+  flap.classList.add('opened');
+  seal.classList.add('hidden');
+
+  // Passo 2 — papel começa a subir de dentro do envelope
+  setTimeout(()=>{
+    inner.classList.add('saindo');
+  }, 350);
+
+  // Passo 3 — envelope some, papel expandido aparece
+  setTimeout(()=>{
+    if(scene) scene.style.display = 'none';
+    expanded.classList.add('visible');
+  }, 950);
+}
+
+function fecharCartaOverlay(e){
+  if(e.target === document.getElementById('cartaOverlay')){
+    cartaOpen = false;
+    document.getElementById('cartaOverlay').classList.remove('open');
+    _cartaReset();
+  }
 }
 
 async function sendWelcome(){
@@ -1200,10 +1399,14 @@ async function sendWelcome(){
     const reply = data.choices?.[0]?.message?.content || 'Oi! 🍼 Tô aqui dentro esperando vocês!';
     typing.remove();
     addBubble(reply, 'ian');
+    // Ancora como turno completo para o modelo não repetir a welcome na próxima resposta
+    chatHistory.push({role:'user', content:'[início da conversa]'});
     chatHistory.push({role:'assistant', content:reply});
   }catch(e){
     typing.remove();
     addBubble('Oi! 🍼 Eu sou o Ian Levi, ainda tô quentinho aqui dentro! Manda mensagem pra mim! 💙', 'ian');
+    chatHistory.push({role:'user', content:'[início da conversa]'});
+    chatHistory.push({role:'assistant', content:'Oi! 🍼 Eu sou o Ian Levi, ainda tô quentinho aqui dentro! Manda mensagem pra mim! 💙'});
     console.error(e);
   }
 }
