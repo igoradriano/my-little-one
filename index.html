@@ -1142,6 +1142,7 @@ const OPENROUTER_API_KEY = "__OPENROUTER_API_KEY__";
 let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
+let exitMemoryTriggered = false;
 
 function getWeeksPregnant(){
   const due = new Date('2026-11-20');
@@ -1309,7 +1310,8 @@ async function sendWelcome(){
   }
 }
 
-async function updateChatMemory(){
+async function updateChatMemory(options = {}){
+  const { fastMode = false, keepalive = false } = options;
   if(!currentUser) return;
   const realTurns = chatHistory.filter(m=>m.content!=='[início da conversa]');
   if(realTurns.length < 2) return; // nada de novo pra resumir
@@ -1318,6 +1320,44 @@ async function updateChatMemory(){
   if(currentUser.chat_summary){
     try{ memoriaAnterior = JSON.parse(currentUser.chat_summary); }
     catch(_){ memoriaAnterior = { resumo_ultima_conversa: currentUser.chat_summary }; }
+  }
+
+  if(fastMode){
+    const now = new Date().toISOString();
+    const turnsTxt = realTurns
+      .slice(-6)
+      .map(m => `${m.role==='user'?'Usuário':'Ian'}: ${String(m.content || '').trim()}`)
+      .filter(Boolean);
+
+    const resumoRapido = turnsTxt.slice(-2).join(' | ').slice(0, 240);
+    const memoriaRapida = {
+      resumo_ultima_conversa: resumoRapido || memoriaAnterior.resumo_ultima_conversa || '',
+      topicos_recorrentes: Array.isArray(memoriaAnterior.topicos_recorrentes) ? memoriaAnterior.topicos_recorrentes.slice(0, 5) : [],
+      curiosidades: Array.isArray(memoriaAnterior.curiosidades) ? memoriaAnterior.curiosidades.slice(0, 5) : [],
+      combinados_pendentes: Array.isArray(memoriaAnterior.combinados_pendentes) ? memoriaAnterior.combinados_pendentes.slice(0, 3) : [],
+      sentimento_geral: memoriaAnterior.sentimento_geral || ''
+    };
+
+    const payload = { chat_summary: JSON.stringify(memoriaRapida), last_chat_at: now };
+    const filter = `name=eq.${encodeURIComponent(currentUser.name)}`;
+
+    try{
+      if(keepalive){
+        fetch(`${SB_URL}/rest/v1/users?${filter}`,{
+          method:'PATCH',
+          keepalive:true,
+          headers:{...H,'Prefer':'return=minimal'},
+          body:JSON.stringify(payload)
+        }).catch(e=>console.error('updateChatMemory fast keepalive',e));
+      } else {
+        await sbPatch('users',filter,payload);
+      }
+      currentUser.chat_summary = payload.chat_summary;
+      currentUser.last_chat_at = now;
+    }catch(e){
+      console.error('updateChatMemory fastMode',e);
+    }
+    return;
   }
 
   try{
@@ -1443,6 +1483,12 @@ Mescle a memória anterior com as novidades da conversa atual: mantenha o que ai
     currentUser.chat_summary = jsonString;
     currentUser.last_chat_at = now;
   }catch(e){console.error('updateChatMemory',e);}
+}
+
+function triggerPageExitMemorySave(){
+  if(exitMemoryTriggered) return;
+  exitMemoryTriggered = true;
+  updateChatMemory({fastMode:true,keepalive:true});
 }
 
 let welcomeSent = false;
@@ -1714,6 +1760,8 @@ async function sendChat(){
 (async function boot(){
   const _ci=document.getElementById('chatInput');
   if(_ci) _ci.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+  window.addEventListener('pagehide', triggerPageExitMemorySave);
+  window.addEventListener('beforeunload', triggerPageExitMemorySave);
   await initDB();
   const s=sessionStorage.getItem('cha_ian_session');
   if(s){
