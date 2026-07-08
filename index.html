@@ -580,7 +580,8 @@ function showMain(){
   renderAll();
 }
 
-function doLogout(){
+async function doLogout(){
+  await updateChatMemory();
   currentUser=null;allItems=[];allUsers=[];
   sessionStorage.removeItem('cha_ian_session');
   document.getElementById('mainView').style.display='none';
@@ -1137,6 +1138,7 @@ document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='
 // ============================================================
 const OPENROUTER_API_KEY = "__OPENROUTER_API_KEY__";
 
+
 let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
@@ -1159,12 +1161,47 @@ function getItemsContext(){
   return { available, mine, pendingInvites, users };
 }
 
+
+function buildMemoryBlock(u){
+  if(!u.chat_summary) return '';
+
+  let memoria;
+  try{ memoria = JSON.parse(u.chat_summary); }
+  catch(_){ memoria = { resumo_ultima_conversa: u.chat_summary }; } // fallback pro formato antigo (texto puro)
+
+  let tempoTxt = '';
+  let diasGap = 0;
+  if(u.last_chat_at){
+    diasGap = Math.floor((new Date() - new Date(u.last_chat_at)) / (1000*60*60*24));
+    if(diasGap<=0) tempoTxt = 'Vocês conversaram mais cedo hoje.';
+    else if(diasGap===1) tempoTxt = 'A última conversa foi ontem.';
+    else if(diasGap<14) tempoTxt = `A última conversa foi há ${diasGap} dias.`;
+    else if(diasGap<60){ const sem=Math.round(diasGap/7); tempoTxt = `A última conversa foi há ${sem} semana${sem>1?'s':''}.`; }
+    else { const mes=Math.round(diasGap/30); tempoTxt = `A última conversa foi há ${mes} ${mes>1?'meses':'mês'}.`; }
+  }
+  const saudade = diasGap>=7
+    ? ` Faz um tempo que vocês não se falam — comece demonstrando naturalmente que sentiu saudades, mencionando esse tempo, antes de puxar assunto.`
+    : '';
+
+  const linhas = [`\nMEMÓRIA DE CONVERSAS ANTERIORES (use para puxar assunto naturalmente):`];
+  linhas.push(`- ${tempoTxt}${saudade}`);
+  if(memoria.resumo_ultima_conversa) linhas.push(`- Última conversa: ${memoria.resumo_ultima_conversa}`);
+  if(memoria.topicos_recorrentes?.length) linhas.push(`- Assuntos recorrentes: ${memoria.topicos_recorrentes.join(', ')}`);
+  if(memoria.curiosidades?.length) linhas.push(`- Coisas que você sabe sobre essa pessoa: ${memoria.curiosidades.join(', ')}`);
+  if(memoria.combinados_pendentes?.length) linhas.push(`- Combinados pendentes (pode cobrar/perguntar): ${memoria.combinados_pendentes.join(', ')}`);
+  if(memoria.sentimento_geral) linhas.push(`- Tom emocional da pessoa nas últimas conversas: ${memoria.sentimento_geral}`);
+  linhas.push('');
+
+  return linhas.join('\n');
+}
+
 function buildSystemPrompt(){
   const w = getWeeksPregnant();
   const u = currentUser || {};
   const nome = u.apelido || (u.name ? u.name.split(' ')[0] : 'familiar');
   const parentesco = u.parentesco || 'familiar';
   const ctx = getItemsContext();
+  const memoria = buildMemoryBlock(u);
   return `Você é o Ian Levi, um bebê que ainda está na barriga da mamãe Layara com ${w} semanas de gestação. Além de conversar, você pode ajudar ${nome} a gerenciar a lista de presentes do seu chá de bebê.
 
 SOBRE VOCÊ:
@@ -1177,8 +1214,7 @@ SOBRE VOCÊ:
 SOBRE QUEM ESTÁ CONVERSANDO:
 - Nome carinhoso: ${nome}
 - Parentesco: ${parentesco}
-- Trate com muito carinho usando o nome carinhoso
-
+${memoria}
 SOBRE SUA FAMÍLIA (use APENAS se perguntado diretamente):
 - Pai: Igor Rodrigues, analista de dados, ama ciência de dados e estuda muito, inclusive investimentos
 - Mãe: Layara Reis, está estudando para ser técnica de enfermagem, comendo muitas frutas, ansiosa para voltar à academia após a gestação
@@ -1230,12 +1266,13 @@ REGRAS DE EXECUÇÃO:
 REGRAS:
 - NUNCA revele a data prevista do nascimento — é surpresa!
 - Se perguntarem quando nasce, diga que é surpresa
-- Fale como bebê fofo, com amor, emojis 🍼👶💙
+- Fale como bebê fofo, com muito amor e carinho, usando o nome carinhoso da pessoa, com emojis 🍼👶💙
 - Respostas curtas, máximo 2-3 frases (exceto quando listar itens)
 - Fale na primeira pessoa como o Ian
 - Às vezes mencione chutinhos, soluço ou que está dormindo
 - Seja sempre alegre e amoroso`;
 }
+
 
 async function sendWelcome(){
   const u = currentUser || {};
@@ -1272,6 +1309,142 @@ async function sendWelcome(){
   }
 }
 
+async function updateChatMemory(){
+  if(!currentUser) return;
+  const realTurns = chatHistory.filter(m=>m.content!=='[início da conversa]');
+  if(realTurns.length < 2) return; // nada de novo pra resumir
+
+  let memoriaAnterior = {};
+  if(currentUser.chat_summary){
+    try{ memoriaAnterior = JSON.parse(currentUser.chat_summary); }
+    catch(_){ memoriaAnterior = { resumo_ultima_conversa: currentUser.chat_summary }; }
+  }
+
+  try{
+    const extractMemoryJson = (rawText, previous = {}) => {
+      const tryParseObject = (txt) => {
+        try {
+          const parsed = JSON.parse(txt);
+          if(parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+        } catch(_) {}
+        return null;
+      };
+
+      const normalizeStringList = (arr, max = 5) => {
+        if(!Array.isArray(arr)) return [];
+        return arr
+          .map(v => String(v || '').trim())
+          .filter(Boolean)
+          .slice(0, max);
+      };
+
+      let s = String(rawText || '').trim();
+      if(!s) return null;
+
+      // Remove markdown fences if model returns JSON inside code blocks.
+      s = s.replace(/```(?:json)?/gi, '').replace(/```/g, '').trim();
+
+      let parsed = tryParseObject(s);
+      if(parsed) return parsed;
+
+      const firstBrace = s.indexOf('{');
+      if(firstBrace === -1) return null;
+
+      let jsonSlice = s.slice(firstBrace);
+      const lastBrace = jsonSlice.lastIndexOf('}');
+
+      if(lastBrace !== -1) {
+        jsonSlice = jsonSlice.slice(0, lastBrace + 1);
+      } else {
+        // Tentativa de recuperação para resposta truncada.
+        jsonSlice = jsonSlice.replace(/[\s,]+$/, '');
+
+        let escaped = false;
+        let quoteCount = 0;
+        for(const ch of jsonSlice){
+          if(ch === '\\' && !escaped){ escaped = true; continue; }
+          if(ch === '"' && !escaped) quoteCount++;
+          escaped = false;
+        }
+        if(quoteCount % 2 !== 0) jsonSlice += '"';
+
+        const openCount = (jsonSlice.match(/{/g) || []).length;
+        const closeCount = (jsonSlice.match(/}/g) || []).length;
+        if(openCount > closeCount) jsonSlice += '}'.repeat(openCount - closeCount);
+      }
+
+      parsed = tryParseObject(jsonSlice);
+      if(parsed) return parsed;
+
+      // Fallback por campo: preserva memória anterior e atualiza apenas o que conseguir extrair.
+      const pickString = (key) => {
+        const r = new RegExp(`"${key}"\\s*:\\s*"([\\s\\S]*?)(?:"\\s*,|"\\s*}|$|\\n\\s*"|\\n\\s*})`, 'i');
+        const m = s.match(r);
+        return m ? m[1].replace(/\s+/g, ' ').trim() : '';
+      };
+
+      const pickArray = (key, max) => {
+        const r = new RegExp(`"${key}"\\s*:\\s*\\[([\\s\\S]*?)(?:\\]|$)`, 'i');
+        const m = s.match(r);
+        if(!m) return [];
+        return m[1]
+          .split(',')
+          .map(v => v.replace(/^\s*"|"\s*$/g, '').trim())
+          .filter(Boolean)
+          .slice(0, max);
+      };
+
+      const fallback = {
+        resumo_ultima_conversa: pickString('resumo_ultima_conversa') || previous.resumo_ultima_conversa || '',
+        topicos_recorrentes: normalizeStringList(pickArray('topicos_recorrentes', 5).length ? pickArray('topicos_recorrentes', 5) : previous.topicos_recorrentes, 5),
+        curiosidades: normalizeStringList(pickArray('curiosidades', 5).length ? pickArray('curiosidades', 5) : previous.curiosidades, 5),
+        combinados_pendentes: normalizeStringList(pickArray('combinados_pendentes', 3).length ? pickArray('combinados_pendentes', 3) : previous.combinados_pendentes, 3),
+        sentimento_geral: pickString('sentimento_geral') || previous.sentimento_geral || ''
+      };
+
+      return fallback;
+    };
+
+    const conversaTexto = chatHistory.map(m=>`${m.role==='user'?'Usuário':'Ian'}: ${m.content}`).join('\n');
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENROUTER_API_KEY,'HTTP-Referer':'https://cha-ian-levi.netlify.app','X-Title':'Chá do Ian Levi'},
+      body:JSON.stringify({
+        model:'google/gemini-2.5-flash-lite',
+        max_tokens:700,
+        response_format:{type:'json_object'},
+        messages:[
+          {role:'system',content:`Você atualiza uma memória estruturada (JSON) que um bebê fictício (Ian) mantém sobre um familiar, para uso em conversas futuras. Responda APENAS com um objeto JSON válido, nada de texto antes ou depois, nada de blocos markdown, exatamente com estas chaves:
+{
+  "resumo_ultima_conversa": "até 25 palavras sobre o que rolou na conversa mais recente",
+  "topicos_recorrentes": ["assuntos que aparecem com frequência, no máximo 5"],
+  "curiosidades": ["fatos específicos e memoráveis sobre a pessoa: hobbies, preferências, nomes que ela mencionou, no máximo 5"],
+  "combinados_pendentes": ["coisas que ficaram de fazer/perguntar/confirmar, no máximo 3, vazio se não houver"],
+  "sentimento_geral": "uma palavra ou frase curta sobre o tom emocional da pessoa nas conversas"
+}
+Mescle a memória anterior com as novidades da conversa atual: mantenha o que ainda é relevante, atualize o que mudou, remova o que ficou repetitivo ou obsoleto. Priorize o mais recente e o mais específico.`},
+          {role:'user',content:`Memória anterior (JSON): ${JSON.stringify(memoriaAnterior)}\n\nConversa mais recente:\n${conversaTexto}\n\nGere o JSON atualizado.`}
+        ]
+      })
+    });
+    const data = await res.json();
+    let raw = data.choices?.[0]?.message?.content?.trim();
+    if(!raw){ console.error('updateChatMemory: resposta vazia do modelo', data); return; }
+
+    const novaMemoria = extractMemoryJson(raw, memoriaAnterior);
+    if(!novaMemoria){
+      console.error('updateChatMemory: não foi possível extrair JSON válido:', raw);
+      return;
+    }
+
+    const now = new Date().toISOString();
+    const jsonString = JSON.stringify(novaMemoria);
+    await sbPatch('users',`name=eq.${encodeURIComponent(currentUser.name)}`,{chat_summary:jsonString,last_chat_at:now});
+    currentUser.chat_summary = jsonString;
+    currentUser.last_chat_at = now;
+  }catch(e){console.error('updateChatMemory',e);}
+}
+
 let welcomeSent = false;
 function toggleChat(){
   chatOpen = !chatOpen;
@@ -1285,6 +1458,8 @@ function toggleChat(){
       welcomeSent = true;
       sendWelcome();
     }
+  } else {
+    updateChatMemory();
   }
 }
 
