@@ -1334,22 +1334,13 @@ async function updateChatMemory(options = {}){
 
   if(fastMode){
     const now = new Date().toISOString();
-    const turnsTxt = realTurns
-      .slice(-6)
-      .map(m => `${m.role==='user'?'Usuário':'Ian'}: ${String(m.content || '').trim()}`)
-      .filter(Boolean);
-
-    const resumoRapido = turnsTxt.slice(-2).join(' | ').slice(0, 240);
-    const memoriaRapida = {
-      resumo_ultima_conversa: resumoRapido || memoriaAnterior.resumo_ultima_conversa || '',
-      topicos_recorrentes: Array.isArray(memoriaAnterior.topicos_recorrentes) ? memoriaAnterior.topicos_recorrentes.slice(0, 5) : [],
-      curiosidades: Array.isArray(memoriaAnterior.curiosidades) ? memoriaAnterior.curiosidades.slice(0, 5) : [],
-      combinados_pendentes: Array.isArray(memoriaAnterior.combinados_pendentes) ? memoriaAnterior.combinados_pendentes.slice(0, 3) : [],
-      sentimento_geral: memoriaAnterior.sentimento_geral || ''
-    };
-
-    const payload = { chat_summary: JSON.stringify(memoriaRapida), last_chat_at: now };
     const filter = `name=eq.${encodeURIComponent(currentUser.name)}`;
+
+    // In fast exit mode, keep the structured summary untouched.
+    const payload = {
+      last_chat_at: now,
+      ...(currentUser.chat_summary ? { chat_summary: currentUser.chat_summary } : {})
+    };
 
     try{
       if(keepalive){
@@ -1362,7 +1353,7 @@ async function updateChatMemory(options = {}){
       } else {
         await sbPatch('users',filter,payload);
       }
-      currentUser.chat_summary = payload.chat_summary;
+      if(payload.chat_summary) currentUser.chat_summary = payload.chat_summary;
       currentUser.last_chat_at = now;
     }catch(e){
       console.error('updateChatMemory fastMode',e);
