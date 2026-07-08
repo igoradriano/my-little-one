@@ -578,10 +578,13 @@ function showMain(){
   const chatFabEl=document.getElementById('chatFab');
   if(chatFabEl) chatFabEl.style.display='flex';
   renderAll();
+  resetInactivityTimer();
 }
 
 async function doLogout(){
-  await updateChatMemory();
+  clearInactivityTimer();
+  console.info('[chat-memory] trigger: logout');
+  await triggerMemorySave('logout');
   currentUser=null;allItems=[];allUsers=[];
   sessionStorage.removeItem('cha_ian_session');
   document.getElementById('mainView').style.display='none';
@@ -594,6 +597,7 @@ async function doLogout(){
   const chatFabEl2=document.getElementById('chatFab');if(chatFabEl2)chatFabEl2.style.display='none';
   const chatWin=document.getElementById('chatWindow');if(chatWin)chatWin.classList.add('hidden');
   welcomeSent=false; chatHistory=[]; chatOpen=false;
+  interactionCounter=0;
   const msgs=document.getElementById('chatMessages');if(msgs)msgs.innerHTML='';
 }
 
@@ -1143,6 +1147,12 @@ let chatOpen = false;
 let chatHistory = [];
 let chatLoading = false;
 let exitMemoryTriggered = false;
+let inactivityTimer = null;
+let interactionCounter = 0;
+let memorySaveInFlight = false;
+
+const INACTIVITY_MS = 60 * 1000;
+const PERIODIC_EVERY = 3;
 
 function getWeeksPregnant(){
   const due = new Date('2026-11-20');
@@ -1485,10 +1495,52 @@ Mescle a memória anterior com as novidades da conversa atual: mantenha o que ai
   }catch(e){console.error('updateChatMemory',e);}
 }
 
+function resetInactivityTimer(){
+  if(!currentUser) return;
+  if(inactivityTimer) clearTimeout(inactivityTimer);
+  console.info('[chat-memory] inactivity timer reset (60s)');
+  inactivityTimer = setTimeout(() => {
+    console.info('[chat-memory] trigger: inatividade-60s');
+    triggerMemorySave('inatividade-60s');
+  }, INACTIVITY_MS);
+}
+
+function clearInactivityTimer(){
+  if(inactivityTimer){
+    clearTimeout(inactivityTimer);
+    inactivityTimer = null;
+  }
+}
+
+async function triggerMemorySave(reason, options = {}){
+  if(!currentUser) return;
+  if(memorySaveInFlight){
+    console.info('[chat-memory] save skipped (in-flight):', reason);
+    return;
+  }
+
+  memorySaveInFlight = true;
+  console.info('[chat-memory] save start:', reason, options);
+  try{
+    await updateChatMemory(options);
+    if(!options.fastMode){
+      interactionCounter = 0;
+      console.info('[chat-memory] interaction counter reset after save');
+    }
+    console.info('[chat-memory] save done:', reason);
+  }catch(e){
+    console.error('triggerMemorySave', reason, e);
+  }finally{
+    memorySaveInFlight = false;
+  }
+}
+
 function triggerPageExitMemorySave(){
   if(exitMemoryTriggered) return;
   exitMemoryTriggered = true;
-  updateChatMemory({fastMode:true,keepalive:true});
+  console.info('[chat-memory] trigger: page-exit');
+  clearInactivityTimer();
+  triggerMemorySave('page-exit', {fastMode:true,keepalive:true});
 }
 
 let welcomeSent = false;
@@ -1496,6 +1548,7 @@ function toggleChat(){
   chatOpen = !chatOpen;
   document.getElementById('chatWindow').classList.toggle('hidden', !chatOpen);
   if(chatOpen){
+    console.info('[chat-memory] chat opened');
     setTimeout(()=>{
       document.getElementById('chatInput').focus();
       scrollChatBottom();
@@ -1504,8 +1557,11 @@ function toggleChat(){
       welcomeSent = true;
       sendWelcome();
     }
+    resetInactivityTimer();
   } else {
-    updateChatMemory();
+    console.info('[chat-memory] trigger: chat-close');
+    clearInactivityTimer();
+    triggerMemorySave('chat-close');
   }
 }
 
@@ -1633,6 +1689,15 @@ async function sendChat(){
   input.value='';
   addBubble(msg,'user');
   chatHistory.push({role:'user',content:msg});
+  interactionCounter += 1;
+  console.info('[chat-memory] interaction +1:', interactionCounter);
+  resetInactivityTimer();
+
+  if(interactionCounter >= PERIODIC_EVERY){
+    console.info('[chat-memory] trigger: periodico-3-interacoes');
+    triggerMemorySave('periodico-3-interacoes');
+  }
+
   chatLoading=true;
   document.getElementById('chatSendBtn').disabled=true;
   const typing=addBubble('Ian está pensando... 💭','typing');
@@ -1751,6 +1816,7 @@ async function sendChat(){
   }
   chatLoading=false;
   document.getElementById('chatSendBtn').disabled=false;
+  resetInactivityTimer();
   input.focus();
 }
 
