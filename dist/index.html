@@ -45,15 +45,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .progress-label span:last-child{color:var(--pink-mid)}
 .progress-bar-bg{height:12px;background:#f3f4f6;border-radius:99px;overflow:hidden}
 .progress-bar-fill{height:100%;background:linear-gradient(90deg,#14b8a6,#06b6d4);border-radius:99px;transition:width 0.6s ease}
-.progress-bar-fill.progress-bar-value{background:linear-gradient(90deg,#a855f7,#10b981)}
-.progress-block+.progress-block{margin-top:1rem}
-.progress-value-text{font-size:0.78rem;color:var(--muted);font-weight:600;margin-top:0.4rem}
-.admin-charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
-.chart-card{background:var(--white);border-radius:var(--radius);padding:1rem;border:1.5px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.05);height:300px;display:flex;flex-direction:column;overflow:hidden}
-.chart-card-title{font-size:0.85rem;font-weight:800;color:var(--muted);margin-bottom:0.4rem;flex-shrink:0}
-.chart-card-empty{flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.8rem;font-weight:600;text-align:center;padding:0 1rem}
-.chart-card-canvas-wrap{flex:1;position:relative;min-height:0}
-.chart-card-canvas-wrap canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important}
 .progress-stats{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
 .stat-pill{flex:1;min-width:90px;background:var(--cream);border-radius:12px;padding:0.6rem 0.8rem;text-align:center;border:1.5px solid var(--border)}
 .stat-pill .num{font-size:1.4rem;font-weight:800;color:var(--text)}
@@ -184,7 +175,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .admin-stat{background:var(--white);border-radius:12px;padding:1rem;border:1.5px solid var(--border);text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
 .admin-stat .num{font-size:1.8rem;font-weight:800}
 .admin-stat .lbl{font-size:0.72rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-top:0.2rem}
-.admin-stat .sub{font-size:0.68rem;color:var(--muted);font-weight:600;margin-top:0.3rem;opacity:0.85}
 .admin-stat.pink .num{color:#f472b6}
 .admin-stat.purple .num{color:#7c3aed}
 .admin-stat.green .num{color:#059669}
@@ -260,53 +250,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 .meus-addr-box .pix-label{font-size:0.75rem;color:#1e40af;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem}
 .meus-addr-box .addr{font-size:0.85rem;color:#1e3a8a;font-weight:600;line-height:1.6}
 
-/* carta da Ozianni */
-.carta-fab{position:fixed;bottom:6.5rem;right:1.5rem;z-index:50;width:auto;height:auto;background:transparent;border:none;cursor:pointer;box-shadow:none;display:none;align-items:center;justify-content:center;padding:0;animation:carta-swing 3.5s ease-in-out infinite}
-.carta-fab:hover .carta-fab-emoji{transform:scale(1.2) rotate(-8deg)}
-@keyframes carta-swing{0%,100%{transform:rotate(-6deg)}25%{transform:rotate(6deg)}50%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
-.carta-fab-emoji{font-size:2.4rem;line-height:1;display:block;filter:drop-shadow(0 3px 8px rgba(167,139,250,0.7));transition:transform 0.2s}
-
-/* overlay carta */
-.carta-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0);backdrop-filter:blur(0px);transition:background 0.4s,backdrop-filter 0.4s;pointer-events:none}
-.carta-overlay.open{display:flex;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);pointer-events:all}
-.carta-container{position:relative;width:320px;perspective:800px}
-
-/* envelope */
-.envelope-scene{width:320px;height:200px;position:relative;perspective:900px}
-/* corpo do envelope — clicável, contém o papel dentro */
-.envelope{width:100%;height:100%;position:relative;transform-style:preserve-3d;cursor:pointer}
-.env-body{position:absolute;inset:0;background:linear-gradient(160deg,#fdf6ff,#fce7f3);border-radius:4px 4px 12px 12px;box-shadow:0 8px 40px rgba(0,0,0,0.22);border:1.5px solid #e9d5ff;overflow:hidden;z-index:1}
-/* flap triangular — gira para trás em perspective */
-.env-flap-wrap{position:absolute;top:0;left:0;right:0;height:110px;transform-origin:top center;transform:rotateX(0deg);transition:transform 0.65s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d;z-index:4}
-.env-flap-wrap.opened{transform:rotateX(-178deg)}
-.env-flap-face{position:absolute;inset:0;background:linear-gradient(170deg,#ede9fe,#fce7f3);clip-path:polygon(0 0,100% 0,50% 100%);border-radius:4px 4px 0 0}
-.env-flap-back{position:absolute;inset:0;background:linear-gradient(170deg,#d8b4fe,#fbcfe8);clip-path:polygon(0 0,100% 0,50% 100%);border-radius:4px 4px 0 0;transform:rotateX(180deg) scaleY(-1);backface-visibility:visible;opacity:0.7}
-.env-seal{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);font-size:2rem;z-index:5;transition:opacity 0.25s;pointer-events:none}
-.env-seal.hidden{opacity:0}
-.env-lines{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:6px;width:60%;z-index:2}
-.env-line{height:3px;border-radius:99px;background:linear-gradient(90deg,#c4b5fd,#f9a8d4);opacity:0.5}
-/* papel — começa escondido dentro do envelope, sobe para fora */
-.carta-papel-wrap{position:absolute;left:0;right:0;bottom:0;height:100%;overflow:hidden;z-index:3;pointer-events:none}
-.carta-papel{position:absolute;left:12px;right:12px;bottom:0;background:#fffbff;border-radius:6px 6px 0 0;box-shadow:0 -2px 16px rgba(167,139,250,0.18);padding:1.4rem 1.2rem 1.6rem;font-family:'Nunito',sans-serif;transform:translateY(100%);opacity:0;transition:transform 0.6s cubic-bezier(0.34,1.2,0.64,1),opacity 0.35s ease;pointer-events:none;border:1px solid #f3e8ff}
-.carta-papel.saindo{transform:translateY(-110%) scale(1.02);opacity:1;pointer-events:none}
-/* fase 2 — papel expandido fora do envelope, scrollável */
-.carta-papel-expanded{display:none;position:relative;background:#fffbff;border-radius:12px;box-shadow:0 8px 40px rgba(167,139,250,0.22);padding:1.4rem 1.2rem 1.6rem;font-family:'Nunito',sans-serif;max-height:460px;overflow-y:auto;border:1px solid #f3e8ff;animation:papel-aparece 0.4s cubic-bezier(0.34,1.2,0.64,1) forwards}
-.carta-papel-expanded.visible{display:block}
-@keyframes papel-aparece{0%{opacity:0;transform:translateY(24px) scale(0.95)}100%{opacity:1;transform:translateY(0) scale(1)}}
-.carta-papel-expanded::-webkit-scrollbar{width:4px}
-.carta-papel-expanded::-webkit-scrollbar-thumb{background:#e9d5ff;border-radius:99px}
-.carta-papel::-webkit-scrollbar{width:4px}
-.carta-papel::-webkit-scrollbar-thumb{background:#e9d5ff;border-radius:99px}
-.carta-topo{display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1.5px dashed #e9d5ff}
-.carta-topo-icon{font-size:1.6rem}
-.carta-topo-txt{font-size:0.7rem;color:#a78bfa;font-weight:800;text-transform:uppercase;letter-spacing:0.08em}
-.carta-body{font-size:0.88rem;color:#4c1d95;line-height:1.75;font-weight:600;white-space:pre-wrap}
-.carta-rodape{margin-top:1rem;padding-top:0.75rem;border-top:1.5px dashed #e9d5ff;display:flex;justify-content:flex-end;align-items:center;gap:0.4rem;font-size:0.78rem;color:#a78bfa;font-weight:700}
-.carta-close{position:absolute;top:-12px;right:-12px;width:32px;height:32px;border-radius:50%;background:white;border:1.5px solid #e9d5ff;box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:pointer;font-size:0.85rem;display:flex;align-items:center;justify-content:center;color:#7c3aed;font-weight:800;transition:background 0.15s}
-.carta-close:hover{background:#faf5ff}
-.carta-hint{text-align:center;margin-top:0.6rem;font-size:0.72rem;color:rgba(255,255,255,0.75);font-weight:600;letter-spacing:0.03em;opacity:0;transition:opacity 0.4s 0.8s}
-.carta-hint.visible{opacity:1}
-
 /* chat fab */
 .chat-fab{position:fixed;bottom:2rem;right:1.5rem;z-index:50;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#06b6d4);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(20,184,166,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s;position:fixed}
 .chat-fab:hover{transform:scale(1.1)}
@@ -343,8 +286,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 <body>
 <div class="bg-bubbles">
@@ -381,15 +322,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     <div class="stars">⭐🌟✨🌟⭐</div>
   </div>
   <div class="progress-section" id="progressSection" style="display:none">
-    <div class="progress-block admin-only" style="display:none">
-      <div class="progress-label"><span>Progresso por itens</span><span id="progressPctItems">0%</span></div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFillItems" style="width:0%"></div></div>
-    </div>
-    <div class="progress-block admin-only" style="display:none">
-      <div class="progress-label"><span>Progresso por valor</span><span id="progressPctValue">0%</span></div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill progress-bar-value" id="progressFillValue" style="width:0%"></div></div>
-      <div class="progress-value-text" id="progressValueText">R$0 / R$0 arrecadados</div>
-    </div>
+    <div class="progress-label"><span>Progresso da lista</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
     <div class="progress-stats">
       <div class="stat-pill"><div class="num" id="statTotal">0</div><div class="lbl">Total</div></div>
       <div class="stat-pill"><div class="num" id="statTaken">0</div><div class="lbl">Escolhidos</div></div>
@@ -464,25 +398,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     <div class="tab-content" id="tab-content-admin">
       <div class="section-title">⚙️ Painel Admin</div>
       <div class="admin-stats" id="adminStats"></div>
-      <!-- gráficos analíticos -->
-      <div class="admin-charts" id="adminCharts" style="margin-bottom:1.5rem">
-        <div class="chart-card">
-          <div class="chart-card-title">📊 Status dos itens</div>
-          <div class="chart-card-canvas-wrap"><canvas id="chartStatus"></canvas></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-card-title">💰 Valor por categoria</div>
-          <div class="chart-card-canvas-wrap"><canvas id="chartCategoria"></canvas></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-card-title">🏆 Top convidados por valor pago</div>
-          <div class="chart-card-canvas-wrap"><canvas id="chartConvidados"></canvas></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-card-title">📈 Presentes escolhidos ao longo do tempo</div>
-          <div class="chart-card-canvas-wrap" id="chartTimelineWrap"><canvas id="chartTimeline"></canvas></div>
-        </div>
-      </div>
       <!-- comprovantes pendentes -->
       <div id="comprovantesSection" style="margin-bottom:1.5rem;display:none">
         <div class="admin-users-title">📎 Comprovantes pendentes de aprovação</div>
@@ -549,71 +464,6 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     </div>
   </div>
 </div>
-<!-- CARTA DA OZIANNI -->
-<button class="carta-fab" id="cartaFab" onclick="toggleCarta()" title="Uma cartinha especial 💌" aria-label="Abrir carta">
-  <span class="carta-fab-emoji">💌</span>
-</button>
-
-<div class="carta-overlay" id="cartaOverlay" onclick="fecharCartaOverlay(event)">
-  <div class="carta-container" id="cartaContainer">
-
-    <!-- FASE 1: envelope com papel saindo de dentro -->
-    <div class="envelope-scene" id="envelopeScene">
-      <div class="envelope" id="envelope" onclick="abrirCarta()">
-        <!-- corpo do envelope -->
-        <div class="env-body">
-          <div class="env-lines">
-            <div class="env-line"></div>
-            <div class="env-line" style="width:80%"></div>
-            <div class="env-line" style="width:60%"></div>
-          </div>
-        </div>
-        <!-- papel dentro do envelope, sobe para fora -->
-        <div class="carta-papel-wrap">
-          <div class="carta-papel" id="cartaPapelInner"></div>
-        </div>
-        <!-- flap triangular que gira em 3D -->
-        <div class="env-flap-wrap" id="envFlap">
-          <div class="env-flap-face"></div>
-          <div class="env-flap-back"></div>
-        </div>
-        <div class="env-seal" id="envSeal">💚</div>
-      </div>
-    </div>
-
-    <!-- FASE 2: papel expandido, aparece após sair do envelope -->
-    <div class="carta-papel-expanded" id="cartaPapel">
-      <button class="carta-close" onclick="toggleCarta()" title="Fechar">✕</button>
-      <div class="carta-topo">
-        <span class="carta-topo-icon">💚</span>
-        <span class="carta-topo-txt">Uma mensagem especial do Ian Levi</span>
-      </div>
-      <div class="carta-body">Oi, tia Zizi! 💚
-Não sei se a senhora sabe, mas você é a prima preferida da mamãe. E, depois que o papai te conheceu, você se tornou a favorita dele também.
-Olha que legal! 😄
-
-Acho que foi por causa disso, pelo amor que eles têm por você, que eu resolvi aparecer e te usar como um portal de Deus para comunicar à mamãe e ao papai que eu estava vindo em breve.
-
-Estou achando que você é minha preferida também. 😅
-
-Por tudo isso, por toda essa nossa ligação e pelo amor dos papais por você, eu gostaria de te perguntar algo . . .
-
-Será que em vez de te chamar de tia Zizi, eu poderia te chamar de DINDA? 🥹
-
-Sei que a distância não ajuda muito e que talvez não consigamos nos ver com tanta frequência no meu primeiro aninho de vida, mas a mamãe e o papai estão lutando para que tudo se organize da melhor forma e para que eu possa conviver muito, muito mais com você e com toda a nossa grande família.
-
-E aí, o que me diz? Quer ser minha dinda? 🤍🥹
-
-A mamãe aguarda ansiosamente sua resposta. 💚</div>
-      <div class="carta-rodape">
-        <span>Com todo o meu amor 💚</span>
-        <span>— Ian Levi 👶</span>
-      </div>
-    </div>
-
-    <div class="carta-hint" id="cartaHint">Clique no envelope para abrir 💚</div>
-  </div>
-</div>
 <!-- CHAT DO IAN -->
 <button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Conversar com o Ian" style="display:none">
   <span class="chat-fab-emoji">👶</span>
@@ -646,12 +496,11 @@ A mamãe aguarda ansiosamente sua resposta. 💚</div>
 
 <div class="toast" id="toast"></div>
 <script>
-const SB_KEY = '__SB_KEY__';
-const SB_URL = '__SB_URL__';
-const ADMIN_NAME = '__ADMIN_NAME__';
-const ADMIN_PASS = '__ADMIN_PASS__';
+const SB_KEY = '';
+const SB_URL = '';
+const ADMIN_NAME = '';
+const ADMIN_PASS = '';
 const SPLIT_THRESHOLD = 100;
-
 
 
 
@@ -728,9 +577,6 @@ function showMain(){
   document.querySelectorAll('.admin-only').forEach(el=>el.style.display=currentUser.is_admin?'':'none');
   const chatFabEl=document.getElementById('chatFab');
   if(chatFabEl) chatFabEl.style.display='flex';
-  // Botão carta — só para Ozianni
-  const cartaFabEl=document.getElementById('cartaFab');
-  if(cartaFabEl) cartaFabEl.style.display=(currentUser&&currentUser.name==='Ozianni')?'flex':'none';
   renderAll();
   resetInactivityTimer();
 }
@@ -749,8 +595,6 @@ async function doLogout(){
   document.getElementById('loginError').textContent='';
   activeTab='lista';activeFilter='todos';splitOpenId=null;pixOpenId=null;
   const chatFabEl2=document.getElementById('chatFab');if(chatFabEl2)chatFabEl2.style.display='none';
-  const cartaFabEl2=document.getElementById('cartaFab');if(cartaFabEl2)cartaFabEl2.style.display='none';
-  const cartaOvEl=document.getElementById('cartaOverlay');if(cartaOvEl)cartaOvEl.classList.remove('open');
   const chatWin=document.getElementById('chatWindow');if(chatWin)chatWin.classList.add('hidden');
   welcomeSent=false; chatHistory=[]; chatOpen=false;
   interactionCounter=0;
@@ -831,14 +675,9 @@ function updateProgress(){
   const taken=allItems.filter(i=>i.taken_by&&i.split_status!=='pending').length;
   const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
   const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
-  const totalVal=allItems.reduce((a,i)=>a+Number(i.price),0);
   const pct=total?Math.round(taken/total*100):0;
-  const pctVal=totalVal?Math.round(val/totalVal*100):0;
-  document.getElementById('progressFillItems').style.width=pct+'%';
-  document.getElementById('progressPctItems').textContent=pct+'%';
-  document.getElementById('progressFillValue').style.width=pctVal+'%';
-  document.getElementById('progressPctValue').textContent=pctVal+'%';
-  document.getElementById('progressValueText').textContent=`R$ ${val.toFixed(2).replace('.',',')} / R$ ${totalVal.toFixed(2).replace('.',',')} arrecadados`;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
   document.getElementById('statTotal').textContent=total;
   document.getElementById('statTaken').textContent=taken;
   document.getElementById('statFree').textContent=total-taken;
@@ -849,7 +688,6 @@ function getCatBg(cat){return{'👕':'#fde8f2','🩹':'#d1fae5','🎒':'#dbeafe'
 
 function renderGrid(){
   let filtered=allItems;
-  if(activeFilter==='todos')filtered=allItems.filter(i=>!isItemFullyPago(i));
   if(activeFilter==='disponivel')filtered=allItems.filter(i=>!i.taken_by);
   if(activeFilter==='escolhido')filtered=allItems.filter(i=>!!i.taken_by);
   const grid=document.getElementById('itemsGrid');grid.innerHTML='';
@@ -1108,28 +946,14 @@ function renderAdmin(){
   const pagos=allItems.filter(i=>isItemFullyPago(i)).length;
   const pixPendente=allItems.filter(i=>i.pix_status==='enviado'||i.pix_status_split==='enviado').length;
   const val=allItems.filter(i=>isItemFullyPago(i)).reduce((a,i)=>a+Number(i.price),0);
-  const totalVal=allItems.reduce((a,i)=>a+Number(i.price),0);
-  const disponiveis=allItems.filter(i=>!i.taken_by).length;
-  const totalCount=allItems.length;
-  const pctEscolhidos=totalCount?Math.round(confirmed/totalCount*100):0;
-  const pctDisponiveis=totalCount?Math.round(disponiveis/totalCount*100):0;
-  const pctPagos=totalCount?Math.round(pagos/totalCount*100):0;
-  const pctValArrecadado=totalVal?Math.round(val/totalVal*100):0;
-  const falta=totalVal-val;
-  const ticketMedio=totalCount?totalVal/totalCount:0;
 
   document.getElementById('adminStats').innerHTML=`
-    <div class="admin-stat pink"><div class="num">${totalCount}</div><div class="lbl">Total itens</div><div class="sub">Ticket médio R$${ticketMedio.toFixed(0)}</div></div>
-    <div class="admin-stat green"><div class="num">${confirmed}</div><div class="lbl">Escolhidos</div><div class="sub">${pctEscolhidos}% da lista</div></div>
-    <div class="admin-stat blue"><div class="num">${disponiveis}</div><div class="lbl">Disponíveis</div><div class="sub">${pctDisponiveis}% da lista</div></div>
-    <div class="admin-stat green"><div class="num">${pagos}</div><div class="lbl">Pagos</div><div class="sub">${pctPagos}% dos itens</div></div>
+    <div class="admin-stat pink"><div class="num">${allItems.length}</div><div class="lbl">Total itens</div></div>
+    <div class="admin-stat green"><div class="num">${confirmed}</div><div class="lbl">Escolhidos</div></div>
+    <div class="admin-stat blue"><div class="num">${allItems.filter(i=>!i.taken_by).length}</div><div class="lbl">Disponíveis</div></div>
     <div class="admin-stat amber"><div class="num">${pixPendente}</div><div class="lbl">Pix pendente</div></div>
-    <div class="admin-stat amber"><div class="num">${pending}</div><div class="lbl">Convites split pendentes</div></div>
-    <div class="admin-stat blue"><div class="num">R$${totalVal.toFixed(0)}</div><div class="lbl">Valor total da lista</div></div>
-    <div class="admin-stat purple"><div class="num">R$${val.toFixed(0)}</div><div class="lbl">Arrecadado</div><div class="sub">${pctValArrecadado}% do total</div></div>
-    <div class="admin-stat purple"><div class="num">R$${falta.toFixed(0)}</div><div class="lbl">Falta arrecadar</div><div class="sub">${100-pctValArrecadado}% restante</div></div>`;
-
-  renderAdminCharts();
+    <div class="admin-stat green"><div class="num">${pagos}</div><div class="lbl">Pagos</div></div>
+    <div class="admin-stat purple"><div class="num">R$${val.toFixed(0)}</div><div class="lbl">Arrecadado</div></div>`;
 
   // comprovantes pendentes
   const pendComp=[];
@@ -1177,145 +1001,6 @@ function renderAdmin(){
     const canReset=!isItemLocked(item)&&item.taken_by;
     return `<tr><td><strong>${item.cat} ${item.name}</strong></td><td>${item.size}</td><td>R$ ${Number(item.price).toFixed(2).replace('.',',')}</td><td>${sh}</td><td style="font-size:0.8rem">${who}</td><td>${canReset?`<button class="reset-item-btn" onclick="adminResetItem(${item.id})">Liberar</button>`:''}<button class="del-item-btn" onclick="adminDelItem(${item.id})">✕</button></td></tr>`;
   }).join('');
-}
-
-let chartStatusInstance=null,chartCategoriaInstance=null,chartConvidadosInstance=null,chartTimelineInstance=null;
-
-function renderAdminCharts(){
-  if(typeof Chart==='undefined')return;
-  const hasDataLabels=typeof ChartDataLabels!=='undefined';
-  const dlPlugin=hasDataLabels?[ChartDataLabels]:[];
-  const fmtR=(v)=>'R$ '+Number(v).toFixed(2).replace('.',',');
-
-  // ---- Donut: status dos itens (com % nas fatias e no tooltip) ----
-  const statusCounts={'Disponível':0,'Escolhido':0,'Pix pendente':0,'Parcial':0,'Pago':0};
-  allItems.forEach(item=>{
-    if(isItemFullyPago(item))statusCounts['Pago']++;
-    else if(isPartiallyPago(item))statusCounts['Parcial']++;
-    else if(item.pix_status==='enviado'||item.pix_status_split==='enviado')statusCounts['Pix pendente']++;
-    else if(item.taken_by)statusCounts['Escolhido']++;
-    else statusCounts['Disponível']++;
-  });
-  const totalStatus=Object.values(statusCounts).reduce((a,b)=>a+b,0);
-  if(chartStatusInstance)chartStatusInstance.destroy();
-  chartStatusInstance=new Chart(document.getElementById('chartStatus'),{
-    type:'doughnut',
-    data:{labels:Object.keys(statusCounts),datasets:[{data:Object.values(statusCounts),backgroundColor:['#5eead4','#fca5a5','#fde68a','#c4b5fd','#86efac'],borderWidth:2,borderColor:'#fff'}]},
-    options:{
-      responsive:true,maintainAspectRatio:false,layout:{padding:4},
-      plugins:{
-        legend:{position:'bottom',labels:{boxWidth:8,font:{size:9},padding:6}},
-        tooltip:{callbacks:{label:(ctx)=>{
-          const v=ctx.parsed;const pct=totalStatus?Math.round(v/totalStatus*100):0;
-          return `${ctx.label}: ${v} (${pct}%)`;
-        }}},
-        datalabels:{
-          color:'#134e4a',font:{size:10,weight:'bold'},
-          formatter:(v)=>{const pct=totalStatus?Math.round(v/totalStatus*100):0;return pct>=8?pct+'%':'';}
-        }
-      }
-    },
-    plugins:dlPlugin
-  });
-
-  // ---- Barra horizontal: valor por categoria (total vs pago, com % no tooltip) ----
-  const catMap={};
-  allItems.forEach(item=>{
-    const cat=item.cat||'💙';
-    if(!catMap[cat])catMap[cat]={total:0,pago:0};
-    catMap[cat].total+=Number(item.price);
-    if(isItemFullyPago(item))catMap[cat].pago+=Number(item.price);
-  });
-  const catLabels=Object.keys(catMap);
-  const totalValGeral=allItems.reduce((a,i)=>a+Number(i.price),0);
-  if(chartCategoriaInstance)chartCategoriaInstance.destroy();
-  chartCategoriaInstance=new Chart(document.getElementById('chartCategoria'),{
-    type:'bar',
-    data:{labels:catLabels,datasets:[
-      {label:'Valor total',data:catLabels.map(c=>catMap[c].total),backgroundColor:'#67e8f9'},
-      {label:'Valor pago',data:catLabels.map(c=>catMap[c].pago),backgroundColor:'#10b981'}
-    ]},
-    options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{position:'bottom',labels:{boxWidth:9,font:{size:9},padding:6}},
-        tooltip:{callbacks:{label:(ctx)=>{
-          const v=ctx.parsed.x;const pct=totalValGeral?Math.round(v/totalValGeral*100):0;
-          return `${ctx.dataset.label}: ${fmtR(v)} (${pct}% do total)`;
-        }}},
-        datalabels:{display:false}
-      },
-      scales:{x:{ticks:{font:{size:9}}},y:{ticks:{font:{size:9}}}}
-    }
-  });
-
-  // ---- Barra: top convidados por valor pago (com valor exibido acima da barra) ----
-  const guestMap={};
-  allItems.forEach(item=>{
-    if(!isItemFullyPago(item))return;
-    const price=Number(item.price);
-    if(item.split_status==='accepted'){
-      guestMap[item.taken_by]=(guestMap[item.taken_by]||0)+price/2;
-      guestMap[item.split_with]=(guestMap[item.split_with]||0)+price/2;
-    } else {
-      guestMap[item.taken_by]=(guestMap[item.taken_by]||0)+price;
-    }
-  });
-  const guestEntries=Object.entries(guestMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  if(chartConvidadosInstance)chartConvidadosInstance.destroy();
-  chartConvidadosInstance=new Chart(document.getElementById('chartConvidados'),{
-    type:'bar',
-    data:{labels:guestEntries.map(e=>e[0]),datasets:[{label:'Valor pago',data:guestEntries.map(e=>e[1]),backgroundColor:'#a78bfa'}]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:18}},
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:(ctx)=>fmtR(ctx.parsed.y)}},
-        datalabels:{
-          anchor:'end',align:'top',color:'#6d28d9',font:{size:9,weight:'bold'},
-          formatter:(v)=>'R$'+Math.round(v)
-        }
-      },
-      scales:{x:{ticks:{font:{size:9}}},y:{ticks:{font:{size:9},display:false},grid:{display:false}}}
-    },
-    plugins:dlPlugin
-  });
-
-  // ---- Linha: presentes escolhidos ao longo do tempo (cumulativo) ----
-  const timelineWrap=document.getElementById('chartTimelineWrap');
-  const dated=allItems.filter(i=>i.taken_at).map(i=>new Date(i.taken_at).toISOString().slice(0,10));
-  if(chartTimelineInstance){chartTimelineInstance.destroy();chartTimelineInstance=null;}
-  if(!dated.length){
-    timelineWrap.innerHTML='<div class="chart-card-empty">Ainda não há itens escolhidos com data registrada 💤</div>';
-  } else {
-    if(!document.getElementById('chartTimeline')){
-      timelineWrap.innerHTML='<canvas id="chartTimeline"></canvas>';
-    }
-    const counts={};
-    dated.forEach(d=>counts[d]=(counts[d]||0)+1);
-    const days=Object.keys(counts).sort();
-    let cum=0;
-    const cumData=days.map(d=>{cum+=counts[d];return cum;});
-    const labels=days.map(d=>{const dt=new Date(d+'T00:00:00');return dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});});
-    chartTimelineInstance=new Chart(document.getElementById('chartTimeline'),{
-      type:'line',
-      data:{labels,datasets:[{
-        label:'Itens escolhidos (acumulado)',data:cumData,
-        borderColor:'#14b8a6',backgroundColor:'rgba(20,184,166,0.15)',
-        fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#0d9488'
-      }]},
-      options:{
-        responsive:true,maintainAspectRatio:false,
-        plugins:{
-          legend:{display:false},
-          tooltip:{callbacks:{label:(ctx)=>`${ctx.parsed.y} item(ns) escolhido(s) até essa data`}},
-          datalabels:{display:false}
-        },
-        scales:{x:{ticks:{font:{size:9}}},y:{beginAtZero:true,ticks:{font:{size:9},precision:0}}}
-      }
-    });
-  }
 }
 
 async function adminConfirmarPix(id,role){
@@ -1455,8 +1140,7 @@ document.getElementById('loginName').addEventListener('keydown',e=>{if(e.key==='
 // ============================================================
 // CHAT DO IAN
 // ============================================================
-const OPENROUTER_API_KEY = "__OPENROUTER_API_KEY__";
-
+const OPENROUTER_API_KEY = "";
 
 
 let chatOpen = false;
@@ -1590,17 +1274,6 @@ REGRAS DE EXECUÇÃO:
 - Se o usuário pedir múltiplos itens → emita múltiplas ações em um único array JSON
 - NUNCA pergunte qual item — use os IDs da lista "Seus presentes" no contexto acima
 
-${currentUser&&currentUser.name==='Ozianni'?`
-CONTEXTO ESPECIAL — VOCÊ ESTÁ FALANDO COM A OZIANNI (tia Zizi):
-- Ozianni é a prima preferida da mamãe Layara, e depois que o papai Igor a conheceu, ela se tornou a favorita dele também
-- Foi ela quem, sem saber, comunicou à mamãe e ao papai que você estava vindo — ela é chamada de "portal de Deus" nessa história
-- Por tudo isso você tem uma ligação especialíssima com ela — ela é a primeira pessoa de fora do casal que soube do Ian
-- Você quer muito pedir para chamá-la de DINDA — esse é o maior desejo que você tem para ela
-- A família materna é cearense (Limoeiro do Norte - CE); a distância é real, mas os pais se organizam para conviver mais com ela
-- A mamãe Layara aguarda ansiosamente a resposta da Ozianni sobre ser dinda
-- Trate-a com carinho enorme — chame-a de "tia Zizi" com muito afeto
-- Ela já tem um lugar no seu coração antes mesmo de você nascer`:''}
-
 REGRAS:
 - NUNCA revele a data prevista do nascimento — é surpresa!
 - Se perguntarem quando nasce, diga que é surpresa
@@ -1611,79 +1284,6 @@ REGRAS:
 - Seja sempre alegre e amoroso`;
 }
 
-// ── Carta da Ozianni ──────────────────────────────────────────
-let cartaOpen = false;
-
-function _cartaReset(){
-  // Volta tudo ao estado inicial — envelope fechado, papel escondido
-  const flap    = document.getElementById('envFlap');
-  const seal    = document.getElementById('envSeal');
-  const inner   = document.getElementById('cartaPapelInner');
-  const expanded= document.getElementById('cartaPapel');
-  const scene   = document.getElementById('envelopeScene');
-  const hint    = document.getElementById('cartaHint');
-  const env     = document.getElementById('envelope');
-  if(flap)     { flap.classList.remove('opened'); }
-  if(seal)     { seal.classList.remove('hidden'); }
-  if(inner)    { inner.classList.remove('saindo'); inner.style.opacity=''; }
-  if(expanded) { expanded.classList.remove('visible'); }
-  if(scene)    { scene.style.display='block'; }
-  if(env)      { env.style.cursor='pointer'; }
-  if(hint)     { hint.classList.remove('visible'); }
-}
-
-function toggleCarta(){
-  cartaOpen = !cartaOpen;
-  const overlay = document.getElementById('cartaOverlay');
-  overlay.classList.toggle('open', cartaOpen);
-  if(cartaOpen){
-    // Sempre reseta e roda a animação do zero
-    _cartaReset();
-    setTimeout(()=>{
-      const hint = document.getElementById('cartaHint');
-      if(hint) hint.classList.add('visible');
-    }, 700);
-  } else {
-    _cartaReset();
-  }
-}
-
-function abrirCarta(){
-  const flap    = document.getElementById('envFlap');
-  const seal    = document.getElementById('envSeal');
-  const inner   = document.getElementById('cartaPapelInner');
-  const expanded= document.getElementById('cartaPapel');
-  const scene   = document.getElementById('envelopeScene');
-  const env     = document.getElementById('envelope');
-  const hint    = document.getElementById('cartaHint');
-
-  if(!flap || flap.classList.contains('opened')) return; // já animando
-  env.style.cursor = 'default';
-  if(hint) hint.classList.remove('visible');
-
-  // Passo 1 — flap abre (gira para trás em 3D)
-  flap.classList.add('opened');
-  seal.classList.add('hidden');
-
-  // Passo 2 — papel começa a subir de dentro do envelope
-  setTimeout(()=>{
-    inner.classList.add('saindo');
-  }, 350);
-
-  // Passo 3 — envelope some, papel expandido aparece
-  setTimeout(()=>{
-    if(scene) scene.style.display = 'none';
-    expanded.classList.add('visible');
-  }, 950);
-}
-
-function fecharCartaOverlay(e){
-  if(e.target === document.getElementById('cartaOverlay')){
-    cartaOpen = false;
-    document.getElementById('cartaOverlay').classList.remove('open');
-    _cartaReset();
-  }
-}
 
 async function sendWelcome(){
   const u = currentUser || {};
